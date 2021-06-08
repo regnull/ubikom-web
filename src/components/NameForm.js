@@ -128,7 +128,7 @@ class NameForm extends Component {
                     </div>
                     </form>
                     <p>
-                        If you like to learn more, read more detailed technical description <a href="example.com">here</a>.
+                        If you like to learn more, read more detailed technical description <a href="tech-description.html">here</a>.
                     </p>
                     <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
                     <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
