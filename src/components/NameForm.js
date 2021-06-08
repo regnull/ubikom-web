@@ -90,8 +90,10 @@ class NameForm extends Component {
                     anyone but you.
                 </p>
                 <p>
-                    To send and receive messages, you use any standard email client, such as Mozilla Thunderbird, iOS Mail, or any other 
-                    client that supports SMTP and POP3. Encryption and decryption is done on the fly by the proxy (which you can also run if you like).
+                    To send and receive messages, you use any standard email client, such as 
+                    <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a>, iOS Mail, or any other 
+                    client that supports SMTP and POP3. Encryption and decryption is done on the fly by the proxy 
+                    (which you can also run if you like).
                 </p>
                 <p>
                     Eventually, the public key registry will be decentralized so that it's not controlled by any single party.
