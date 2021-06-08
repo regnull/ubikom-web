@@ -74,54 +74,49 @@ class PasswordForm extends Component {
     render() {
         return (
             <div>
-                <div className="custom-card">
-                    <div>
-                        <h1 className="card-title">
-                            Choose your password
-                        </h1>
+                    <h1>Choose your password</h1>
+                    <p>This password will be used by your SMTP/POP3 client.</p>
 
-                        <div className="form-group row">
-                            <div className="col-sm-9 mb-10">
-                                <input type="password"
-                                       className="form-control"
-                                       name="password"
-                                       value={this.state.password}
-                                       onChange={this.handleChange.bind(this)}
-                                       onKeyUp={this.keyPressPassword.bind(this)}
-                                       placeholder="Enter Password"/>
-                            </div>
-
-                            <div className="col-sm-9">
-                                {this.state.passwordErr ?
-                                    <span className="text-danger">Password is too short.</span> : ''}
-                            </div>
+                    <div className="form-group row">
+                        <div className="col-sm-9 mb-10">
+                            <input type="password"
+                                    className="form-control"
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleChange.bind(this)}
+                                    onKeyUp={this.keyPressPassword.bind(this)}
+                                    placeholder="password"/>
                         </div>
 
-                        <div className="form-group row">
-                            <div className="col-sm-9 mb-10">
-                                <input type="password"
-                                       className="form-control"
-                                       name="confirmPassword"
-                                       value={this.state.confirmPassword}
-                                       onChange={this.handleChange.bind(this)}
-                                       onKeyUp={this.keyPressPassword.bind(this)}
-                                       placeholder="Enter Confirm Password"/>
-                            </div>
-                            <div className="col-sm-3 mb-10">
-                                <button type="submit"
-                                        className="btn btn-primary"
-                                        onClick={this.handleNext.bind(this)}
-                                        disabled={( this.state.password.length >= 6 && this.state.confirmPassword.length >=6 ) &&
-                                        (this.state.password === this.state.confirmPassword ) ? false : true }>
-                                    Next
-                                </button>
-                            </div>
-                            <div className="col-sm-9">
-                                {this.state.confirmPasswordErr ?
-                                    <span className="text-danger">Password doesn't match</span> : ''}
-                            </div>
+                        <div className="col-sm-9">
+                            {this.state.passwordErr ?
+                                <span className="text-danger">Password is too short.</span> : ''}
                         </div>
                     </div>
+
+                    <div className="form-group row">
+                        <div className="col-sm-9 mb-10">
+                            <input type="password"
+                                    className="form-control"
+                                    name="confirmPassword"
+                                    value={this.state.confirmPassword}
+                                    onChange={this.handleChange.bind(this)}
+                                    onKeyUp={this.keyPressPassword.bind(this)}
+                                    placeholder="confirm password"/>
+                        </div>
+                        <div className="col-sm-3 mb-10">
+                            <button type="submit"
+                                    className="btn btn-primary"
+                                    onClick={this.handleNext.bind(this)}
+                                    disabled={( this.state.password.length >= 6 && this.state.confirmPassword.length >=6 ) &&
+                                    (this.state.password === this.state.confirmPassword ) ? false : true }>
+                                Next
+                            </button>
+                        </div>
+                        <div className="col-sm-9">
+                            {this.state.confirmPasswordErr ?
+                                <span className="text-danger">Password doesn't match</span> : ''}
+                        </div>
                 </div>
             </div>
         );

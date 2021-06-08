@@ -127,22 +127,39 @@ class IdentifyForm extends Component {
                             role="status"
                             aria-hidden="true"
                         />
-                        <span style={{marginLeft:15}}>Please wait while your Identify is generated </span> <br/>
+                        <span style={{marginLeft:15}}>Please wait while your identity is being generated </span> <br/>
                         It may take a minute, please don't close this window.
                     </Button>
                 )}
                 {this.state.isLoading !== true && (
                     <div className="custom-card">
                         <h1 className="card-title">
-                            Your Identify details
+                            Your Identity details
                         </h1>
+                        <p><b>You might want to write this down. If you close this page without saving this information, 
+                                the identifier will be unusable and you will have to choose another one.</b>
+                        </p>
+
                         <div className="form-group row">
-                            <label className="control-label col-sm-4 col-4" htmlFor="username"><b>Name </b></label>
+                            <h2>Identifier</h2>
+                        </div>
+                        <div className="form-group row">
+                            <p>The identifier will be used in your email address. If your identifier is bob, your email
+                                address will be bob@ubikom.cc (or, for internal users you can use bob@x, if your email
+                                client allows it).
+                            </p>
+                        </div>
+                        <div className="form-group row">
+                            <label className="control-label col-sm-4 col-4" htmlFor="username"><b>Identifier </b></label>
                             <div className="col-sm-8 col-8">
                                 {this.state.data !== undefined && this.state.data !== null && this.state.data.name}
                             </div>
                         </div>
 
+                        <div className="form-group row">
+                            <h2>SMTP/POP3 Credentials</h2>
+                            <p>You will use the user name and password below in your email client.</p>
+                        </div>
                         <div className="form-group row">
                             <label className="control-label col-sm-4 col-4" htmlFor="username"><b>User Name </b></label>
                             <div className="col-sm-8 col-8">
@@ -173,6 +190,14 @@ class IdentifyForm extends Component {
                         </div>
 
                         <div className="form-group row">
+                            <h2>Private Key</h2>
+                            <p>You don't have to use your private key to send and receive email, but you may need it
+                                if your SMTP/POP3 credentials become compromised. Download the key file and save it in a safe location. The key 
+                                recovery phrase can be used to re-create your key if it ever lost, write it down and keep it 
+                                in a safe place.
+                            </p>
+                        </div>
+                        <div className="form-group row">
                             <label className="control-label col-sm-4" htmlFor="username"><b>Private key recovery phrase </b></label>
                             <div className="col-sm-8">
                                 {this.state.data !== undefined && this.state.data !== null && this.state.data.key_mnemonic.map((numbers) => <span key={`key_${numbers}`}>{numbers}, </span>)}
@@ -185,8 +210,14 @@ class IdentifyForm extends Component {
                             </div>
                         </div>
 
+                        <p>Next, <a href="example.com">configure your email client.</a></p>
+                        <p>
+                            If you like to learn more, read more detailed technical description <a href="example.com">here</a>.
+                        </p>
+                        <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+
                     </div>
-                )}
+               )}
             </div>
         );
     }
