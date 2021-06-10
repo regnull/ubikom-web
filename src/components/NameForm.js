@@ -1,6 +1,5 @@
 import React, {Component } from 'react';
 import axios from "axios";
-import { instanceOf } from 'prop-types';
 
 class NameForm extends Component {
     constructor(props) {
@@ -129,7 +128,8 @@ class NameForm extends Component {
                     </div>
                     </form>
                     <p>
-                        If you like to learn more, read more detailed technical description <a href="tech-description.html">here</a>.
+                        If you like to learn more, read more detailed technical 
+                        description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
                     </p>
                     <p>Current status: Beta testing. Things are not stable just yet, act accordingly.</p>
                     <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
