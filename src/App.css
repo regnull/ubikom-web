@@ -1,9 +1,17 @@
+
+
+
 body{
     /* background-image: url('login-bg.jpg');
     background-size: cover; */
 }
 
-.flexbox-container{
+.row{
+    margin-bottom: 15px;
+}
+
+
+/* .flexbox-container{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,4 +88,4 @@ body{
     .mb-10{
         margin-bottom: 10px;
     }
-}
+} */
