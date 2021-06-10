@@ -4,15 +4,20 @@
 body{
     /* background-image: url('login-bg.jpg');
     background-size: cover; */
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 50em;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    padding: 4em 1em;
+    color: #30393f;
 }
 
-.row{
-    margin-bottom: 15px;
-}
-
-
-/* .flexbox-container{
-    display: flex;
+.flexbox-container{
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     -webkit-box-align: center;
@@ -88,4 +93,4 @@ body{
     .mb-10{
         margin-bottom: 10px;
     }
-} */
+} 

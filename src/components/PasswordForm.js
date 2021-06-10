@@ -25,8 +25,6 @@ class PasswordForm extends Component {
             }
         })
             .then(function (response) {
-             /*   console.log(response.data.available);
-                console.log(name.length);*/
                 if(response.data.available === false){
                     self.props.history.push('/');
                 }

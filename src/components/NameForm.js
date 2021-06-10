@@ -73,7 +73,6 @@ class NameForm extends Component {
             <div>
                 <h1>Ubikom Project</h1>
                 <p><i>Encrypted email based on Self-Sovereign Identity</i></p>
-                <h2></h2>
                 <p>
                     Ubikom is free, open-source email framework based on the concept of <a href="https://sovrin.org/faq/what-is-self-sovereign-identity/">Self-Sovereign Identity.</a>
                     You own your identity (which, in this case, means your private key), and all the outgoing and incoming messages are encrypted 
