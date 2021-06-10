@@ -81,7 +81,8 @@ class NameForm extends Component {
                     and signed by default. 
                 </p>
                 <p>
-                    Ubikom uses <a href="https://en.bitcoin.it/wiki/Secp256k1">secp256k1 Elliptic Curve Cryptography</a>, also used by 
+                    Ubikom uses <a href="https://en.bitcoin.it/wiki/Secp256k1">secp256k1 </a> 
+                    <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography">Elliptic Curve Cryptography</a>, also used by 
                     Bitcoin.
                 </p>
                 <p>
@@ -90,10 +91,10 @@ class NameForm extends Component {
                     anyone but you.
                 </p>
                 <p>
-                    To send and receive messages, you use any standard email client, such as 
-                    <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a>, iOS Mail, or any other 
+                    To send and receive messages, you use any standard email client, 
+                    such as <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a>, iOS Mail, or any other 
                     client that supports SMTP and POP3. Encryption and decryption is done on the fly by the proxy 
-                    (which you can also run if you like).
+                    (which you can also run yourself, if you like).
                 </p>
                 <p>
                     Eventually, the public key registry will be decentralized so that it's not controlled by any single party.
@@ -130,6 +131,7 @@ class NameForm extends Component {
                     <p>
                         If you like to learn more, read more detailed technical description <a href="tech-description.html">here</a>.
                     </p>
+                    <p>Current status: Beta testing. Things are not stable just yet, act accordingly.</p>
                     <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
                     <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
             </div>
