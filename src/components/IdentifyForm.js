@@ -212,7 +212,7 @@ class IdentifyForm extends Component {
                             </div>
                         </div>
 
-                        <p>Next, <a href="example.com">configure your email client.</a></p>
+                        <p>Next, <a href={process.env.PUBLIC_URL + '/configure-client.html'}>configure your email client.</a></p>
                         <p>
                             If you like to learn more, read more detailed technical description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
                         </p>
