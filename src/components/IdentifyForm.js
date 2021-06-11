@@ -119,17 +119,19 @@ class IdentifyForm extends Component {
         return (
             <div>
                 {this.state.isLoading === true && (
-                    <Button variant="primary" disabled>
-                        <Spinner
-                            as="span"
-                            animation="grow"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        <span style={{marginLeft:15}}>Please wait while your identity is being generated </span> <br/>
-                        It may take a minute, please don't close this window.
-                    </Button>
+                    <center>
+                        <Button variant="primary" disabled>
+                            <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            <span style={{marginLeft:15}}>Please wait while your identity is being generated </span> <br/>
+                            It may take a minute, please don't close this window.
+                        </Button>
+                    </center>
                 )}
                 {this.state.isLoading !== true && (
                     <div className="custom-card">
@@ -212,9 +214,9 @@ class IdentifyForm extends Component {
 
                         <p>Next, <a href="example.com">configure your email client.</a></p>
                         <p>
-                            If you like to learn more, read more detailed technical description <a href="example.com">here</a>.
+                            If you like to learn more, read more detailed technical description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
                         </p>
-                        <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+                        <p>Questions? <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
 
                     </div>
                )}
