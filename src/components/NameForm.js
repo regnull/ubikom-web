@@ -8,6 +8,7 @@ class NameForm extends Component {
             name : '',
             nameError : false,
             nameAvailable : true,
+            invalidName: false,
         };
 
         this.handleChange = (e) => {
@@ -24,11 +25,11 @@ class NameForm extends Component {
         let name = this.state.name;
 
         if(name.length >= 3)
-            this.setState({'nameError' : false});
+            this.setState({'nameError' : false, 'invalidName': false});
         else if(name.length > 0 && name.length <= 3)
-            this.setState({'nameError' : true });
+            this.setState({'nameError' : true, 'invalidName': false});
         else  if(name.length === 0)
-            this.setState({'nameError' : false});
+            this.setState({'nameError' : false, 'invalidName': false});
 
     }
 
@@ -46,9 +47,13 @@ class NameForm extends Component {
             })
                 .then(function (response) {
                     // console.log(response.data.available);
-                    self.setState({'nameAvailable': response.data.available})
+                    self.setState({
+                        'nameAvailable': response.data.available,
+                        'invalidName': false
+                    })
                 })
                 .catch(function (error){
+                    self.setState({'invalidName': true})
                     console.log(error);
                 })
         }
@@ -121,6 +126,7 @@ class NameForm extends Component {
                             </button>
                         </div>
                         <div className="col-sm-10">
+                            {this.state.invalidName ? <span className="text-danger">Invalid name.</span> : ''}  {'  '}
                             {this.state.nameError ? <span className="text-danger">Name is too short.</span> : ''}  {'  '}
                             {!this.state.nameAvailable ? <span className="text-danger">This name is not available.</span> : ''}
                         </div>
