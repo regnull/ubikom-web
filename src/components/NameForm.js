@@ -102,7 +102,7 @@ class NameForm extends Component {
                 </p>
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group row">
-                        <p>Choose your email identifier</p>
+                        <p>Choose your email identifier (letters, numbers, - and _ only, no spaces)</p>
                         <div className="col-sm-9 mb-10">
                             <input type="text"
                                     className="form-control"
