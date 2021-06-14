@@ -87,7 +87,7 @@ class IdentifyForm extends Component {
 
         this.setState({isLoading: true});
         try{
-            await axios.get(apiUrl+'/easySetup?name='+this.state.name+'&password='+encodeURIComponent(this.state.password))
+            await axios.get(apiUrl+'/easySetup?name='+encodeURIComponent(this.state.name)+'&password='+encodeURIComponent(this.state.password))
                 .then(response => {
                     this.setState({isLoading: false, data:response.data});
                 });
