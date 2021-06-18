@@ -1,0 +1,98 @@
+e<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+    </head>
+    <body>
+        <h1>Configure Your Email Client</h1>
+        <h2>Prerequisites</h2>
+        <p>We assume you have competed steps to get your Ubikom identity, and you have the 
+            following information on hand:
+            <ul>
+                <li>Your identifier (where your email will be addressed)</li>
+                <li>Your SMTP/POP3 user name and password</li>
+                <li>Private key as a binary file</li>
+                <li>List of words to restore your private key if the binary file is lost</li>
+            </ul>
+        </p>
+        <p>
+            Here, we won't need the private key bits - they are only required if you want to 
+            make changes in your name or address, or if your SMTP/POP3 credentials get compromised.
+            All you need for this guide is SMTP/POP3 user name and password, and your email identifier.
+        </p>
+        <p>
+            This guide will show how to configure <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a> email 
+            client, but virtually every client supporting SMTP and POP3 will work.
+        </p>
+        <h2>Download and Install Mozilla Thunderbird</h2>
+        <p>If you haven't done it already, download Mozilla Thunderbird <a href="https://www.thunderbird.net/en-US/">here.</a></p>
+        <h2>Set Up New Email Account</h2>
+        <p>Open Thunderbird and add new account</p>
+        <p>
+            <img src="thunderbird-set-up-email-address.png" />
+        </p>
+        <p>
+            Your name is whatever you choose. If your identifier was "bob", your email address will be
+            bob@ubikom.cc (or, you can use bob@x. We don't like domains. We want to get rid of domains. But since the
+            client wants one, we have to give it something). 
+            The password is what you entered as a password when getting your identity, in our case, pumpkin123.
+        </p>
+        <p>
+            Click "Continue". You will be presented with the next dialog.
+        </p>
+        <h2>Configure Server Settings</h2>
+        <p>
+            <img src="thunderbird-configure-servers.png" />
+        </p>
+        <p>
+            Under INCOMING, enter the following:
+            <ul>
+                <li>"POP3" for protocol</li>
+                <li>"alpha.ubikom.cc" for server</li>
+                <li>"995" for port (the default)</li>
+                <li>"SSL/TLS" for SSL</li>
+                <li>"Normal password" for authentication</li>
+                <li>The user name is your SMTP/POP3 user name, in our case "78spGfDTj5s"</li>
+            </ul>
+        </p>
+        <p>
+            Under OUTGOING, enter the following:
+            <ul>
+                <li>"alpha.ubikom.cc" for server</li>
+                <li>"465" for port (the default)</li>
+                <li>"SSL/TLS" for SSL</li>
+                <li>"Normal password" for authentication</li>
+                <li>The user name is your SMTP/POP3 user name, in our case "78spGfDTj5s"</li>
+                <li>Click "Done".</li>
+            </ul>
+        </p>
+        <p>
+            Send a message to yourself (bob@x) to make sure everything works. You will be prompted for your password, 
+            enter the password you used when getting your identity (in our case, pumpkin123).
+        </p>
+        <h2>Caution: Sending Email to External Recipients</h2>
+        <p>
+            When you send email to another Ubikom user, your message is encrypted with a unique key
+            so only the recipient can decrypt it. Sometimes you might want to send email to users
+            outside the Ubikom ecosystem. Currently we provide a gateway to the legacy email world.
+            When you send email through the gateway, it will be decrypted and sent as a regular old
+            email. Be careful when you send email to the external addresses. In future we will add a warning,
+            but for now you need to pay attention.
+        </p>
+        <h2>How to Be Even More Secure</h2>
+        <p>
+            With the simplest configuration, public email proxy handles encryption and decryption for you.
+            One of the key ideas we have is that user must be able to strike the right balance between
+            security and convenience. Because Ubikom is an open-source project, you can run any part of
+            it (and really the whole thing, if you want) yourself. Probably the first part you might want to
+            consider running is the email proxy. If you run it yourself, your encryption key never leaves
+            your possession. See the code at <a href="https://github.com/regnull/ubikom">GitHub repo</a>,
+            where you can also download the binaries (or build them from source yourself).
+        </p>
+        <h2>Questions?</h2>
+        <p>Check the list of known issues: <a href="https://github.com/regnull/ubikom/issues">github.com/regnull/ubikom/issues</a></p>
+        <p>Contact: <a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+    </body>
+</html>
