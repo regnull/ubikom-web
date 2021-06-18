@@ -35,7 +35,7 @@
         <p>
             If you want to give it a try, you can start on this page by choosing your email identifier below.
         </p>
-        <form>
+        <form id="name-form">
             <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
             <button name="submit" id="nextButton">Next</button>
             <i><p id="status" style="margin: 0"></p></i>
@@ -48,6 +48,11 @@
         <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
         <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
         <script>
+            function submit(event) {
+                event.preventDefault();
+                console.log('submitted!');
+            }
+
             function nameChanged() {
                 let idInput = document.getElementById("identifier");
                 console.log("name changed: " + idInput.value);
@@ -85,6 +90,7 @@
             let idInput = document.getElementById("identifier");
             idInput.onkeyup = nameChanged;
             document.getElementById('nextButton').style.opacity = 0.6;
+            document.getElementById('nextButton').onclick = submit;
         </script>
     </body>
 </html>
