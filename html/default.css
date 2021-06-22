@@ -54,7 +54,27 @@ button {
   margin-left: 1em;
 }
 
-input {
+input[type="text"] {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+input[type="password"] {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+input[type="button"] {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 18px;
   padding: 12px 20px;

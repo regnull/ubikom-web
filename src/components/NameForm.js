@@ -131,14 +131,14 @@ class NameForm extends Component {
                             {!this.state.nameAvailable ? <span className="text-danger">This name is not available.</span> : ''}
                         </div>
                     </div>
-                    </form>
-                    <p>
-                        If you like to learn more, read more detailed technical 
-                        description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
-                    </p>
-                    <p>Current status: Beta testing. Things are not stable just yet, act accordingly.</p>
-                    <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
-                    <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+                </form>
+                <p>
+                    If you like to learn more, read more detailed technical 
+                    description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
+                </p>
+                <p>Current status: Beta testing. Things are not stable just yet, act accordingly.</p>
+                <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
+                <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
             </div>
         );
     }

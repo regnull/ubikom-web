@@ -42,7 +42,7 @@
         </form>
         <p>
             If you like to learn more, read more detailed technical 
-            description <a href={process.env.PUBLIC_URL + '/tech-description.html'}>here</a>.
+            description <a href='/tech-description.html'}>here</a>.
         </p>
         <p>Current status: Beta testing. Things are not stable just yet, act accordingly.</p>
         <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
@@ -50,7 +50,8 @@
         <script>
             function submit(event) {
                 event.preventDefault();
-                console.log('submitted!');
+                sessionStorage.setItem('identifier', document.getElementById('identifier').value);
+                location.href = 'password.html';
             }
 
             function nameChanged() {
