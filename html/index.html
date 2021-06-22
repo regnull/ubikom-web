@@ -51,8 +51,12 @@
         <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a></p>
         <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
         <script>
+            let nextEnabled = false;
             function submit(event) {
                 event.preventDefault();
+                if (!nextEnabled) {
+                    return;
+                }
                 sessionStorage.setItem('identifier', document.getElementById('identifier').value);
                 location.href = 'password.html';
             }
@@ -64,6 +68,7 @@
                     document.getElementById("status").innerHTML = "name is too short";
                     document.getElementById("status").style.color = '#FF0000';
                     document.getElementById('nextButton').style.opacity = 0.6;
+                    nextEnabled = false;
                     return;
                 }
 
@@ -75,15 +80,18 @@
                             document.getElementById("status").innerHTML = "available!";
                             document.getElementById("status").style.color = '#3ADF00';
                             document.getElementById('nextButton').style.opacity = 1.0;
+                            nextEnabled = true;
                         } else {
                             document.getElementById("status").innerHTML = "not available :(";
                             document.getElementById("status").style.color = '#FF0000';
                             document.getElementById('nextButton').style.opacity = 0.6;
+                            nextEnabled = false;
                         }
                     } else {
                         document.getElementById("status").innerHTML = "invalid name";
                         document.getElementById("status").style.color = '#FF0000';
                         document.getElementById('nextButton').style.opacity = 0.6;
+                        nextEnabled = false;
                     }
                 }
                 req.open('GET', 'https://alpha.ubikom.cc:8088/lookupName?name=' + encodeURIComponent(idInput.value), true);
