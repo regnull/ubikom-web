@@ -59,7 +59,6 @@
             document.getElementById('name').innerHTML = res.user_name;
             document.getElementById('password').innerHTML = "*********";
             document.getElementById('server').innerHTML = res.server_url;
-            document.getElementById('keyDownload').href = "https://alpha.ubikom.cc:8088/getKey?key_id=" + res.key_id;
             document.getElementById('downloadKey').onclick = function () {
                 location.href = "https://alpha.ubikom.cc:8088/getKey?key_id=" + res.key_id;
             }
