@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+    </head>
+    <body>
+        <h1>Please wait</h1>
+        <p><img src="loading.gif"/></p>
+        <p>Your identity is being generated. This may take a minute, please don't close this window. 
+            If this window is closed, your chosen name won't be available and you will have to chose 
+            another one.</p>
+        <script>
+            let id = sessionStorage.getItem('identifier');
+            let password = sessionStorage.getItem('password');
+            if(id == null || password == null || id.length < 3 || password.length < 6) {
+                location.href = 'index.html';
+            } else {
+            let req = new XMLHttpRequest();
+                req.onload = function () {
+                    console.log('got result');
+                    if (req.status == 200) {
+                        sessionStorage.setItem('identityJSON', req.responseText);
+                        location.href = "identity.html";
+                    } else {
+                        // TODO: Do something about the error.
+                    }
+                }
+                req.open('GET', 'https://alpha.ubikom.cc:8088/easySetup?name=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password), true);
+                console.log('sending request');
+                req.send(null);
+                sessionStorage.clear();
+            }
+        </script>
+    </body>
+</html>

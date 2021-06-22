@@ -84,6 +84,15 @@ input[type="button"] {
   border-radius: 4px;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
 /* code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
