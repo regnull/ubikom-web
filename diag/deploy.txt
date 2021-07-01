@@ -3,23 +3,26 @@
 interface Identity
 interface Lookup
 Identity -- [Ubikom Server]
-Lookup -- [Ubikom Server]
+Lookup - [Ubikom Server]
+
+database IdentityRegistry
+[Ubikom Server] - IdentityRegistry
 
 [Dump Server]
 interface Dump
-Dump -- [Dump Server]
+Dump - [Dump Server]
 [Dump Server] ..> Lookup : use
 
 [Proxy Server]
 interface POP3
 interface SMTP
 POP3 -- [Proxy Server]
-SMTP -- [Proxy Server]
+SMTP - [Proxy Server]
 [Proxy Server] ..> Lookup: use
 [Proxy Server] ..> Dump: use
 
 actor User
-User ..> SMTP : use
-User ..> POP3 : use
-User ..> Identity: use
+User ..> SMTP : send email
+User ..> POP3 : receive email
+User ..> Identity: register identity
 @enduml

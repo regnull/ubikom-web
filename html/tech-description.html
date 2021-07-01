@@ -21,11 +21,23 @@
             <li>Users must have freedom to decide how to compromise between security and convenience. Users might decide to delegate their authority to a third-party system, a decision that can be revoked at any time</li>
             </ul>
         </p>
-        <h2>Encryption</h2>
-        <p>Ubikom uses secp256k Elliptic Curve Cryptography, same as Bitcoin. We use it to produce private and public key, 
-            encrypt messages using the symmetric encryption key derived from the sender's private key and receiver's public key.
-            The receiver can re-construct the symmetric encryption key, and decrypt the message. No one else is able to decrypt the
-            message, since receiver's private key is required for decryption.
+        <h2>Architecture Overview</h2>
+        <p>
+            <img src="diag/deploy.png" />
+        </p>
+        <p>
+            The system components include:
+            <ul>
+                <li>Identity Server, responsible for registering and querying user identity.</li>
+                <li>Dump Server, responsible for storing encrypted messages.</li>
+                <li>Email Proxy, responsible for encrypting and decrypting messages and supporting calls from the clients
+                    via POP3 and SMTP protocols.
+                </li>
+            </ul>
+        </p>
+        <p>The identity server is the most important component. It is currently centralized, but will be eventually 
+            distributed. It can be used on its own to support this and many other use cases. 
+            The rest of the components are there to implement the full working email backend. 
         </p>
         <h2>Identity Service</h2>
         <p>Identity service is responsible for registering keys, names, and addresses. The information is stored 
