@@ -27,7 +27,16 @@
             The receiver can re-construct the symmetric encryption key, and decrypt the message. No one else is able to decrypt the
             message, since receiver's private key is required for decryption.
         </p>
-        <h2>Identity Registry</h2>
+        <h2>Identity Service</h2>
+        <p>Identity service is responsible for registering keys, names, and addresses. The information is stored 
+            in the identity registry, which will eventually be decentralized.
+        </p>
+        <p>The identity service exposes two interfaces: identity registration and identity lookup. Here's the identity
+            registration interface:
+        </p>
+        <p>
+            <img src="diag/identity.png" />
+        </p>
         <p>In order to locate other users public key, we use the identity registry. The registry is a key-value store, which 
             contains the following entities:
             <ul>

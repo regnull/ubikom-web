@@ -1,0 +1,9 @@
+@startuml
+interface Identity {
+    RegisterKey()
+    RegisterKeyRelationship()
+    DisableKey()
+    RegisterName()
+    RegisterAddress()
+}
+@enduml
