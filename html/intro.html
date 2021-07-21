@@ -8,30 +8,33 @@
 <body>
         <h1>Ubikom: Self-Sovereign Identity-Based Email</h1>
 
-        <p>Right now, you probably have a few devices connected to the Internet. 
-            Your phone, your laptop, possibly other devices. Most of us have. Why is it 
+        <p>You probably have a few devices connected to the Internet at this very moment.
+            Your phone, your laptop, maybe others. Most of us have. Why is it 
             so hard to send secure private messages to each other?</p>
 
         <p>You are probably saying, it’s not hard at all - there are many options. 
-            There is Gmail, WhatsApp, Twitter, Slack, Discord, and many others. But those are 
+            There is Gmail, WhatsApp, Twitter, Slack, Discord, etc. But those are 
             all provided by the big commercial companies - what about just private messages between 
-            individuals? Why does Bob need Google in order to send a message to Alice?</p>
+            individuals? Why does Bob need Google in order to send a message to Alice?
+            Why can't I just run a simple piece of software, and be able to send messages
+            to anyone, privately, and without intermediaries?</p>
         
         <p>Oh wait, there is good old email. If you want to use it without intermediaries, 
             you theoretically can. It’s not easy, but you can get a domain, set up your machine, 
             configure your message transfer agent, add proper DNS records, set up spam filtering, 
             and you are good to go. You also need to constantly monitor your system to make 
-            sure it’s properly configured, latest patches are applied, etc. Well, this seems 
-            to be an option unavailable to most users, apart from a select few.</p>
+            sure it’s properly configured, latest patches are applied, etc. This is not a viable 
+            option for most users.</p>
         
         <p>This is the reality we have to live with, and we don’t normally question it. 
             However, some time ago, I asked myself a question - what if secure private 
             messaging were simple, free, and ubiquitous? What would it change? How would 
             one go about implementing it? Ever since, I was doing it as a sort of mental 
-            exercise, first purely theoretical, and then writing some code.</p>
+            exercise. Once I thought that I knew answers to most of the questions, I 
+            started to write code.</p>
         
         <p>Fairly soon, I realized that it comes down to the question of identity. 
-            From the start, user identities were attached to a domain, or a server. 
+            From the start, the user identities were attached to a domain, or a server. 
             It made sense - only large organizations could afford to run an email system. 
             You must have some physical hardware. And, having your address attached to a domain, 
             conveyed the sense that you are acting on behalf of this organization.</p>
@@ -48,25 +51,26 @@
             target you for ads. Not only that, they can disable your account at any time with no 
             explanation, effectively cancelling a large part of your online identity.</p>
         
-        <p>There must be a different way. Some time ago, I asked myself a question - what would 
+        <p>There has to be another way. What would 
             happen if we were to re-design the way we communicate, knowing everything that we know now? 
             I started to think about this and try to solve any relevant issues as a sort of a 
             mental exercise. At some point, I felt like I was ready to write some code, so the 
             Ubikom project was born.</p>
 
         <p>We start by asserting that a person’s identity must be owned by that person, and not 
-            any third party. But what is “identity” and how can someone own it? You may define 
-            “identity” in any number of ways, but if you try to reduce it to something essential, 
+            any third party (concept known as Self-Sovereign Identity). But what is 
+            “identity” and how can someone own it? You may define 
+            identity in any number of ways, but if you try to reduce it to something essential, 
             you would probably end up with something like independent existence. When you receive 
             data from an entity (human or otherwise), the least you can ask is an assurance that 
             any data claiming to be from the same source indeed came from the same source. 
-            This can be easily done by using Private Key Infrastructure and by signing any data 
-            you send out. As you are doing it, why not also encrypt the data with a key derived 
+            This can be easily done by using Private Key Infrastructure (PKI) and by signing any data 
+            you send out. Using PKI, you also encrypt data with a key derived 
             from the recipient’s public key, so only the intended recipient can decrypt it.</p>
         
         <p>So far so good. Here’s an interesting side effect - if you are encrypting all the 
             outgoing data, it becomes less important how exactly it makes it to the recipient. 
-            This is very important for delivering regular, unencrypted, email. 
+            This is very important for delivering regular, un-encrypted, email. 
             Just look at any number of leaked email scandals. But, if your email is encrypted, 
             you don’t care if it is intercepted - no one will be able to read it, except you. 
             For all we care, we can have a single email dump, where you can just go to receive 
@@ -81,11 +85,13 @@
             not controlled by a single authority. Blockchain is an obvious choice, but it also carries 
             a number of downsides:</p>
         
-        <p>Currently, blockchains are closely associated with digital currencies. You would have to 
-            pay for the registry operations, which would seriously limit adoption.
+            <ul>
+            <li>Currently, blockchains are closely associated with digital currencies. You would have to 
+            pay for the registry operations, which would seriously limit adoption.</li>
         
-        <p>Bitcoin-style blockchain requires a massive amount of compute to generate blocks, 
-            which delays the transaction verification.</p>
+            <li>Bitcoin-style blockchain requires a massive amount of compute to generate blocks, 
+            which delays the transaction verification.</li>
+            </ul>
         
         <p>This is why I ended up designing my own solution, which uses something similar 
             to a proof of stake for transaction verification. The identity registry is decentralized, 
