@@ -11,6 +11,48 @@
     <body>
         <h1>Ubikom: Secure and Private Email, Based on Self-Sovereign Identity</h1>
         <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+        <h2>Universe, Identity and Everything</h2>
+        <p>Anything in the universe can be modelled as objects exchanging messages. 
+            This includes rocks, cars, people, elementary particles
+            and even you.</p>
+        <p>So let's assume you are one of these objects and you receive a bunch of messages.
+            At some point, you might be interested in finding out who exactly is sending those messages.</p>
+        <p>One way to do it is to assign every object a unique name, and identify every sender by name.
+            There are three tricky parts here:
+            <ul>
+                <li>How to guarantee name uniqueness?</li>
+                <li>How to guarantee message delivery to the correct recipient?</li>
+                <li>How to guarantee that the message was not tampered with in transit?</li>
+            </ul>
+        </p>
+        <p>One possible answer here is to have a central authority tasked with assigning globally unique names
+            to objects and message delivery between objects. The problem with this approach is that everything
+            is dependent on the existence and goodwill of such central authority. This is not the approach we
+            want to take.
+        </p>
+        <p>Another way to address this is to have a unique private/public key pair assigned to each object. 
+            Now every message sent out can be signed using the private key and verified using the public key.
+        </p>
+        <p>Now, object identity is reduced to private key control.</p>
+        <p>If you are signing all the outgoing messages with your private key, you might as well 
+            encrypt them with a unique key derived from your private key and the recipient's public key.
+            This way, only the recipient can decrypt the message.
+        </p>
+        <p>With this encryption in place, the question of how exactly messages get delivered becomes much
+            less important. Since only the recipient can read the message, we might as well just dump allow
+            the messages into one giant data pile and let the recipients pick out their messages.
+        </p>
+        <p>Finally, addressing objects by their public keys works well for machines but not so well for humans.
+            We prefer short friendly names, so we might want to create a registry to record such names and 
+            which keys do they correspond to. But we must make sure that such a registry does not become
+            the central authority that we are so eager to avoid.
+        </p>
+        <p>The identity registry can also serve other purposes, for example, making message delivery easier
+            by specifying service endpoints where messages for a particular object are to be sent. It can 
+            also be used to delegate certain functions from one key to another, and to disable keys that 
+            are compromised.
+        </p>
+
         <h2>Design Goals</h2>
         <p>
             Ubikom is based on the following design goals:
