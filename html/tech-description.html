@@ -33,13 +33,13 @@
         <p>Another way to address this is to have a unique private/public key pair assigned to each object. 
             Now every message sent out can be signed using the private key and verified using the public key.
         </p>
-        <p>Now, object identity is reduced to private key control.</p>
+        <p>Now, the object identity is reduced to private key control.</p>
         <p>If you are signing all the outgoing messages with your private key, you might as well 
             encrypt them with a unique key derived from your private key and the recipient's public key.
             This way, only the recipient can decrypt the message.
         </p>
         <p>With this encryption in place, the question of how exactly messages get delivered becomes much
-            less important. Since only the recipient can read the message, we might as well just dump allow
+            less important. Since only the recipient can read the message, we might as well just dump all
             the messages into one giant data pile and let the recipients pick out their messages.
         </p>
         <p>Finally, addressing objects by their public keys works well for machines but not so well for humans.
@@ -48,7 +48,7 @@
             the central authority that we are so eager to avoid.
         </p>
         <p>The identity registry can also serve other purposes, for example, making message delivery easier
-            by specifying service endpoints where messages for a particular object are to be sent. It can 
+            by specifying service for each object. It can 
             also be used to delegate certain functions from one key to another, and to disable keys that 
             are compromised.
         </p>
@@ -64,6 +64,7 @@
             <li>Getting your identity must be free, so anyone (and anything) can get it easily</li>
             <li>Sending and receiving messages must be absolutely trivial</li>
             <li>Users must have freedom to decide how to compromise between security and convenience. Users might decide to delegate their authority to a third-party system, a decision that can be revoked at any time</li>
+            <li>The system must be resilient to prevent spam and abuse.</li>
             </ul>
         </p>
         <h2>Architecture Overview</h2>
@@ -78,6 +79,7 @@
                 <li>Email Proxy, responsible for encrypting and decrypting messages and supporting calls from the clients
                     via POP3 and SMTP protocols.
                 </li>
+                <li>Gateway server, responsible for interfacing with the legacy email system.</li>
             </ul>
         </p>
         <p>The identity server is the most important component. It is currently centralized, but will be eventually 
@@ -88,8 +90,7 @@
         <p>Identity service is responsible for registering keys, names, and addresses. The information is stored 
             in the identity registry, which will eventually be decentralized.
         </p>
-        <p>The identity service exposes two interfaces: identity registration and identity lookup. Here's the identity
-            registration interface:
+        <p>The identity service exposes two interfaces: identity registration and identity lookup:
         </p>
         <p>
             <img src="diag/identity.png" />
@@ -99,14 +100,28 @@
             <ul>
                 <li>Public keys and related data (a public key may be disabled, for example)</li>
                 <li>Names. Each name is associated with a public key.</li>
-                <li>Addresses. Each address is keyed by name and protocol, and basically means "if you want to communicate with me 
+                <li>Addresses. Each address is indexed by name and protocol, and basically means "if you want to communicate with me 
                     using this protocol, this is where you can find me".
                 </li>
             </ul>
         </p>
         <p>It is absolutely essential that the identity registry is decentralized and distributed, without any central authority 
-            controlling it. In the first iteration, the identity registry is centralized to allow basic end-to-end functionality.
+            controlling it. The decentralization will be achieved step by step:
+            <ul>
+                <li>Step 1: Single node identity registry</li>
+                <li>Step 2: Single node identity registry publishing verifiable database snapshots.</li>
+                <li>Step 3: Distributed identity registry with fixed number of nodes.</li>
+                <li>Step 4: Distributed identity registry with dynamic nodes.</li>
+            </ul>
+            Currently, we have a single node identity registry which is about to start publishing database snapshots (Step 2).
         </p>
+        <h2>Dump Server</h2>
+        <p>Dump server stores encrypted messages temporarily, allowing recipients to pick up their messages as needed.</p>
+        <p>It has only two methods - to send and receive a message. Anyone can send a message, but only the owner of the private key
+        can receive messages addressed to it.</p>
+        <p2>It's up to the user to decide how to receive their messages. The identity registry contains a record specifying the endpoint
+            where a dump server (or another server implementing same interface) is located.
+        </p2>
         <h2>Email Proxy</h2>
         <p>To make everything working end-to-end without coding new email clients, we want to take advantage of the existing
             clients. A translation layer is required to convert gRPC calls (used between Ubikom components) to SMTP/POP3 calls
@@ -118,7 +133,7 @@
         </p>
         <p>
             If we were to run public email proxy, we would need a way to transmit user credentials to the proxy, without risk
-            of losing control of the user's private key. To do that, we use concept of delegating limited authority to the Email
+            of losing control of the user's private key. To do that, we use concept of limited authority delegation to the email
             proxy while keeping the ultimate authority over user's private key.
         </p>
         <h2>Delegating Authority</h2>
@@ -128,6 +143,7 @@
                 <li>Encrypting and decryption messages</li>
                 <li>Registering names</li>
                 <li>Registering addresses</li>
+                <li>Registering key relationship</li>
                 <li>Disabling the key</li>
             </ul>
         </p>
