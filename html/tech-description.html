@@ -166,5 +166,21 @@
         <p>
             In fact, it might be a good idea to do email key rotation on a regular basis.
         </p>
+        <h2>Distributed Identity Registry</h2>
+        <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
+        <p><img src="diag/registry-node.png" /></p>
+        <p>Each node has its own copy of the identity registry database, its private key and name (key and name are linked
+            via a record in the identity database).
+        </p>
+        <p>The node talks to other nodes and external users by receiving transaction requests. For each transaction, it
+            performs the following processing:
+            <ul>
+                <li>Check if this transaction was processed before. If so, drop this request.</li>
+                <li>Check if this transaction complies with the agreed-upon rules. If not, drop this request.</li>
+                <li>Apply the transaction to the database.</li>
+                <li>Add the transaction to the transaction log.</li>
+                <li>Forward the transaction to peers.</li>
+            </ul>
+        </p>
     </body>
 </html>
