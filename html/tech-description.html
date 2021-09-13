@@ -93,7 +93,7 @@
         <p>The identity service exposes two interfaces: identity registration and identity lookup:
         </p>
         <p>
-            <img src="diag/identity.png" />
+            <img src="diag/identity.png" width="410" height="358"/>
         </p>
         <p>In order to locate other users public key, we use the identity registry. The registry is a key-value store, which 
             contains the following entities:
@@ -167,6 +167,7 @@
             In fact, it might be a good idea to do email key rotation on a regular basis.
         </p>
         <h2>Distributed Identity Registry</h2>
+        <h3>Single Node Operation</h3>
         <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
         <p><img src="diag/registry-node.png" /></p>
         <p>Each node has its own copy of the identity registry database, its private key and name (key and name are linked
@@ -182,5 +183,8 @@
                 <li>Forward the transaction to peers.</li>
             </ul>
         </p>
+        <h3>Database Snapshots</h3>
+        <h3>Consensus Between Nodes</h3>
+        <h3>Signing Nodes vs. Candidate Nodes</h3>
     </body>
 </html>
