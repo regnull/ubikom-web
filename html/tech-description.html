@@ -187,6 +187,22 @@
         <p>
             <img src="diag/snapshots.png" width="400" height="460"/>
         </p>
+        <p>The identity database uses multiple value versions to be able to tell the value at any given time (or 
+            at least for some reasonable time in the past). At predefined moment in time, each node generates a 
+            database snapshot (while still processing transactions). For the sake of the argument let's say it does
+            it every 24 hours. So at 12:01 am each day, snapshot generator generates a database snapshot representing
+            the exact state at that time.
+        </p>
+        <p>After a snapshot is generated, it computes its hash (H0, H1, H2, etc.) and signs the snapshot with node's 
+            private key.
+        </p>
+        <p>The identity registry snapshots are publicly available, so that users and other nodes can download snapshot
+            representing the database state at any time.
+        </p>
+        <p>
+            The transaction log is also publicly available, so when a node is being bootstrapped, it downloads the 
+            latest snapshot from another node and then replays all the transactions that happened since.
+        </p>
         <h3>Consensus Between Nodes</h3>
         <h3>Signing Nodes vs. Candidate Nodes</h3>
     </body>
