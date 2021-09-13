@@ -204,6 +204,29 @@
             latest snapshot from another node and then replays all the transactions that happened since.
         </p>
         <h3>Consensus Between Nodes</h3>
+        <p>
+            <img src="diag/consensus.png" width="530" height="300" />
+        </p>
+        <p>After a snapshot is generate and its hash is known, each node sends a message to all other nodes containing
+            a Zero-Knowledge Proof (ZKP) of this hash. This means that other nodes can either confirm that their snapshot
+            has the same hash or not.
+        </p>
+        <p>This continues for some fixed time (let's say 10 minutes). During this time, each node collects information to
+            either confirm that it has the same snapshot as the majority of other nodes, or that it doesn't.
+        </p>
+        <p>Let's say that our hash is confirmed by most of the other nodes (ideally all of them). When the consensus period
+            is expired, each node will write down the signature block containing the hash of the snapshot and ZKP from all
+            nodes confirming it. When a snapshot is confirmed by the majority of the nodes, it is considered to be done and
+            the nodes proceeds with transaction processing until it's time to generate next snapshot.
+        </p>
+        <p>In a situation when our snapshot differs from the majority of other nodes, we discard it, download the snapshot
+            confirmed by the majority, and replay all transactions following the snapshot. When it's time to generate the next
+            snapshot, we proceed as before.
+        </p>
+        <p>There is also an unlikely scenario when a majority of nodes is unable to agree on the correct hash. This is mostly
+            a theoretical possibility, but if it were to happen, the problem can either be resolved by discarding all changes
+            since the previous snapshot, or by an operator intervention.
+        </p>
         <h3>Signing Nodes vs. Candidate Nodes</h3>
     </body>
 </html>
