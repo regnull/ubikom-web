@@ -228,5 +228,31 @@
             since the previous snapshot, or by an operator intervention.
         </p>
         <h3>Signing Nodes vs. Candidate Nodes</h3>
+        <p>Finally, we should consider what happens when nodes join or leave the system. We want the system to remain scalable
+            resilient, but at the same time we can't just admit every new node to prevent 50% + 1 attack. Our approach here
+            is that anyone can join, but a new node must earn a right to join by good behavior.</p>
+        <p>There is a fixed number of signing tokens in the identity registry. Each token can be associated with a node. The
+            nodes that have a token are called signing nodes, while those who don't are candidate nodes. The only difference
+            is that only signing nodes can sign a snapshot. The candidate nodes work in exactly the same way, except their
+            signature does not go into the snapshot.</p>
+        <p>Each node keeps track of all other nodes ZKP when a new snapshot is generated. Because there is no way to know
+            the hash without doing the heavy lifting (verifying and applying transactions since the previous snapshot, 
+            generating snapshot, computing hash), ZKP of the correct hash serves as a proof that the node plays by the rules.</p>
+        <p>If a node plays by the rules for some time (days and weeks), at some point it can claim a signing token. To do that,
+            it must meet the following conditions:
+            <ul>
+                <li>The token is owned by another node for long enough (let's say 24 hours)</li>
+                <li>Current node has generated N out of M correct snapshots</li>
+            </ul>
+            If these conditions are met, other nodes will confirm the token transfer by updating the token association in the
+            identity registry.
+        </p>
+        <p>Let's say someone would like to hijack the system by introducing malicious signing nodes. Each of these nodes would
+            have to first earn the right to claim a signing token, and then it would hold it for only some time (we assume
+            that the number of candidate nodes is quite a bit greater then the number of signing nodes). It would be quite
+            difficult to accumulate a majority of signing nodes under these circumstances. Even if this were to happen, the 
+            operators of good nodes would always have an option to purge the malicious nodes and restart from the last good
+            snapshot.
+        </p>
     </body>
 </html>
