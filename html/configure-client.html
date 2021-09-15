@@ -8,7 +8,8 @@
     <body>
         <h1>Configure Your Email Client</h1>
         <h2>Check Your Identity Details</h2>
-        <p>After you finish the web setup, you must have the following information:
+        <p>After you finish the web setup, you must have the following information (below is an example, your details will 
+            obviously be different):
             <img src="identitydetails.png" />
         </p>
         <p>Let's go over the information on this page. You need your private key (5 and 6) to keep the ultimate control
@@ -48,32 +49,35 @@
         </p>
         <h3>Configure Server Settings</h3>
         <p>
-            <img src="thunderbird-configure-servers.png" />
+            <img src="thunderbird-server-settings.png" />
+        </p>
+        <p>
+            In this dialog, you need to set up server settings.
         </p>
         <p>
             Under INCOMING, enter the following:
             <ul>
                 <li>"POP3" for protocol</li>
-                <li>"alpha.ubikom.cc" for server</li>
+                <li>"alpha.ubikom.cc" for server (item 4 from identity details)</li>
                 <li>"995" for port (the default)</li>
                 <li>"SSL/TLS" for SSL</li>
                 <li>"Normal password" for authentication</li>
-                <li>The user name is your SMTP/POP3 user name, in our case "78spGfDTj5s"</li>
+                <li>User name is the one from idenity details (2)</li>
             </ul>
         </p>
         <p>
             Under OUTGOING, enter the following:
             <ul>
-                <li>"alpha.ubikom.cc" for server</li>
+                <li>"alpha.ubikom.cc" for server (item 4 from identity details)</li>
                 <li>"465" for port (the default)</li>
                 <li>"SSL/TLS" for SSL</li>
                 <li>"Normal password" for authentication</li>
-                <li>The user name is your SMTP/POP3 user name, in our case "78spGfDTj5s"</li>
+                <li>User name is the one from idenity details (2)</li>
                 <li>Click "Done".</li>
             </ul>
         </p>
         <p>
-            Send a message to yourself (bob@x) to make sure everything works. You will be prompted for your password, 
+            Send a message to yourself (testuser321@x in this example) to make sure everything works. You will be prompted for your password, 
             enter the password you used when getting your identity (in our case, pumpkin123).
         </p>
         <h2>Caution: Sending Email to External Recipients</h2>
