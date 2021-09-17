@@ -15,76 +15,75 @@
         <p>Why is it so hard to send secure private messages?</p>
 
         <p>You might say, it’s not hard at all - there are many options:  
-            Gmail, WhatsApp, Twitter, Slack, Discord, just to name a few. All of them are 
-            provided by big commercial companies - what about just private messages between 
-            individuals? Why does Bob need Google to send a message to Alice?
-            Why can't I just run a simple piece of software, and be able to send messages
-            to anyone, privately, securely, and without intermediaries?</p>
+          Gmail, WhatsApp, Twitter, Slack, Discord, just to name a few. But thos are
+	  provided by big commersial companies - what about just private messages between 
+          individuals? Why does Bob need Google to send a message to Alice?
+          Why can't I just run a simple piece of software, and be able to send messages
+          to anyone, privately, securely, and without intermediaries?</p>
         
-        <p>Of course, there is good old email. If you want to use it without intermediaries, 
-            you theoretically can. It’s not easy, but you can get a domain, set up your machine, 
-            configure your message transfer agent, add necessary DNS records, set up spam filtering, 
-            and you are good to go. Then, you also need to constantly monitor your system to make 
-            sure it’s properly configured, latest patches are applied, etc. This is not a viable 
-            option for most users.</p>
+        <p>Of course, there is email. If you want to use it without intermediaries, 
+          you theoretically can. It’s not easy, but you can get a domain, set up your machine, 
+          configure your message transfer agent, add necessary DNS records, set up spam filtering, 
+          and you are good to go. Then, you also need to constantly monitor your system to make 
+          sure it’s properly configured, latest patches are applied, it's not forwarding spam, etc.
+	  This is not a viable 
+          option for most users.</p>
         
         <p>This is the reality we have to live with, and we don’t normally question it. 
-            However, some time ago, I asked myself a question - what if secure private 
-            messaging were simple, free, and ubiquitous? What would it change? How would 
-            one go about implementing it? For a while, I was doing it as a sort of mental 
-            exercise. Once I thought that I knew answers to most of the questions, I 
-            started to write some code.</p>
+          However, some time ago, I asked myself a question - what if secure private 
+          messaging were simple, free, and ubiquitous? How would you do it?
+	  For a while, I was trying to find answers as a mental exercise.</p>
         
         <p>Soon, I've realized that it comes down to the question of identity. 
-            Ever since email was invented, user identities were attached to a domain, or a server. 
-            It made sense - only large organizations could afford to run an email system. 
-            You must have some physical hardware. And, having your address attached to a domain, 
-            conveyed the sense that you are acting on behalf of this organization.</p>
+          Ever since email was invented, user identities were attached to a domain, or a server. 
+          It made sense - only large organizations could afford to run an email system. 
+          You must have some physical hardware. And, having your address attached to a domain, 
+          conveyed the sense that you are acting on behalf of this organization.</p>
         
         <p>The limitations of this approach became more clear as more users adopted email. Switching 
-            domains became painful - and this had to happen when a user switched ISPs, for example. 
-            Accessing email from anywhere was anything but simple. The solution for all these 
-            troubles was web mail, made popular by Hotmail and RocketMail in the 1990s.</p>
+          domains became painful - and this had to happen when a user switched ISPs, for example. 
+          Accessing email from anywhere was anything but simple. The solution for all these 
+          troubles was web mail, made popular by Hotmail and RocketMail in the 1990s.</p>
         
         <p>Although web mail made life easier, it brought with it a whole different set of problems. 
-            Now you don’t really own your email, it is being provided to you by a corporation, 
-            which, at the end of the day, must make money somehow. You are not the one paying for 
-            the service - or rather, you pay by sharing your personal information for ad targeting. 
-            Not only that, they can disable your account at any time with no 
-            explanation, effectively cancelling a large part of your online identity.</p>
+          Now you don’t really own your email, it is being provided to you by a corporation, 
+          which, at the end of the day, must make money somehow. You are not the one paying for 
+          the service - or rather, you pay by sharing your personal information for ad targeting. 
+          Not only that, they can disable your account at any time with no 
+          explanation, effectively cancelling a large part of your online identity.</p>
         
         <p>There has to be another way. What would 
-            happen if we were to re-design the way we communicate, knowing everything that we 
-            know now?</p>
+          happen if we were to re-design the way we communicate, knowing everything that we 
+          know now?</p>
 
         <p>We start by asserting that a person’s identity must be owned by that person, and not 
-            any third party (concept known as 
-            <a href="https://en.wikipedia.org/wiki/Self-sovereign_identity">Self-Sovereign Identity</a>). 
-            But what is “identity” and how can someone own it? You may define 
-            identity in any number of ways, but if you try to reduce it to something essential, 
-            you would probably end up with something like independent existence. When you receive 
-            data from an entity (human or otherwise), the least you can ask is an assurance that 
-            any data claiming to be from the same source indeed came from the same source. 
-            This can be easily done by using Private Key Infrastructure (PKI) and by signing any data 
-            you send out. Using PKI, you also encrypt data with a key derived 
-            from the recipient’s public key, so only the intended recipient can decrypt it.</p>
+          any third party (concept known as 
+          <a href="https://en.wikipedia.org/wiki/Self-sovereign_identity">Self-Sovereign Identity</a>). 
+          But what is “identity” and how can someone own it? You may define 
+          identity in any number of ways, but if you try to reduce it to something essential, 
+          you would probably end up with something like independent existence. When you receive 
+          data from an entity (human or otherwise), the least you can ask is an assurance that 
+          any data claiming to be from the same source indeed came from the same source. 
+          This can be easily done by using Private Key Infrastructure (PKI) and by signing any data 
+          you send out. Using PKI, you also encrypt data with a key derived 
+          from the recipient’s public key, so only the intended recipient can decrypt it.</p>
         
         <p>So far so good. Here’s an interesting side effect - if you are encrypting all the 
-            outgoing data, it becomes less important how exactly it makes it to the recipient. 
-            This is very important for delivering regular, un-encrypted, email. 
-            Just look at any of leaked email scandals. But, if your email is encrypted, 
-            you don’t care if it is intercepted - no one will be able to read it, except you. 
-            For all we care, we can have a single email dump, where you can just go to receive 
-            your email. Apart from it, everything else is just a bunch of meaningless bytes.</p>
+          outgoing data, it becomes less important how exactly it is delivered  to the recipient. 
+          This is very important for delivering regular, un-encrypted, email. 
+          Just look at any of leaked email scandals. But, if your email is encrypted, 
+          you don’t care if it is intercepted - no one will be able to read it, except you. 
+          For all we care, we can have a single email dump, where you can just go to receive 
+          your email. Apart from it, everything else is just a bunch of meaningless bytes.</p>
         
         <p>Next, we want some easy way to address your messages. Sure, we can use the receiver’s 
-            public key, or an address derived from it - but it’s not easy to give someone over 
-            the phone. You can’t beat small, pronounceable names. If we want to associate names 
-            with public keys, we have to have some sort of a registry.</p>
+          public key, or an address derived from it - but it’s not easy to give someone over 
+          the phone. You can’t beat small, pronounceable names. If we want to associate names 
+          with public keys, we have to have some sort of a registry.</p>
         
         <p>This, but itself, is a big challenge. The registry must be universally accessible and 
-            not controlled by a single authority. Blockchain is an obvious choice, but it also carries 
-            a number of downsides:</p>
+          not controlled by a single authority. Blockchain is an obvious choice, but it also carries 
+          a number of downsides:</p>
         
             <ul>
             <li>Currently, blockchains are closely associated with digital currencies. You would have to 
@@ -95,20 +94,20 @@
             </ul>
         
         <p>This is why I ended up designing my own solution, which uses something similar 
-            to a proof of stake for transaction verification. The identity registry is decentralized, 
-            and anyone can run a network node. There is a limited number of signing tokens circulating 
-            around the network. To get a token, you must be a member in good standing (as verified 
-            by the nodes currently holding tokens). To become one, you need to start with the last 
-            good snapshot of the identity database, accept incoming transactions, verify them, 
-            apply to the database, and generate new snapshots from time to time. If a snapshot 
-            generated by you happens to match snapshots generated by the current token holders 
-            (which is communicated using zero knowledge proof algorithm), you improve your 
-            standing among all network nodes.</p>
+          to a proof of stake for transaction verification. The identity registry is decentralized, 
+          and anyone can run a network node. There is a limited number of signing tokens circulating 
+          around the network. To get a token, you must be a member in good standing (as verified 
+          by the nodes currently holding tokens). To become one, you need to start with the last 
+          good snapshot of the identity database, accept incoming transactions, verify them, 
+          apply to the database, and generate new snapshots from time to time. If a snapshot 
+          generated by you happens to match snapshots generated by the current token holders 
+          (which is communicated using zero knowledge proof algorithm), you improve your 
+          standing among all network nodes.</p>
         
         <p>There are many other issues to address, and I refer you to the 
-            <a href="/tech-description.html">technical overview</a> if 
-            you want more detail. The end result is a working email system based on self-sovereign 
-            identity, which you can use right now. Still work in progress, but it is functional - 
-            go to <a href="https://ubikom.cc">ubikom.cc</a> to give it a try.</p>
-        </body>
+          <a href="/tech-description.html">technical overview</a> if 
+          you want more detail. The end result is a working email system based on self-sovereign 
+          identity, which you can use right now. Still work in progress, but it is functional - 
+          go to <a href="https://ubikom.cc">ubikom.cc</a> to give it a try.</p>
+</body>
 </html>
