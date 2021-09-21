@@ -164,6 +164,20 @@
         <p>
             In fact, it might be a good idea to do email key rotation on a regular basis.
         </p>
+        <h2>Preventing Spam: Proof-of-Work Fence</h2>
+        <p>If anyone with a private key can use Ubikom (after properly registering it), how to we make sure that the system
+            is not abused to send spam? Preventing spam from a single sender is relatively simple, as they need to prove 
+            their identity every time a message is sent (by signing every message). But a spammer may automate new key
+            creation and registration.</p>
+        <p>One way to address this is to make key registration somewhat costly by requiring user to compute Proof-of-Work (POW) nonce
+            every time a new key is registered. Computing POW would be trivial for a regular user (it only takes a couple
+            of seconds on an average computer), but it would deter a spammer who would have to spend a significant amount
+            on compute power.
+        </p>
+        <p>
+            It is as if the system was surrounded by a POW fence - every request that crosses the fence must pay a price
+            by computing a POW nonce, but the requests between the internal system components are free.
+        </p>
         <h2>Distributed Identity Registry</h2>
         <h3>Single Node Operation</h3>
         <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
