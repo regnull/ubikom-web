@@ -179,6 +179,19 @@
             by computing a POW nonce, but the requests between the internal system components are free.
         </p>
         <h2>Distributed Identity Registry</h2>
+        <p>Why invent our own distributed consensus system when there are so many that already exist, like cryptocurrencies
+           and distributed ledgers? Actually, we would much rather use some existing technologies, but as of now
+           we can't find anything that quite fits our use case.</p>
+        <p>Cryptocurrencies fail when it comes to efficiency, both monetary and computational. They are not called currencies
+           for nothing - doing things cost money. In most cases, it is also costly to arrive to a consensus, if POW is used.
+           Things may change when proof-of-stake consensus algorithm is used instead.</p>
+        <p>Then there are distributed ledgers, like <a href="https://www.hyperledger.org/">Hyperledger</a>, in all of it 
+            dozen incarnations. Quite often, they do have a central authority which is responsible for issuing user 
+            credentials. They also are mostly permissioned, and cannot handle the case when each node is free to join
+            the system and go away at any time.</p>
+        <p>We have decided, therefore, to outline a system that might be suitable for our use case, as described below.
+            Since this is an early stage design, everything might change.
+        </p>
         <h3>Single Node Operation</h3>
         <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
         <p><img src="diag/registry-node.png" width="502" height="290"/></p>
