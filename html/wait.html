@@ -30,7 +30,7 @@
                         // TODO: Do something about the error.
                     }
                 }
-                req.open('GET', 'https://alpha.ubikom.cc:8088/easySetup?name=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password), true);
+                req.open('GET', 'https://alpha.ubikom.cc:8088/easySetup?name=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password) + '&email_key_only=true', true);
                 console.log('sending request');
                 req.send(null);
                 sessionStorage.clear();
