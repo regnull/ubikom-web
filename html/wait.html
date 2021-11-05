@@ -14,6 +14,7 @@
         <p style="text-align: center;">Your identity is being generated. This may take a minute, please don't close this window. 
             If this window is closed, your chosen name won't be available and you will have to chose 
             another one.</p>
+        <i><p id="status" style="margin: 0"></p></i>
         <script>
             let id = sessionStorage.getItem('identifier');
             let password = sessionStorage.getItem('password');
@@ -27,7 +28,12 @@
                         sessionStorage.setItem('identityJSON', req.responseText);
                         location.href = "identity.html";
                     } else {
-                        // TODO: Do something about the error.
+                        errorText = "error code: " + req.status;
+                        if (req.statusText != "") {
+                            errorText += req.status + ", " + req.statusText;
+                        }
+                        document.getElementById("status").innerHTML = errorText;
+                        document.getElementById("status").style.color = '#FF0000';
                     }
                 }
                 req.open('POST', 'https://alpha.ubikom.cc:8088/easySetup', true);

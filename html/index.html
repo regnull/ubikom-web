@@ -77,6 +77,7 @@
 
                 let req = new XMLHttpRequest();
                 req.onload = function () {
+                    console.log(req.status, req.statusText)
                     if (req.status == 200) {
                         res = JSON.parse(req.responseText);
                         if(res.available) {
