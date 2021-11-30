@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="default.css">
+        <link rel="stylesheet" href="../default.css">
         <link rel="icon" 
             type="image/png" 
             href="https://ubikom.cc/favicon.png">
@@ -11,9 +11,104 @@
     <body>
         <h1>iOS Client Setup</h1>
         <h2>Check Your Identity Details</h2>
+        This is the information presented on your identity details page:
+        <p><img src="../client-common/identity-details.png"/></p>
+        You need to notice a few things here:
+        <ul>
+            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
+                I.e. if your identifier is "bob", your email address will be "bob@ubikom.cc".
+            </li>
+            <li>
+                User name, same as your identifier. You will need it to set up connection
+                to email servers.
+            </li>
+            <li>
+                Password. It will be required (together with user name) to set up
+                connection to email servers.
+            </li>
+            <li>
+                Server URL. This is the URL you will use for SMTP and IMAP servers.
+            </li>
+        </ul>
         <h2>iOS Mail</h2>
+        <p>iOS mail is the default iOS email program. If you have an iPhone/iPad, 
+            chances are, you have it installed.
+        </p>
         <h3>Add an account</h3>
-        <p>In iOS settings, go to Mail, then choose Accounts, Add Account.</p>
-
+        <p>Notice that setup is done in iOS settings (not Mail app).</p>
+        <p>
+            <ul>
+                <li>Open Settings.</li>
+                <li>Scroll down until you see Mail, tap on it.</li>
+                <li>Tap on Accounts.</li>
+                <li>Tap "Add Account".</li>
+                <li>Tap "Other" (last item on the list).</li>
+                <li>Tap "Add Mail Account".</li>
+            </ul>
+        </p>
+        <h3>Set Up New Account</h3>
+        <p>
+            <ul>
+                <li>In "Name" field, enter your name, as you want the recipients to see it, 
+                    for example, "Spongebob Squarepants".
+                </li>
+                <li>
+                    In "Email" field, enter your email. If your identifier on the 
+                    identity details page is "bob", your email would be "bob@ubikom.cc".
+                </li>
+                <li>
+                    In "Password" field, enter the password you chose when you registered
+                    your identity.
+                </li>
+                <li>
+                    In "Description" field, enter any description for this account, for
+                    example, "Ubikom Mail".
+                </li>
+            </ul>
+            Tap "Next".
+        </p>
+        <h3> Set Up New Account - Details</h3>
+        <p>
+            Now you will see the new account details screen. Make sure that you 
+            select "IMAP" (not "POP") on top.
+        </p>
+        <p>
+            For "INCOMING MAIL SERVER":
+            <ul>
+                <li>
+                    In "Host Name" field, enter the server URL from the identity details page,
+                    i.e. "alpha.ubikom.cc"
+                </li>
+                <li>
+                    In "User Name" field, enter the user name from the identity details page.
+                </li>
+                <li>
+                    In "Password" field, enter the password from the identity details page. 
+                    This field might be auto-populated, if  so, it already has the password
+                    from the previous step.
+                </li>
+            </ul>
+        </p>
+        <p>
+            For "OUTGOING MAIL SERVER":
+            <ul>
+                <li>
+                    In "Host Name" field, enter the server URL from the identity details page,
+                    i.e. "alpha.ubikom.cc"
+                </li>
+                <li>
+                    In "User Name" field, enter the user name from the identity details page.
+                </li>
+                <li>
+                    In "Password" field, enter the password from the identity details page. 
+                </li>
+            </ul>
+        </p>
+        <p>Tap "Next". Your settings will be verified - it may take a minute. Be patient.</p>
+        <h3>Finishing Up</h3>
+        <p>On the next screen, make sure "Mail" is enabled. Tap "Next", and your are done.
+            Now you can close the Settings app, and open Mail. Choose Ubikom account, and you
+            are good to go.
+        </p>
     </body>
 </html>
