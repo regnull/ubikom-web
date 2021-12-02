@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Android Client Setup</h1>
+        <p>
+            Unlike iOS, Android does not have an email app (apart from GMail) 
+            packaged with the system. You will have to install one of the following
+            clients to be able to use Ubikom Mail.
+        </p>
+        <h2>Check Your Identity Details</h2>
+        This is the information presented on your identity details page:
+        <p><img src="../client-common/identity-details.png"/></p>
+        You need to notice a few things here:
+        <ul>
+            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
+                I.e. if your identifier is "bob", your email address will be "bob@ubikom.cc".
+            </li>
+            <li>
+                User name, same as your identifier. You will need it to set up connection
+                to email servers.
+            </li>
+            <li>
+                Password. It will be required (together with user name) to set up
+                connection to email servers.
+            </li>
+            <li>
+                Server URL. This is the URL you will use for SMTP and IMAP servers.
+            </li>
+        </ul>
+        <h2>Blue Mail</h2>
+        <p>
+            Blue Mail is our personal favorite, and it works on iOS, Android, Mac OS X and Windows.
+        </p>
+        <h3>Download Blue Mail</h3>
+        <p>
+            You can download Blue Mail from Google Play store 
+            <a href="https://play.google.com/store/apps/details?id=me.bluemail.mail">here</a>.
+        </p>
+        <h3>Add New Account</h3>
+        <p>
+            When you first open Blue Mail, tap on "Add account". On the next screen,  tap "Other Email".
+        </p>
+        <p>
+            Enter your email address (which will be your identifier with "@ubikom.cc" added, i.e. "bob@ubikom.cc"). 
+            Enter your password. Uncheck "Automatic" box. Tap "Next".
+        </p>
+        <p>
+            On the next screen, tap "IMAP" button.
+        </p>
+        <h2>Configure Your Account</h2>
+        <p>
+            At this point, you will have "Email Address", "Username", and "Password" boxes already populated.
+            <ul>
+                <li>In "IMAP server" box, enter "alpha.ubikom.cc".</li>
+                <li>For "Security", choose "SSL/TLS".</li>
+                <li>For "Authentication", "PLAIN" should be chosen.</li>
+                <li>Port must be 993.</li>
+            </ul>
+            Tap "Next".
+        </p>
+        <p>
+            On the next screen, you will need to configure outgoing server settings.
+            <ul>
+                <li>For SMTP server, enter "alpha.ubikom.cc"</li>
+                <li>For "Security", choose "SSL/TLS".</li>
+                <li>Leave "Port" as 465.</li>
+                <li>Make sure "Require sign-in" box is checked.</li>
+                <li>Choose "PLAIN" for "Authentication".</li>
+                <li>"Username" is your username from the identity details page (your email will also work).</li>
+                <li>"Password" is your password. It will probably be already populated.</li>
+            </ul>
+            Tap "Next".
+        </p>
+        <p>
+            On the next screen, enter your name as it will appear to email recipients, and the description, for
+            example, "Ubikom Mail". Tap "Done".
+        </p>
+        <p>
+            On the next screen, leave "Push or Fetch" as "Push". Tap "Done".
+        </p>
+        <h3>Problems?</h3>
+        <p>If your setup doesn't work, double-check your settings. You might want to
+            delete this account completely and try to set it up again. 
+        </p>
+        <p>
+            Check the list of known issues 
+            <a href="https://github.com/regnull/ubikom/issues">here</a>. If you think
+            you have found a bug, submit a new issue, or 
+            email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
+        </p>
+    </body>
+</html>
