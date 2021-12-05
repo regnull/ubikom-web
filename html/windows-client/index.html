@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Windows Client Setup</h1>
+        <p>
+            Unlike iOS, Android does not have an email app (apart from GMail) 
+            packaged with the system. You will have to install one of the following
+            clients to be able to use Ubikom Mail.
+        </p>
+        <h2>Check Your Identity Details</h2>
+        This is the information presented on your identity details page:
+        <p><img src="../client-common/identity-details.png"/></p>
+        You need to notice a few things here:
+        <ul>
+            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
+                I.e. if your identifier is "bob", your email address will be "bob@ubikom.cc".
+            </li>
+            <li>
+                User name, same as your identifier. You will need it to set up connection
+                to email servers.
+            </li>
+            <li>
+                Password. It will be required (together with user name) to set up
+                connection to email servers.
+            </li>
+            <li>
+                Server URL. This is the URL you will use for SMTP and IMAP servers.
+            </li>
+        </ul>
+        <h2>Windows Mail</h2>
+        <p>Windows Mail is included in Windows 10 and 11 (maybe older versions as well).</p>
+        <h3>Add New Account</h3>
+        <p>
+            Open Windows Mail (you can search for Mail in the search bar). Once there, click on 
+            the settings button in the bottom left corner of the window. Then, click "Manage Accounts",
+            "Add account".
+        </p>
+        <p>
+            In the list of account types, chose "Other account POP, IMAP".
+        </p>
+        <p>
+            In the next screen, fill in the form as follows:
+            <ul>
+                <li>For "Email address", enter your identifier followed by "@ubikom.cc". For example,
+                    if your identifier is "bob", you would enter "bob@ubikom.cc".
+                </li>
+                <li>
+                    For "Send your messages using this name", enter your name as you want it to 
+                    appear to email recipient. It can be anything. Mail doesn't care.
+                </li>
+                <li>
+                    For "Password", enter the password from the identity details page (same password
+                    you chose when creating your identity).
+                </li>
+            </ul>
+            Click "Sign in". Mail will do it thing and fail. You will need to click "Try again" until
+            it gives up and shotws you "Internet email account" screen where you can specify details
+            of your email service.
+        </p>
+        <h3>Configure Your Account</h3>
+        <p>
+            Now, you should see "Internet email account" screen where you can specify your
+            account options.
+            <ul>
+                <li>
+                    For "User name", enter your user name from your identity details page.
+                </li>
+                <li>
+                    For "Password", enter your password (this field may be already populated).
+                </li>
+                <li>
+                    For "Account Name", enter the name for this account, for example, "Ubikom Mail".
+                </li>
+                <li>
+                    For "Send your messages using this name" field, enter your name as you want it
+                    to appear to mail recipients. 
+                </li>
+                <li>
+                    For "Incoming email server", enter "alpha.ubikom.cc".
+                </li>
+                <li>
+                    For "Account Type", choose "IMAP4".
+                </li>
+                <li>
+                    For "Outgoing (SMTP) email server", enter "alpha.ubikom.cc".
+                </li>
+                <li>
+                    Make sure "Outgoing server requires authentication" box is checked.
+                </li>
+                <li>
+                    Make sure "Use the same name and password for sending email" box is checked.
+                </li>
+            </ul>
+            Click "Sign in". On the next screen, click "Done".
+        </p>
+    </body>
+</html>
