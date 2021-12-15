@@ -42,13 +42,12 @@
             </p>
         </div>
         <h2>Next</h2>
+        <p>Make sure you save the information on this page.</p>
         <p>
-            <form id="name-form">
-                <button name="submit" id="iosMailConfig">Configure iOS Mail</button>
-            </form>
-    
+            If you want to use iOS Mail on your iPhone or iPad, the configuration is simple and straightforward.
+            <a href="ios-client/ios-mail.html">Configure iOS Mail</a>
         </p>
-        <p>After you write down the information on this page, you can proceed to <a href='/configure-client.html'>configure your email client.</a></p>
+        <p>For any other clients, you can proceed to <a href='/configure-client.html'>configure your email client.</a></p>
         <p>
             If you like to learn more, read more detailed technical description <a href='tech-description.html'>here</a>.
         </p>
@@ -104,14 +103,6 @@
                     document.getElementById('password').innerHTML = "*********";
                     showPasswordButton.innerHTML = "Show";
                 }
-            }
-
-            email = res.user_name + '@ubikom.cc'
-
-            document.getElementById('iosMailConfig').onclick = submit;
-            function submit(event) {
-                event.preventDefault();
-                location.href = 'https://mail.ubikom.cc/email.mobileconfig?email=' + encodeURIComponent(email)
             }
         </script>
     </body>
