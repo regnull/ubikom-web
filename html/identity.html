@@ -42,12 +42,27 @@
             </p>
         </div>
         <h2>Next</h2>
+        <p>
+            <form id="name-form">
+                <button name="submit" id="iosMailConfig">Configure iOS Mail</button>
+            </form>
+    
+        </p>
         <p>After you write down the information on this page, you can proceed to <a href='/configure-client.html'>configure your email client.</a></p>
         <p>
             If you like to learn more, read more detailed technical description <a href='tech-description.html'>here</a>.
         </p>
         <p>Questions? <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
         <script>
+            function submit(event) {
+                event.preventDefault();
+                if (!nextEnabled) {
+                    return;
+                }
+                sessionStorage.setItem('identifier', document.getElementById('identifier').value);
+                location.href = 'password.html';
+            }
+
             let json = sessionStorage.getItem('identityJSON');
             if (json == null || json.length < 10) {
                 sessionStorage.clear();
@@ -89,6 +104,14 @@
                     document.getElementById('password').innerHTML = "*********";
                     showPasswordButton.innerHTML = "Show";
                 }
+            }
+
+            email = res.user_name + '@ubikom.cc'
+
+            document.getElementById('iosMailConfig').onclick = submit;
+            function submit(event) {
+                event.preventDefault();
+                location.href = 'https://mail.ubikom.cc/email.mobileconfig?email=' + encodeURIComponent(email)
             }
         </script>
     </body>
