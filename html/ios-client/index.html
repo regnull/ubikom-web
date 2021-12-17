@@ -90,8 +90,16 @@
         </p>
         <h2>iOS Mail</h2>
         <p>iOS mail is the default iOS email program. If you have an iPhone/iPad, 
-            chances are, you have it installed.
+            chances are, you have it installed. To configure iOS Mail to work with Ubikom service, you need to download
+            a profile, which you will then activate in settings.
         </p>
+        <p>
+            <form id="name-form">
+                <input type="text" id="identifier" placeholder="identifier (i.e. spongebob)"/>
+                <button name="submit" id="iosMailConfig">Download Profile</button>
+            </form>
+        </p>
+
         <h3>Add an account</h3>
         <p>Notice that setup is done in iOS settings (not Mail app).</p>
         <p>
@@ -178,5 +186,40 @@
             you have found a bug, submit a new issue, or 
             email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
         </p>
+        <script>
+            let downloadProfileEnabled = false;
+            let json = sessionStorage.getItem('identityJSON');
+            console.log('hello');
+            if (json != null && json.length > 10) {
+                let res = JSON.parse(json);
+                document.getElementById('identifier').value = res.user_name
+                downloadProfileEnabled = true;
+            } 
+            document.getElementById('iosMailConfig').onclick = submit;
+            identifierChanged();
+            document.getElementById('identifier').onkeyup = identifierChanged;
+            
+            function submit(event) {
+                event.preventDefault();
+
+                if (!downloadProfileEnabled) {
+                    return
+                }
+
+                let identifier = document.getElementById('identifier').value;
+                let email = identifier + "@ubikom.cc";
+                location.href = 'https://mail.ubikom.cc/email.mobileconfig?email=' + encodeURIComponent(email)
+            }
+
+            function identifierChanged() {
+                if (document.getElementById('identifier').value.length > 3) {
+                    downloadProfileEnabled = true;
+                    document.getElementById('iosMailConfig').style.opacity = 1.0;
+                } else {
+                    downloadProfileEnabled = false;
+                    document.getElementById('iosMailConfig').style.opacity = 0.6;
+                }
+            }
+        </script>
     </body>
 </html>
