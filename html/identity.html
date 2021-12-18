@@ -26,8 +26,10 @@
             <tr><td><b>User name</b></td><td id="name"></td></tr>
             <tr><td style="color:red;"><b>Email</b></td><td id="email" style="color:red;"></td></tr>
             <tr><td style="color:red;"><b>Password</b></td><td><div id="password" style="display: inline; color:red;"></div><button id="showPassword">Show</button></td></tr>
-            <tr><td><b>Outgoing Server</b></td><td id="outgoing_server"></td></tr>
-            <tr><td><b>Incoming Server</b></td><td id="incoming_server"></td></tr>
+            <tr><td><b>Outgoing Server Address</b></td><td id="outgoing_server"></td></tr>
+            <tr><td><b>Outgoing Server Port</b></td><td id="outgoing_server_port"></td></tr>
+            <tr><td><b>Incoming Server Address</b></td><td id="incoming_server"></td></tr>
+            <tr><td><b>Incoming Server Port</b></td><td id="incoming_server_port"></td></tr>
         </table>
         <div id="priv_key">
             <h2>Private Key</h2>
@@ -67,8 +69,10 @@
             document.getElementById('email').innerHTML = res.email;
             document.getElementById('name').innerHTML = res.user_name;
             document.getElementById('password').innerHTML = "*********";
-            document.getElementById('outgoing_server').innerHTML = res.outgoing_server_url + ", port " + res.outgoing_server_port;
-            document.getElementById('incoming_server').innerHTML = res.incoming_server_url + ", port " + res.incoming_server_port;
+            document.getElementById('outgoing_server').innerHTML = res.outgoing_server_url
+            document.getElementById('outgoing_server_port').innerHTML = res.outgoing_server_port;
+            document.getElementById('incoming_server').innerHTML = res.incoming_server_url 
+            document.getElementById('incoming_server_port').innerHTML = res.incoming_server_port;
             if (typeof res.key_id !== 'undefined') {
                 document.getElementById('downloadKey').onclick = function () {
                     location.href = "https://alpha.ubikom.cc:8088/getKey?key_id=" + res.key_id;
