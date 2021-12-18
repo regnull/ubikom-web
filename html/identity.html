@@ -25,7 +25,8 @@
         <table>
             <tr><td><b>User name</b></td><td id="name"></td></tr>
             <tr><td><b>Password</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
-            <tr><td><b>Server URL</b></td><td id="server"></td></tr>
+            <tr><td><b>Outgoing Server URL</b></td><td id="outgoing_server"></td></tr>
+            <tr><td><b>Incoming Server URL</b></td><td id="incoming_server"></td></tr>
         </table>
         <div id="priv_key">
             <h2>Private Key</h2>
@@ -64,7 +65,8 @@
             document.getElementById('identifier').innerHTML = res.name;
             document.getElementById('name').innerHTML = res.user_name;
             document.getElementById('password').innerHTML = "*********";
-            document.getElementById('server').innerHTML = res.server_url;
+            document.getElementById('outgoing_server').innerHTML = res.outgoing_server_url;
+            document.getElementById('incoming_server').innerHTML = res.incoming_server_url;
             if (typeof res.key_id !== 'undefined') {
                 document.getElementById('downloadKey').onclick = function () {
                     location.href = "https://alpha.ubikom.cc:8088/getKey?key_id=" + res.key_id;
