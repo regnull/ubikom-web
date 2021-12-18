@@ -24,6 +24,7 @@
         <p>You will use the user name and password below in your email client.</p>
         <table>
             <tr><td><b>User name</b></td><td id="name"></td></tr>
+            <tr><td><b>Email</b></td><td id="email"></td></tr>
             <tr><td><b>Password</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
             <tr><td><b>Outgoing Server URL</b></td><td id="outgoing_server"></td></tr>
             <tr><td><b>Incoming Server URL</b></td><td id="incoming_server"></td></tr>
@@ -63,6 +64,7 @@
             }
             let res = JSON.parse(json);
             document.getElementById('identifier').innerHTML = res.name;
+            document.getElementById('email').innerHTML = res.email;
             document.getElementById('name').innerHTML = res.user_name;
             document.getElementById('password').innerHTML = "*********";
             document.getElementById('outgoing_server').innerHTML = res.outgoing_server_url;
