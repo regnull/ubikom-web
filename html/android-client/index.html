@@ -16,28 +16,18 @@
             clients to be able to use Ubikom Mail.
         </p>
         <h2>Check Your Identity Details</h2>
-        This is the information presented on your identity details page:
-        <p><img src="../client-common/identity-details.png"/></p>
-        <p>
-        Important things to notice are:
-        <ul>
-            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
-                I.e. if your identifier is "spongebob", your email address will be "spongebob@ubikom.cc".
-            </li>
-            <li>
-                You password. You chose it, you should know what it is. If you don't, click "Show" button
-                to reveal it. 
-            </li>
-        </ul>
-        That's all you need if you use a client supporting automatic configuration (see below). You can also
-        use pretty much any client, even if they can't configure your email automatically. In this case, you
-        will also need the following:
-        <ul>
-            <li>Your user name. It's normally the same as your identifier.</li>
-            <li>
-                Server URL. This is the URL you will use for SMTP and IMAP servers.
-            </li>
-        </ul>
+        <p>From the identity details page, you must have at least the following:
+            <ul>
+                <li>Your email</li>
+                <li>Your password</li>
+            </ul>
+        </p>
+        <p>If your client does not support automatic configuration, you will also need these:
+            <ul>
+                <li>Outgoing server address and port</li>
+                <li>Incoming server address and port</li>
+                <li>User name (same as your identifier, email will also work)</li>
+            </ul>
         </p>
         <h2><a href="https://play.google.com/store/apps/details?id=me.bluemail.mail">Blue Mail</a></h2>
         <p>
@@ -87,52 +77,66 @@
         </p>
         <br/>
         <h2><a href="https://play.google.com/store/apps/details?id=com.fsck.k9">K-9 Mail</a></h2>
-        <p>K-9 is a bit old, but still excellent.</p>
-        <h3>Download K-9 Mail</h3>
-        <p>
+        <p>K-9 is a bit old, but still excellent. It works well with Ubikom Mail and is easy to set up and use.
             You can download K-9 Mail <a href="https://play.google.com/store/apps/details?id=com.fsck.k9">here</a>.
-        </p>
-        <h3>Add New Account</h3>
-        <p>
-            On "Set up a new account" screen, enter your email address, i.e. "bob@ubikom.cc", and your password. Tap "Next".
+            When you open the app, you will be prompted to create a new account.
         </p>
         <p>
-            For Account type, choose "IMAP".
-        </p>
-        <h3>Configure Your Account</h3>
-        <p>
-            On "Incoming server settings" screen, enter the following:
-            <ul>
-                <li>For "IMAP server", enter "imap.ubikom.cc".</li>
-                <li>For "Security", choose "SSL/TLS".</li>
-                <li>Port must be 993.</li>
-                <li>User name is your username from the identity details page (your email will also work).</li>
-                <li>"Authentication" must be "Normal password"</li>
-                <li>Leave "Auto-detect IMAP namespace" box checked.</li>
-                <li>Leave "Use compression on network" boxes as they are.</li>
-            </ul>
-            Tap "Next".
+            <img src="k-9-1.png" />
         </p>
         <p>
-            On "Outgoing server settings" screen, enter the following:
-            <ul>
-                <li>For "SMTP server", enter "smtp.ubikom.cc".</li>
-                <li>For "Security", choose "SSL/TLS".</li>
-                <li>Port must be 465.</li>
-                <li>"Require sign-in" box must be checked.</li>
-                <li>User name is your username from the identity details page (your email will also work).</li>
-                <li>"Authentication" must be "Normal password"</li>
-            </ul>
+            <b>
+                Enter your email and password, and tap "Next".
+            </b>
+        </p>
+        <br/>
+        <p>
+            <b>
+                On the next screen, choose "IMAP" for your account type.
+            </b>
+        </p>
+        <br/>
+        <p>
+            <img src="k-9-2.png" />
         </p>
         <p>
-            On the next screen ("Account options") you can choose how frequently you want the app
-            to check for changes, and how many messages to display. Choose your settings and tap "Next".    
+            <b>
+                Verify your incoming server settings (the default ones should work).
+            </b>
+        </p>
+        <br/>
+        <p>
+            <img src="k-9-3.png" />
         </p>
         <p>
-            Finally, enter account name ("Ubikom Mail" will do), and your name as you want it to appear to message
-            recipients. Tap "Done".
+            <b>
+                Verify your outgoing server settings (the default ones should work).
+            </b>
         </p>
-        <h3>Problems?</h3>
+        <br/>
+        <p>
+            <b>
+                On the account options screen, choose how often you want to poll
+                for new messages, and how many messages you want to display.
+            </b>
+        </p>
+        <br/>
+        <p>
+            <img src="k-9-4.png" />
+        </p>
+        <p>
+            <b>
+                Finally, enter your name (as you want it to appear to email recipients),
+                and account name.
+            </b>
+        </p>
+        <br/>
+        <h2>Any other client</h2>
+        <p>You can use any email client that supports IMAP (or POP3) and SMTP, which
+            is virtually all of them! Check out the instructions for setting up 
+            a <a href="../generic-client/index.html">generic client</a>.
+        </p>
+        <h2>Problems?</h2>
         <p>If your setup doesn't work, double-check your settings. You might want to
             delete this account completely and try to set it up again. 
         </p>

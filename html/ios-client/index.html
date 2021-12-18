@@ -11,28 +11,18 @@
     <body>
         <h1>iOS Client Setup</h1>
         <h2>Check Your Identity Details</h2>
-        This is the information presented on your identity details page:
-        <p><img src="../client-common/identity-details.png"/></p>
-        <p>
-        Important things to notice are:
-        <ul>
-            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
-                I.e. if your identifier is "spongebob", your email address will be "spongebob@ubikom.cc".
-            </li>
-            <li>
-                You password. You chose it, you should know what it is. If you don't, click "Show" button
-                to reveal it. 
-            </li>
-        </ul>
-        That's all you need if you use a client supporting automatic configuration (see below). You can also
-        use pretty much any client, even if they can't configure your email automatically. In this case, you
-        will also need the following:
-        <ul>
-            <li>Your user name. It's normally the same as your identifier.</li>
-            <li>
-                Server URL. This is the URL you will use for SMTP and IMAP servers.
-            </li>
-        </ul>
+        <p>From the identity details page, you must have at least the following:
+            <ul>
+                <li>Your email</li>
+                <li>Your password</li>
+            </ul>
+        </p>
+        <p>If your client does not support automatic configuration, you will also need these:
+            <ul>
+                <li>Outgoing server address and port</li>
+                <li>Incoming server address and port</li>
+                <li>User name (same as your identifier, email will also work)</li>
+            </ul>
         </p>
         <h2><a href="https://apps.apple.com/us/app/blue-mail-email-mailbox/id1063729305">Blue Mail</a></h2>
         <p>
@@ -120,7 +110,12 @@
             it to whatever you prefer.
         </p>
 
-        <h3>Problems?</h3>
+        <h2>Any other client</h2>
+        <p>You can use any email client that supports IMAP (or POP3) and SMTP, which
+            is virtually all of them! Check out the instructions for setting up 
+            a <a href="../generic-client/index.html">generic client</a>.
+        </p>
+        <h2>Problems?</h2>
         <p>If your setup doesn't work, double-check your settings. You might want to
             delete this account completely and try to set it up again. 
         </p>

@@ -15,25 +15,19 @@
             client, i.e. any mail client that supports SMTP and IMAP protocols. Most clients do.
         </p>
         <h2>Check Your Identity Details</h2>
-        This is the information presented on your identity details page:
-        <p><img src="../client-common/identity-details.png"/></p>
-        You need to notice a few things here:
-        <ul>
-            <li>The identifier. Your email address will be your identifier plus "@ubikom.cc".
-                I.e. if your identifier is "bob", your email address will be "bob@ubikom.cc".
-            </li>
-            <li>
-                User name, same as your identifier. You will need it to set up connection
-                to email servers.
-            </li>
-            <li>
-                Password. It will be required (together with user name) to set up
-                connection to email servers.
-            </li>
-            <li>
-                Server URL. This is the URL you will use for SMTP and IMAP servers.
-            </li>
-        </ul>
+        <p>From the identity details page, you must have at least the following:
+            <ul>
+                <li>Your email</li>
+                <li>Your password</li>
+            </ul>
+        </p>
+        <p>If your client does not support automatic configuration, you will also need these:
+            <ul>
+                <li>Outgoing server address and port</li>
+                <li>Incoming server address and port</li>
+                <li>User name (same as your identifier, email will also work)</li>
+            </ul>
+        </p>
         <h2>Create New IMAP Account</h2>
         <p>
             Most email clients support IMAP protocol. When you create a new account, 
@@ -85,5 +79,15 @@
                 "server requires authentication", make sure it's checked</li>
         </ul>
        </p>
-    </body>
+       <h2>Problems?</h2>
+       <p>If your setup doesn't work, double-check your settings. You might want to
+           delete this account completely and try to set it up again. 
+       </p>
+       <p>
+           Check the list of known issues 
+           <a href="https://github.com/regnull/ubikom/issues">here</a>. If you think
+           you have found a bug, submit a new issue, or 
+           email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
+       </p>
+   </body>
 </html>
