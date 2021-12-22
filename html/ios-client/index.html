@@ -151,7 +151,7 @@
             }
 
             function identifierChanged() {
-                if (document.getElementById('identifier').value.length > 3) {
+                if (document.getElementById('identifier').value.length >= 3) {
                     downloadProfileEnabled = true;
                     document.getElementById('iosMailConfig').style.opacity = 1.0;
                 } else {
