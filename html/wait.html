@@ -18,6 +18,8 @@
         <script>
             let id = sessionStorage.getItem('identifier');
             let password = sessionStorage.getItem('password');
+            let captchaId = sessionStorage.getItem('captcha_id');
+            let captchaSolution = sessionStorage.getItem('captcha_solution');
             if(id == null || password == null || id.length < 3 || password.length < 6) {
                 location.href = 'index.html';
             } else {
@@ -42,7 +44,9 @@
                 req.send(JSON.stringify({
                     "name": id,
                     "password": password,
-                    "email_key_only" : true,
+                    "email_key_only": true,
+                    "captcha_id": captchaId,
+                    "captcha_solution": captchaSolution
                 }));
                 sessionStorage.clear();
             }
