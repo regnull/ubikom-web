@@ -29,6 +29,10 @@
                     if (req.status == 200) {
                         sessionStorage.setItem('identityJSON', req.responseText);
                         location.href = "identity.html";
+                    } else if (req.status == 401) {
+                        let errorText = "CAPTCHA verification failed. Please go back and try again";
+                        document.getElementById("status").innerHTML = errorText;
+                        document.getElementById("status").style.color = '#FF0000';
                     } else {
                         errorText = "error code: " + req.status;
                         if (req.statusText != "") {
