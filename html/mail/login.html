@@ -1,0 +1,81 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Login</h1>
+        <form onSubmit={this.handleSubmit}>
+            <input id="name" type="text" minlength="3" placeholder="identifier (i.e. bob)" style="display:block"/>
+            <input id="password" type ='password' minlength="6" placeholder="password" />
+            <button name="login" id="loginButton">Login</button>
+            <i><p id="status" style="margin: 0"></p></i>
+        </form>
+        <script>
+            let nameInput = document.getElementById('name')
+            let passwordInput = document.getElementById('password')
+            let status = document.getElementById('status')
+            let loginButton = document.getElementById('loginButton')
+            let loginEnabled = false;
+            
+            function passwordChanged() {
+                updateLoginButton();
+
+                if(passwordInput.value.length < 6) {
+                    status.innerHTML = "Password is too short";
+                    status.style.color = '#FF0000';
+                } else {
+                    status.innerHTML = "";
+                }
+            }
+
+            function updateLoginButton() {
+                if (nameInput.value.length < 3 || passwordInput.value.length < 6) {
+                    loginButton.style.opacity = 0.6;
+                    loginEnabled = false;
+                } else {
+                    loginButton.style.opacity = 1.0;
+                    loginEnabled = true;
+                }
+            }
+
+            function submit() {
+                event.preventDefault();
+                if (!loginEnabled) {
+                    return;
+                }
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    console.log('got result');
+                    if (req.status == 200) {
+                        status.innerHTML = "Logged in successfully";
+                        status.style.color = '#3ADF00';
+                    } else {
+                        status.innerHTML = "Invalid user name or password";
+                        status.style.color = '#FF0000';
+                    }
+                }
+                req.open('POST', 'https://alpha.ubikom.cc:8899/login', true);
+                req.setRequestHeader('Content-Type', 'application/json');
+                console.log('sending request');
+                status.innerHTML = "Please wait...";
+                status.style.color = '#30393f';
+                req.send(JSON.stringify({
+                    "name": nameInput.value,
+                    "password": passwordInput.value,
+                }));
+                loginButton.style.opacity = 0.6;
+                loginEnabled = false;
+            }
+            
+            passwordInput.onkeyup = passwordChanged
+            loginButton.onclick = submit;
+
+            updateLoginButton();
+        </script>
+    </body>
+</html>
