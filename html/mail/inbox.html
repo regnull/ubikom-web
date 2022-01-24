@@ -1,0 +1,45 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Inbox</h1>
+        <table id="messages">
+            <th>Date</th>
+            <th>From</th>
+            <th>Subject</th>
+        </table>
+
+        <script>
+            var messagesTable = document.getElementById("messages");
+            let token = sessionStorage.getItem('token');
+            let req = new XMLHttpRequest();
+                req.onload = function () {
+                    if (req.status == 200) {
+                        let res = JSON.parse(req.responseText);
+
+                        for(var i = 0; i < res.length && i < 20; i++) {
+                            var row = messagesTable.insertRow(1);
+                            var dateCell = row.insertCell(0);
+                            var fromCell = row.insertCell(1);
+                            var subjectCell = row.insertCell(2);
+                            var obj = res[i];
+                            dateCell.innerHTML = obj.Date
+                            fromCell.innerHTML = obj.From
+                            subjectCell.innerHTML = obj.Subject
+                        }
+                    } else {
+                    }
+                }
+                req.open('GET', 'https://alpha.ubikom.cc:8899/inbox', true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+        </script>
+    </body>
+</html>
