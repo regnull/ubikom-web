@@ -1,0 +1,42 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1 id="subject"></h1>
+        <p id="fromDate" style="font-weight: bold;"></p>
+        <pre id="content"></pre>
+        <script>
+            var content = document.getElementById("content");
+            let token = sessionStorage.getItem('token');
+
+            var queryString = location.search.substring(1);
+            var parts = queryString.split("=");
+            uid = parts[1];
+
+            let req = new XMLHttpRequest();
+            req.onload = function () {
+                if (req.status == 200) {
+                    content.innerHTML = req.responseText;
+                    var from = req.getResponseHeader("ubikom-mail-from");
+                    var subject = req.getResponseHeader("ubikom-mail-subject");
+                    var date = req.getResponseHeader("ubikom-mail-date");
+                    document.getElementById("subject").innerHTML = subject;
+                    document.getElementById("fromDate").innerHTML = "From: " + from + ", " + date;
+                    //document.getElementById("date").innerHTML = date;
+                } else {
+                    // TODO: Process error.
+                }
+            }
+            req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid, true);
+            req.setRequestHeader('Authorization', 'Bearer ' + token);
+            console.log('sending request');
+            req.send();
+        </script>
+    </body>
+</html>

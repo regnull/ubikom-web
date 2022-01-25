@@ -11,35 +11,39 @@
         <h1>Inbox</h1>
         <table id="messages">
             <th>Date</th>
-            <th>From</th>
             <th>Subject</th>
+            <th>From</th>
         </table>
 
         <script>
             var messagesTable = document.getElementById("messages");
             let token = sessionStorage.getItem('token');
             let req = new XMLHttpRequest();
-                req.onload = function () {
-                    if (req.status == 200) {
-                        let res = JSON.parse(req.responseText);
+            req.onload = function () {
+                if (req.status == 200) {
+                    let res = JSON.parse(req.responseText);
 
-                        for(var i = 0; i < res.length && i < 20; i++) {
-                            var row = messagesTable.insertRow(1);
-                            var dateCell = row.insertCell(0);
-                            var fromCell = row.insertCell(1);
-                            var subjectCell = row.insertCell(2);
-                            var obj = res[i];
-                            dateCell.innerHTML = obj.Date
-                            fromCell.innerHTML = obj.From
-                            subjectCell.innerHTML = obj.Subject
-                        }
-                    } else {
+                    for(var i = 0; i < res.length; i++) {
+                        var row = messagesTable.insertRow(1);
+                        var dateCell = row.insertCell(0);
+                        var subjectCell = row.insertCell(1);
+                        var fromCell = row.insertCell(2);
+                        var obj = res[i];
+                        dateCell.innerHTML = obj.Date;
+                        fromCell.innerHTML = obj.From;
+                        subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + obj.Subject + "</div>";
                     }
+                } else {
+                    // TODO: Process error.
                 }
-                req.open('GET', 'https://alpha.ubikom.cc:8899/inbox', true);
-                req.setRequestHeader('Authorization', 'Bearer ' + token);
-                console.log('sending request');
-                req.send();
+            }
+            req.open('GET', 'https://alpha.ubikom.cc:8899/inbox', true);
+            req.setRequestHeader('Authorization', 'Bearer ' + token);
+            console.log('sending request');
+            req.send();
+            function openMessage(id) {
+                location.href = "message.html?uid=" + id
+            }
         </script>
     </body>
 </html>
