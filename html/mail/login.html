@@ -54,6 +54,10 @@
                     if (req.status == 200) {
                         status.innerHTML = "Logged in successfully";
                         status.style.color = '#3ADF00';
+                    
+                        let res = JSON.parse(req.responseText);
+                        sessionStorage.setItem('token', res.token);
+                        location.href = "inbox.html";
                     } else {
                         status.innerHTML = "Invalid user name or password";
                         status.style.color = '#FF0000';

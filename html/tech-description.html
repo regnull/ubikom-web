@@ -9,136 +9,161 @@
             href="https://ubikom.cc/favicon.png">        
     </head>
     <body>
-        <h1>Ubikom: Secure and Private Email, Based on Self-Sovereign Identity</h1>
-        <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a></p>
-        <h2>Universe, Identity and Everything</h2>
-        <p>Anything in the universe can be modelled as objects exchanging messages.</p>
-        <p>So let's assume you are one of these objects and you receive a bunch of messages.
-            At some point, you might be interested in finding out who exactly is sending those messages.</p>
-        <p>One way to do it is to assign every object a unique name, and identify every sender by name.
-            There are three tricky parts here:
-            <ul>
-                <li>How to guarantee name uniqueness?</li>
-                <li>How to guarantee message delivery to the correct recipient?</li>
-                <li>How to guarantee that the message was not tampered with in transit?</li>
-            </ul>
-        </p>
-        <p>One possible answer here is to have a central authority tasked with assigning globally unique names
-            to objects and message delivery between objects. The problem with this approach is that everything
-            is dependent on the existence and goodwill of such central authority. This is not the approach we
-            want to take.
-        </p>
-        <p>Another way to address this is to have a unique private/public key pair assigned to each object. 
-            Now every message sent out can be signed using the private key and verified using the public key.
-        </p>
-        <p>This way, the object identity is reduced to private key control.</p>
-        <p>If you are signing all the outgoing messages with your private key, you might as well 
-            encrypt them with a unique key derived from your private key and the recipient's public key.
-            This way, only the recipient can decrypt the message.
-        </p>
-        <p>With this encryption in place, the question of how exactly messages get delivered becomes much
-            less important. Since only the recipient can read the message, we might as well just dump all
-            the messages into one giant data pile and let the recipients pick out their messages.
-        </p>
-        <p>Finally, addressing objects by their public keys works well for machines but not so well for humans.
-            We prefer short friendly names, so we might want to create a registry to record such names and 
-            which keys do they correspond to. But we must make sure that such a registry does not become
-            the central authority that we are so eager to avoid.
-        </p>
-        <p>The identity registry can also serve other purposes, for example, making message delivery easier
-            by specifying service for each object. It can 
-            also be used to delegate certain functions from one key to another, and to disable keys that 
-            are compromised.
-        </p>
 
-        <h2>Design Goals</h2>
-        <p>
-            Ubikom is based on the following design goals:
-            <ul>
-            <li>User identity must be controlled by the user - the concept known as <a href="https://en.wikipedia.org/wiki/Self-sovereign_identity">Self-Sovereign Identity.</a></li>
-            <li>Communications must be private and secure by default. In the Ubikom ecosystem, there is no way to send a message without signing and encrypting it.</li>
-            <li>Core software must be open-source</li>
-            <li>There is no central authority controlling the Ubikom ecosystem. Eventually, the identity registry will be decentralized and distributed</li>
-            <li>Getting your identity must be free, so anyone (and anything) can get it easily</li>
-            <li>Sending and receiving messages must be absolutely trivial</li>
-            <li>Users must have freedom to decide how to compromise between security and convenience. Users might decide to delegate their authority to a third-party system, a decision that can be revoked at any time</li>
-            <li>The system must be resilient to prevent spam and abuse.</li>
-            </ul>
-        </p>
-        <h2>Architecture Overview</h2>
-        <p>
-            <img src="diag/deploy.png" width="670" height="518" />
-        </p>
-        <p>
-            The system components include:
-            <ul>
-                <li>Identity Server, responsible for registering and querying user identity.</li>
-                <li>Dump Server, responsible for storing encrypted messages.</li>
-                <li>Email Proxy, responsible for encrypting and decrypting messages and supporting calls from the clients
-                    via POP3 and SMTP protocols.
-                </li>
-                <li>Gateway server, responsible for interfacing with the legacy email system.</li>
-            </ul>
-        </p>
-        <p>The identity server is the most important component. It is currently centralized, but will be eventually 
-            distributed. It can be used on its own to support this and many other use cases. 
-            The rest of the components are there to implement the full working email backend. 
-        </p>
-        <h2>Identity Service</h2>
-        <p>Identity service is responsible for registering keys, names, and addresses. The information is stored 
-            in the identity registry, which will eventually be decentralized.
-        </p>
-        <p>The identity service exposes two interfaces: identity registration and identity lookup:
-        </p>
-        <p>
-            <img src="diag/identity.png" width="410" height="358"/>
-        </p>
-        <p>In order to locate other users public key, we use the identity registry. The registry is a key-value store, which 
-            contains the following entities:
-            <ul>
-                <li>Public keys and related data (a public key may be disabled, for example)</li>
-                <li>Names. Each name is associated with a public key.</li>
-                <li>Addresses. Each address is indexed by name and protocol, and basically means "if you want to communicate with me 
-                    using this protocol, this is where you can find me".
-                </li>
-            </ul>
-        </p>
-        <p>It is absolutely essential that the identity registry is decentralized and distributed, without any central authority 
-            controlling it. The decentralization will be achieved step by step:
-            <ul>
-                <li>Step 1: Single node identity registry</li>
-                <li>Step 2: Single node identity registry publishing verifiable database snapshots.</li>
-                <li>Step 3: Distributed identity registry with fixed number of nodes.</li>
-                <li>Step 4: Distributed identity registry with dynamic nodes.</li>
-            </ul>
-            Currently, we have a single node identity registry which is about to start publishing database snapshots (Step 2).
-        </p>
-        <h2>Dump Server</h2>
-        <p>Dump server stores encrypted messages temporarily, allowing recipients to pick up their messages as needed.</p>
-        <p>It has only two methods - to send and receive a message. Anyone can send a message, but only the owner of the private key
+    <!--
+            <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+            <h2>Universe, Identity and Everything</h2>
+            <p>Anything in the universe can be modelled as objects exchanging messages.</p>
+            <p>So let's assume you are one of these objects and you receive a bunch of messages.
+                At some point, you might be interested in finding out who exactly is sending those messages.</p>
+            <p>One way to do it is to assign every object a unique name, and identify every sender by name.
+                There are three tricky parts here:
+                <ul>
+                    <li>How to guarantee name uniqueness?</li>
+                    <li>How to guarantee message delivery to the correct recipient?</li>
+                    <li>How to guarantee that the message was not tampered with in transit?</li>
+                </ul>
+            </p>
+            <p>One possible answer here is to have a central authority tasked with assigning globally unique names
+                to objects and message delivery between objects. The problem with this approach is that everything
+                is dependent on the existence and goodwill of such central authority. This is not the approach we
+                want to take.
+            </p>
+            <p>Another way to address this is to have a unique private/public key pair assigned to each object.
+                Now every message sent out can be signed using the private key and verified using the public key.
+            </p>
+            <p>This way, the object identity is reduced to private key control.</p>
+            <p>If you are signing all the outgoing messages with your private key, you might as well
+                encrypt them with a unique key derived from your private key and the recipient's public key.
+                This way, only the recipient can decrypt the message.
+            </p>
+            <p>With this encryption in place, the question of how exactly messages get delivered becomes much
+                less important. Since only the recipient can read the message, we might as well just dump all
+                the messages into one giant data pile and let the recipients pick out their messages.
+            </p>
+            <p>Finally, addressing objects by their public keys works well for machines but not so well for humans.
+                We prefer short friendly names, so we might want to create a registry to record such names and
+                which keys do they correspond to. But we must make sure that such a registry does not become
+                the central authority that we are so eager to avoid.
+            </p>
+            <p>The identity registry can also serve other purposes, for example, making message delivery easier
+                by specifying service for each object. It can
+                also be used to delegate certain functions from one key to another, and to disable keys that
+                are compromised.
+            </p>
+    -->
+
+    <h2>Design principles</h2>
+    <p>
+        Ubikom is based on the following design goals:
+    <ul>
+        <li>User identity must be controlled by the user - the concept known as
+            <a href="https://en.wikipedia.org/wiki/Self-sovereign_identity" target="_blank">Self-Sovereign Identity.</a>
+        </li>
+        <li>There is no central authority controlling the Ubikom ecosystem.
+            The avatar registry is decentralized and widely distributed.
+        </li>
+        <li>Users must have freedom to decide how to compromise between security and convenience.
+            Users might decide to delegate their authority to a third-party system,
+            a decision that can be revoked at any time
+        </li>
+        <li>Communications must be private and secure by default, and easy for non-technical users.
+            In Ubikom ecosystem, only signed and encrypted messages can be sent without a need for special
+            configuration
+        </li>
+        <li>Core software must be open-source</li>
+    </ul>
+    Usability requirements are:
+    <ul>
+        <li>Individual users must be able to register their avatars free of charge.</li>
+        <li>The system must be resilient to prevent spam and abuse.</li>
+        <li>The system must work with existing email clients.</li>
+        <li>Native Ubikom client will support messaging and authentication.</li>
+
+    </ul>
+    </p>
+    <h2>Architecture Overview</h2>
+    <p>
+        <img src="diag/deploy.png" width="670" height="518"/>
+    </p>
+    <p>
+        The system components include:
+    <ul>
+        <li>Identity Server, responsible for registering and querying user identity.</li>
+        <li>Dump Server, responsible for storing encrypted messages.</li>
+        <li>Email Proxy, responsible for encrypting and decrypting messages and supporting calls from the clients
+            via POP3 and SMTP protocols.
+        </li>
+        <li>Gateway server, responsible for interfacing with the legacy email system.</li>
+    </ul>
+    </p>
+    <p>The identity server is the most important component. It is currently running in beta on
+        an Ethereum-inspired blockchain. It can be used on its own to support this and many other use cases.
+        The rest of the components are there to implement the full working email backend.
+    </p>
+    <h2>Identity Service</h2>
+    <p>Identity service is responsible for registering keys, names, and addresses. The information
+        is stored in the decentralized identity registry.
+    </p>
+    <p>The identity service exposes two interfaces: identity registration and identity lookup:
+    </p>
+    <p>
+        <img src="diag/identity.png" width="410" height="358"/>
+    </p>
+    <p>In order to locate other users public key, we use the identity registry. The registry is a key-value store, which
+        contains the following entities:
+    <ul>
+        <li>Public keys and related data (a public key may be disabled, for example)</li>
+        <li>Names. Each name is associated with a public key.</li>
+        <li>Addresses. Each address is indexed by name and protocol, and basically means "if you want to communicate
+            with me
+            using this protocol, this is where you can find me".
+        </li>
+    </ul>
+    </p>
+    <p>It is essential that the identity registry is decentralized and distributed, without any central authority
+        controlling it. The complete decentralization will be achieved in the following sequence:
+    <ul>
+        <li>Stage 1: Single node identity registry</li>
+        <li>Stage 2: Single node identity registry publishing verifiable database snapshots.</li>
+        <li>Stage 3: Distributed identity registry with fixed number of nodes.</li>
+        <li>Stage 4: Distributed identity registry with dynamic nodes.</li>
+    </ul>
+    Currently, we are at the Stage 4.
+    </p>
+    <h2>Storage Server</h2>
+    <p>Dump server stores encrypted messages temporarily, allowing recipients to pick up their messages as needed.</p>
+    <p>It has only two methods - sending and receiving messages. Anyone can send a message, but only the owner of the
+        private key
         can receive messages addressed to it.</p>
-        <p2>It's up to the user to decide how to receive their messages. The identity registry contains a record specifying the endpoint
-            where a dump server (or another server implementing same interface) is located.
-        </p2>
-        <h2>Email Proxy</h2>
-        <p>To make everything working end-to-end without coding new email clients, we want to take advantage of the existing
-            clients. A translation layer is required to convert gRPC calls (used between Ubikom components) to SMTP/POP3 calls
-            used by email clients. The encryption and decryption is handled on the fly by the email proxy.
-        </p>
-        <p>
-            Ideally, each user would run email proxy on their machine, to keep control over their private keys. This requirement, 
-            however, would limit the adoption, and would not answer the question of how to handle potential web clients. 
-        </p>
-        <p>
-            If we were to run public email proxy, we would need a way to transmit user credentials to the proxy, without risk
-            of losing control of the user's private key. To do that, we use concept of limited authority delegation to the email
-            proxy while keeping the ultimate authority over user's private key.
-        </p>
-        <h2>Delegating Authority</h2>
-        <p>
-            When a private key is created and registered, it is required to perform any action associated with this key, which include:
-            <ul>
-                <li>Encrypting and decryption messages</li>
+    <p2>It's up to the user to decide how to receive their messages. The identity registry contains a record specifying
+        the endpoint
+        where a dump server (or another server implementing same interface) is located.
+    </p2>
+    <h2>Email Proxy</h2>
+    <p>To make everything working end-to-end without coding new email clients, we want to take advantage of the existing
+        clients. A translation layer is required to convert gRPC calls (used between Ubikom components) to SMTP/POP3
+        calls
+        used by email clients. The encryption and decryption is handled on the fly by the email proxy.
+    </p>
+    <p>
+        Ideally, each user would run email proxy on their machine, to keep control over their private keys. This
+        requirement,
+        however, would limit the adoption, and would not answer the question of how to handle potential web clients.
+    </p>
+    <p>
+        If we were to run public email proxy, we would need a way to transmit user credentials to the proxy, without
+        risk
+        of losing control of the user's private key. To do that, we use concept of limited authority delegation to the
+        email
+        proxy while keeping the ultimate authority over user's private key.
+    </p>
+    <h2>Delegating Authority</h2>
+    <p>
+        When a private key is created and registered, it is required to perform any action associated with this key,
+        which include:
+    <ul>
+        <li>Encrypting and decryption messages</li>
                 <li>Registering names</li>
                 <li>Registering addresses</li>
                 <li>Registering key relationship</li>
@@ -154,7 +179,8 @@
             allowed to perform encryption and decryption, but none of other operations.
         </p>
         <p>
-            Child key is transmitted to the email proxy in a secure way, and then used to encrypt outgoing messages and decrypt 
+            Child key is transmitted to the email proxy in a secure way, and then used to encrypt outgoing messages and
+            decrypt
             incoming messages.
         </p>
         <p>
@@ -164,120 +190,121 @@
         <p>
             In fact, it might be a good idea to do email key rotation on a regular basis.
         </p>
-        <h2>Preventing Spam: Proof-of-Work Fence</h2>
-        <p>If anyone with a private key can use Ubikom (after properly registering it), how to we make sure that the system
-            is not abused to send spam? Preventing spam from a single sender is relatively simple, as they need to prove 
-            their identity every time a message is sent (by signing every message). But a spammer may automate new key
-            creation and registration.</p>
-        <p>One way to address this is to make key registration somewhat costly by requiring user to compute Proof-of-Work (POW) nonce
-            every time a new key is registered. Computing POW would be trivial for a regular user (it only takes a couple
-            of seconds on an average computer), but it would deter a spammer who would have to spend a significant amount
-            on compute power.
-        </p>
-        <p>
-            It is as if the system was surrounded by a POW fence - every request that crosses the fence must pay a price
-            by computing a POW nonce, but the requests between the internal system components are free.
-        </p>
-        <h2>Distributed Identity Registry</h2>
-        <p>Why invent our own distributed consensus system when there are so many that already exist, like cryptocurrencies
-           and distributed ledgers? Actually, we would much rather use some existing technologies, but as of now
-           we can't find anything that quite fits our use case.</p>
-        <p>Cryptocurrencies fail when it comes to efficiency, both monetary and computational. They are not called currencies
-           for nothing - doing things cost money. In most cases, it is also costly to arrive to a consensus, if POW is used.
-           Things may change when proof-of-stake consensus algorithm is used instead.</p>
-        <p>Then there are distributed ledgers, like <a href="https://www.hyperledger.org/">Hyperledger</a>, in all of it 
-            dozen incarnations. Quite often, they do have a central authority which is responsible for issuing user 
-            credentials. They also are mostly permissioned, and cannot handle the case when each node is free to join
-            the system and go away at any time.</p>
-        <p>We have decided, therefore, to outline a system that might be suitable for our use case, as described below.
-            Since this is an early stage design, everything might change.
-        </p>
-        <h3>Single Node Operation</h3>
-        <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
-        <p><img src="diag/registry-node.png" width="502" height="290"/></p>
-        <p>Each node has its own copy of the identity registry database, its private key and name (key and name are linked
-            via a record in the identity database).
-        </p>
-        <p>The node talks to other nodes and external users by receiving transaction requests. For each transaction, it
-            performs the following processing:
-            <ul>
-                <li>Check if this transaction was processed before. If so, drop this request.</li>
-                <li>Check if this transaction complies with the agreed-upon rules. If not, drop this request.</li>
-                <li>Apply the transaction to the database.</li>
-                <li>Add the transaction to the transaction log.</li>
-                <li>Forward the transaction to peers.</li>
-            </ul>
-        </p>
-        <h3>Database Snapshots</h3>
-        <p>
-            <img src="diag/snapshots.png" width="400" height="460"/>
-        </p>
-        <p>The identity database uses multiple value versions to be able to tell the value at any given time (or 
-            at least for some reasonable time in the past). At predefined moment in time, each node generates a 
-            database snapshot (while still processing transactions). For the sake of the argument let's say it does
-            it every 24 hours. So at 12:01 am each day, snapshot generator generates a database snapshot representing
-            the exact state at that time.
-        </p>
-        <p>After a snapshot is generated, it computes its hash (H0, H1, H2, etc.) and signs the snapshot with node's 
-            private key.
-        </p>
-        <p>The identity registry snapshots are publicly available, so that users and other nodes can download snapshot
-            representing the database state at any time.
-        </p>
-        <p>
-            The transaction log is also publicly available, so when a node is being bootstrapped, it downloads the 
-            latest snapshot from another node and then replays all the transactions that happened since.
-        </p>
-        <h3>Consensus Between Nodes</h3>
-        <p>
-            <img src="diag/consensus.png" width="530" height="300" />
-        </p>
-        <p>After a snapshot is generate and its hash is known, each node sends a message to all other nodes containing
-            a Zero-Knowledge Proof (ZKP) of this hash. This means that other nodes can either confirm that their snapshot
-            has the same hash or not.
-        </p>
-        <p>This continues for some fixed time (let's say 10 minutes). During this time, each node collects information to
-            either confirm that it has the same snapshot as the majority of other nodes, or that it doesn't.
-        </p>
-        <p>Let's say that our hash is confirmed by most of the other nodes (ideally all of them). When the consensus period
-            is expired, each node will write down the signature block containing the hash of the snapshot and ZKP from all
-            nodes confirming it. When a snapshot is confirmed by the majority of the nodes, it is considered to be done and
-            the nodes proceeds with transaction processing until it's time to generate next snapshot.
-        </p>
-        <p>In a situation when our snapshot differs from the majority of other nodes, we discard it, download the snapshot
-            confirmed by the majority, and replay all transactions following the snapshot. When it's time to generate the next
-            snapshot, we proceed as before.
-        </p>
-        <p>There is also an unlikely scenario when a majority of nodes is unable to agree on the correct hash. This is mostly
-            a theoretical possibility, but if it were to happen, the problem can either be resolved by discarding all changes
-            since the previous snapshot, or by an operator intervention.
-        </p>
-        <h3>Signing Nodes vs. Candidate Nodes</h3>
-        <p>Finally, we should consider what happens when nodes join or leave the system. We want the system to remain scalable
-            resilient, but at the same time we can't just admit every new node to prevent 50% + 1 attack. Our approach here
-            is that anyone can join, but a new node must earn a right to join by good behavior.</p>
-        <p>There is a fixed number of signing tokens in the identity registry. Each token can be associated with a node. The
-            nodes that have a token are called signing nodes, while those who don't are candidate nodes. The only difference
-            is that only signing nodes can sign a snapshot. The candidate nodes work in exactly the same way, except their
-            signature does not go into the snapshot.</p>
-        <p>Each node keeps track of all other nodes ZKP when a new snapshot is generated. Because there is no way to know
-            the hash without doing the heavy lifting (verifying and applying transactions since the previous snapshot, 
-            generating snapshot, computing hash), ZKP of the correct hash serves as a proof that the node plays by the rules.</p>
-        <p>If a node plays by the rules for some time (days and weeks), at some point it can claim a signing token. To do that,
-            it must meet the following conditions:
-            <ul>
-                <li>The token is owned by another node for long enough (let's say 24 hours)</li>
-                <li>Current node has generated N out of M correct snapshots</li>
-            </ul>
-            If these conditions are met, other nodes will confirm the token transfer by updating the token association in the
-            identity registry.
-        </p>
-        <p>Let's say someone would like to hijack the system by introducing malicious signing nodes. Each of these nodes would
-            have to first earn the right to claim a signing token, and then it would hold it for only some time (we assume
-            that the number of candidate nodes is quite a bit greater then the number of signing nodes). It would be quite
-            difficult to accumulate a majority of signing nodes under these circumstances. Even if this were to happen, the 
-            operators of good nodes would always have an option to purge the malicious nodes and restart from the last good
-            snapshot.
-        </p>
+
+    <!--      <h2>Preventing Spam: Proof-of-Work Fence</h2>
+          <p>If anyone with a private key can use Ubikom (after properly registering it), how to we make sure that the system
+              is not abused to send spam? Preventing spam from a single sender is relatively simple, as they need to prove
+              their identity every time a message is sent (by signing every message). But a spammer may automate new key
+              creation and registration.</p>
+          <p>One way to address this is to make key registration somewhat costly by requiring user to compute Proof-of-Work (POW) nonce
+              every time a new key is registered. Computing POW would be trivial for a regular user (it only takes a couple
+              of seconds on an average computer), but it would deter a spammer who would have to spend a significant amount
+              on compute power.
+          </p>
+          <p>
+              It is as if the system was surrounded by a POW fence - every request that crosses the fence must pay a price
+              by computing a POW nonce, but the requests between the internal system components are free.
+          </p>
+          <h2>Distributed Identity Registry</h2>
+          <p>Why invent our own distributed consensus system when there are so many that already exist, like cryptocurrencies
+             and distributed ledgers? Actually, we would much rather use some existing technologies, but as of now
+             we can't find anything that quite fits our use case.</p>
+          <p>Cryptocurrencies fail when it comes to efficiency, both monetary and computational. They are not called currencies
+             for nothing - doing things cost money. In most cases, it is also costly to arrive to a consensus, if POW is used.
+             Things may change when proof-of-stake consensus algorithm is used instead.</p>
+          <p>Then there are distributed ledgers, like <a href="https://www.hyperledger.org/">Hyperledger</a>, in all of it
+              dozen incarnations. Quite often, they do have a central authority which is responsible for issuing user
+              credentials. They also are mostly permissioned, and cannot handle the case when each node is free to join
+              the system and go away at any time.</p>
+          <p>We have decided, therefore, to outline a system that might be suitable for our use case, as described below.
+              Since this is an early stage design, everything might change.
+          </p>
+          <h3>Single Node Operation</h3>
+          <p>Let's consider how distributed identity registry will work. Here's a single registry node:</p>
+          <p><img src="diag/registry-node.png" width="502" height="290"/></p>
+          <p>Each node has its own copy of the identity registry database, its private key and name (key and name are linked
+              via a record in the identity database).
+          </p>
+          <p>The node talks to other nodes and external users by receiving transaction requests. For each transaction, it
+              performs the following processing:
+              <ul>
+                  <li>Check if this transaction was processed before. If so, drop this request.</li>
+                  <li>Check if this transaction complies with the agreed-upon rules. If not, drop this request.</li>
+                  <li>Apply the transaction to the database.</li>
+                  <li>Add the transaction to the transaction log.</li>
+                  <li>Forward the transaction to peers.</li>
+              </ul>
+          </p>
+          <h3>Database Snapshots</h3>
+          <p>
+              <img src="diag/snapshots.png" width="400" height="460"/>
+          </p>
+          <p>The identity database uses multiple value versions to be able to tell the value at any given time (or
+              at least for some reasonable time in the past). At predefined moment in time, each node generates a
+              database snapshot (while still processing transactions). For the sake of the argument let's say it does
+              it every 24 hours. So at 12:01 am each day, snapshot generator generates a database snapshot representing
+              the exact state at that time.
+          </p>
+          <p>After a snapshot is generated, it computes its hash (H0, H1, H2, etc.) and signs the snapshot with node's
+              private key.
+          </p>
+          <p>The identity registry snapshots are publicly available, so that users and other nodes can download snapshot
+              representing the database state at any time.
+          </p>
+          <p>
+              The transaction log is also publicly available, so when a node is being bootstrapped, it downloads the
+              latest snapshot from another node and then replays all the transactions that happened since.
+          </p>
+          <h3>Consensus Between Nodes</h3>
+          <p>
+              <img src="diag/consensus.png" width="530" height="300" />
+          </p>
+          <p>After a snapshot is generate and its hash is known, each node sends a message to all other nodes containing
+              a Zero-Knowledge Proof (ZKP) of this hash. This means that other nodes can either confirm that their snapshot
+              has the same hash or not.
+          </p>
+          <p>This continues for some fixed time (let's say 10 minutes). During this time, each node collects information to
+              either confirm that it has the same snapshot as the majority of other nodes, or that it doesn't.
+          </p>
+          <p>Let's say that our hash is confirmed by most of the other nodes (ideally all of them). When the consensus period
+              is expired, each node will write down the signature block containing the hash of the snapshot and ZKP from all
+              nodes confirming it. When a snapshot is confirmed by the majority of the nodes, it is considered to be done and
+              the nodes proceeds with transaction processing until it's time to generate next snapshot.
+          </p>
+          <p>In a situation when our snapshot differs from the majority of other nodes, we discard it, download the snapshot
+              confirmed by the majority, and replay all transactions following the snapshot. When it's time to generate the next
+              snapshot, we proceed as before.
+          </p>
+          <p>There is also an unlikely scenario when a majority of nodes is unable to agree on the correct hash. This is mostly
+              a theoretical possibility, but if it were to happen, the problem can either be resolved by discarding all changes
+              since the previous snapshot, or by an operator intervention.
+          </p>
+          <h3>Signing Nodes vs. Candidate Nodes</h3>
+          <p>Finally, we should consider what happens when nodes join or leave the system. We want the system to remain scalable
+              resilient, but at the same time we can't just admit every new node to prevent 50% + 1 attack. Our approach here
+              is that anyone can join, but a new node must earn a right to join by good behavior.</p>
+          <p>There is a fixed number of signing tokens in the identity registry. Each token can be associated with a node. The
+              nodes that have a token are called signing nodes, while those who don't are candidate nodes. The only difference
+              is that only signing nodes can sign a snapshot. The candidate nodes work in exactly the same way, except their
+              signature does not go into the snapshot.</p>
+          <p>Each node keeps track of all other nodes ZKP when a new snapshot is generated. Because there is no way to know
+              the hash without doing the heavy lifting (verifying and applying transactions since the previous snapshot,
+              generating snapshot, computing hash), ZKP of the correct hash serves as a proof that the node plays by the rules.</p>
+          <p>If a node plays by the rules for some time (days and weeks), at some point it can claim a signing token. To do that,
+              it must meet the following conditions:
+              <ul>
+                  <li>The token is owned by another node for long enough (let's say 24 hours)</li>
+                  <li>Current node has generated N out of M correct snapshots</li>
+              </ul>
+              If these conditions are met, other nodes will confirm the token transfer by updating the token association in the
+              identity registry.
+          </p>
+          <p>Let's say someone would like to hijack the system by introducing malicious signing nodes. Each of these nodes would
+              have to first earn the right to claim a signing token, and then it would hold it for only some time (we assume
+              that the number of candidate nodes is quite a bit greater then the number of signing nodes). It would be quite
+              difficult to accumulate a majority of signing nodes under these circumstances. Even if this were to happen, the
+              operators of good nodes would always have an option to purge the malicious nodes and restart from the last good
+              snapshot.
+          </p>-->
     </body>
 </html>

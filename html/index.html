@@ -9,53 +9,100 @@
             href="https://ubikom.cc/favicon.png">
     </head>
     <body>
-        <h1>Ubikom Project</h1>
-        <p><i>Secure and Private Email Without Accounts or Domains</i></p>
-        <p>
-            Ubikom is free, open-source email framework based on the concept of <a href="https://sovrin.org/faq/what-is-self-sovereign-identity/">Self-Sovereign Identity.</a>
-            You own your identity (which, in this case, means your private key), and all the outgoing and incoming messages are encrypted 
-            and signed by default.
-        </p>
-        <p>
-            Ubikom uses Bitcoin-style Elliptic Curve Cryptography. In fact, Ubikom keys are identical to Bitcoin keys.
-        </p>
-        <p>
-            It doesn't spy on you, because you don't give away any private information, the only thing known
-            to others is your public key and your identifier (basically your email address). Your messages cannot be decrypted by 
-            anyone but you.
-        </p>
-        <p>
-            To send and receive messages, you use any standard email client, 
-            such as <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a>, iOS Mail, <a href="https://bluemail.me"> BlueMail</a>, or any other 
-            client that supports SMTP and POP3. Encryption and decryption is done on the fly by the proxy 
-            (which you can also run yourself, if you like).
-        </p>
-        <p>
-            Eventually, the public key registry will be decentralized so that it's not controlled by any single party.
-        </p>
-        <p>
-            If you want to give it a try, you can start on this page by choosing your email identifier below.
-        </p>
-        <form id="name-form">
-            <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
-            <button name="submit" id="nextButton">Next</button>
-            <i><p id="status" style="margin: 0"></p></i>
-        </form>
-        <p><i>Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</i></p>
-        <h2>Already a user?</h2>
-        <p>You can change your password <a href="/change_password.html">here.</a></p>
-        <h2>Why?</h2>
-        <p><a href="/intro.html">Let's Reinvent Email</a></p>
-        <h2>How?</h2>
-        <p><a href="/tech-description.html">Technical Description</a></p>
-        <h2>Find Out More</h2>
-        <p>Currently in beta testing. Things are not stable just yet, act accordingly.</p>
-        <p><a href="/clients.html">How to configure email client</a></p>
-        <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a> (developers are welcome to contribute).</p>
-        <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a></p>
-        <p>On twitter: <a href="https://twitter.com/UbikomProject">@UbikomProject</a> (yes, using Twitter does strike us as ironic).</p>
-        <p>Join our Reddit community: <a href="https://www.reddit.com/r/ubikom/">Ubikom on Reddit</a></p>
-        <script>
+    <h1>Ubikom: digital avatars on blockchain</h1>
+    <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto:sasha@ubikom.cc">sasha@ubikom.cc</a></p>
+
+    <p>Digital avatars are user-chosen online identities. An avatar consists of a name and public key,
+        which is used for public key cryptography. Avatars are created, owned, and managed by users.</p>
+
+    <p>Ubikom is a decentralized infrastructure of digital avatars. Avatars are registered on Ubikom’s blockchain.
+        This leads to superior data privacy, resistance to censorship, secure communication, and convenient online
+        authentication.</p>
+
+    <p> Since avatars are freely chosen by users and not tied to real identities, Ubikom avoids the bureaucratic
+        obstacles
+        plaguing <a href="https://en.wikipedia.org/wiki/Self-sovereign_identity" target="_blank"
+                    rel="noopener noreferrer">Self-Sovereign Identity (SSI)</a></p>
+
+    <p> There are are <a href="/beyond_email.html">numerous applications</a> of the decentralized avatar registry. Our
+        first focus is on
+        creating secure decentralized email. All Ubikom emails are end-to-end encrypted with
+        <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">the
+            algorithms</a>
+        that secure Bitcoin. Even if your emails are intercepted,
+        cryptography makes it impossible to read their content. All Ubikom emails are encrypted by default, so that
+        users
+        don’t need to worry about confidentiality.</p>
+
+    <p>Moreover, the decentralized registry is immune to censorship and incorruptible. The integrity of records is
+        protected by blockchain technology. No state or corporate actor can ban anyone from using Ubikom.</p>
+
+    <p>Ubikom is for you if you are worried about privacy of your data, are concerned about Big Brother
+        (either a government or corporation) spying on your email, live under an authoritarian or oppressive regime,
+        run a business that requires confidentiality of communication, or looking for a robust, convenient and
+        customer-friendly solution for a regulated agency or a health care organization.</p>
+
+    <p>If you want to give Ubikom a try, you can start on this page by choosing a name for your avatar/ email identifier
+        below.</p>
+
+    <!--        <h1>Ubikom Project</h1>
+            <p><i>Secure and Private Email Without Accounts or Domains</i></p>
+            <p>
+                Ubikom is free, open-source email framework based on the concept of <a href="https://sovrin.org/faq/what-is-self-sovereign-identity/">Self-Sovereign Identity.</a>
+                You own your identity (which, in this case, means your private key), and all the outgoing and incoming messages are encrypted
+                and signed by default.
+            </p>
+            <p>
+                Ubikom uses Bitcoin-style Elliptic Curve Cryptography. In fact, Ubikom keys are identical to Bitcoin keys.
+            </p>
+            <p>
+                It doesn't spy on you, because you don't give away any private information, the only thing known
+                to others is your public key and your identifier (basically your email address). Your messages cannot be decrypted by
+                anyone but you.
+            </p>
+            <p>
+                To send and receive messages, you use any standard email client,
+                such as <a href="https://www.thunderbird.net/en-US/">Mozilla Thunderbird</a>, iOS Mail, <a href="https://bluemail.me"> BlueMail</a>, or any other
+                client that supports SMTP and POP3. Encryption and decryption is done on the fly by the proxy
+                (which you can also run yourself, if you like).
+            </p>
+            <p>
+                Eventually, the public key registry will be decentralized so that it's not controlled by any single party.
+            </p>
+            <p>
+                If you want to give it a try, you can start on this page by choosing your email identifier below.
+            </p>-->
+    <form id="name-form">
+        <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
+        <button name="submit" id="nextButton">Next</button>
+        <i><p id="status" style="margin: 0"></p></i>
+    </form>
+    <p><i>Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</i></p>
+    <h2>Already a user?</h2>
+    <p>You can change your password <a href="/change_password.html">here.</a></p>
+
+    <h2>Helpdesk</h2>
+    <p><a href="/clients.html">How to configure email clients</a> (Currently in beta)</p>
+
+    <p></p>
+    <h2>Find out more</h2>
+    <!--       <h2>Why?</h2>-->
+    <p><a href="/intro.html" target="_blank" rel="noopener noreferrer">Let's Reinvent Email</a></p>
+    <!--            <h2>There is more!</h2>-->
+    <p><a href="/beyond_email.html" target="_blank" rel="noopener noreferrer">Beyond Email</a></p>
+    <!--        <h2>How?</h2>-->
+
+    <p><a href="/tech-description.html" target="_blank" rel="noopener noreferrer">Technical Description</a></p>
+
+    <h2>Get on board, get in touch</h2>
+    <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a> (developers are welcome to
+        contribute).</p>
+    <p>Contact: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto: sasha@ubikom.cc">sasha@ubikom.cc</a>
+    </p>
+    <p>On twitter: <a href="https://twitter.com/UbikomProject">@UbikomProject</a> (yes, using Twitter does strike us as
+        ironic).</p>
+    <p>Join our Reddit community: <a href="https://www.reddit.com/r/ubikom/">Ubikom on Reddit</a></p>
+    <script>
             let nextEnabled = false;
             function submit(event) {
                 event.preventDefault();

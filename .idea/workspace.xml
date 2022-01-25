@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1468663a-2d69-45be-8e8b-687e6f58611e" name="Default Changelist" comment="revamped the website">
+      <change afterPath="$PROJECT_DIR$/html/beyond_email.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/diag/email diag 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/diag/email diag 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/diag/email diag 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/diag/email diag 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/email protocol non-tech.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/default.css" beforeDir="false" afterPath="$PROJECT_DIR$/html/default.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/intro.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/intro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tech-description.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/tech-description.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="demchog" />
+        <option value="Sasha" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="249xgC4jI2ne9LGR9WcufPl6Lur" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/html" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/html" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/html/diag" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1468663a-2d69-45be-8e8b-687e6f58611e" name="Default Changelist" comment="" />
+      <created>1643056713623</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1643056713623</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="revamped the website" />
+    <option name="LAST_COMMIT_MESSAGE" value="revamped the website" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="744" y="377" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1643131269023">
+      <screen x="0" y="25" width="2560" height="1335" />
+    </state>
+    <state x="744" y="380" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1643127604941" />
+    <state x="744" y="377" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.2560.1335@0.25.2560.1335" timestamp="1643131269023" />
+    <state x="885" y="323" key="CommitChangelistDialog2" timestamp="1643131430286">
+      <screen x="0" y="25" width="2560" height="1335" />
+    </state>
+    <state x="885" y="321" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1643131111038" />
+    <state x="885" y="323" key="CommitChangelistDialog2/0.25.2560.1335@0.25.2560.1335" timestamp="1643131430286" />
+    <state x="100" y="100" width="2360" height="1240" key="DiffContextDialog" timestamp="1643130958681">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="100" y="100" width="2360" height="1240" key="DiffContextDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1643130958681" />
+    <state x="295" y="231" key="com.intellij.ide.util.TipDialog" timestamp="1643056859216">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="295" y="231" key="com.intellij.ide.util.TipDialog/0.0.1280.800/-339.-1055.1920.1055@0.0.1280.800" timestamp="1643056859216" />
+  </component>
+</project>
