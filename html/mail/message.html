@@ -22,6 +22,7 @@
             let req = new XMLHttpRequest();
             req.onload = function () {
                 if (req.status == 200) {
+                    console.log('got reply')
                     content.innerHTML = req.responseText;
                     var from = req.getResponseHeader("ubikom-mail-from");
                     var subject = req.getResponseHeader("ubikom-mail-subject");
@@ -37,6 +38,28 @@
             req.setRequestHeader('Authorization', 'Bearer ' + token);
             console.log('sending request');
             req.send();
+
+            function openAsHTML() {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    if (req.status == 200) {
+                        console.log('got reply')
+                        content.innerHTML = req.responseText;
+                        var from = req.getResponseHeader("ubikom-mail-from");
+                        var subject = req.getResponseHeader("ubikom-mail-subject");
+                        var date = req.getResponseHeader("ubikom-mail-date");
+                        document.getElementById("subject").innerHTML = subject;
+                        document.getElementById("fromDate").innerHTML = "From: " + from + ", " + date;
+                        //document.getElementById("date").innerHTML = date;
+                    } else {
+                        // TODO: Process error.
+                    }
+                }
+                req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid + '&as-html=true', true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+            }
         </script>
     </body>
 </html>

@@ -1,0 +1,52 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Send email</h1>
+        <form>
+            <input id="to" type="text" minlength="3" placeholder="to" style="display:block"/>
+            <input id="subject" type ='text' placeholder="subject" style="display:block" />
+            <textarea id="body" rows="20" columns="200" placeholder="email text" style="display:block"></textarea>
+            <button name="send" id="sendButton">Send</button>
+            <i><p id="status" style="margin: 0"></p></i>
+        </form>
+        <script>
+            let toInput = document.getElementById('to');
+            let subjectInput = document.getElementById('subject');
+            let bodyText = document.getElementById('body');
+            let sendButton = document.getElementById('sendButton');
+            let token = sessionStorage.getItem('token');
+            let status = document.getElementById('status');
+            sendButton.onclick = send;
+
+            function send() {
+                event.preventDefault();
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    console.log('got result');
+                    if (req.status == 200) {
+                        alert("email sent")
+                    } else {
+                        status.innerHTML = req.status;
+                        status.style.color = '#FF0000';
+                    }
+                }
+                req.open('POST', 'https://alpha.ubikom.cc:8899/send', true);
+                req.setRequestHeader('Content-Type', 'application/json');
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send(JSON.stringify({
+                    "to": toInput.value,
+                    "subject": subjectInput.value,
+                    "body": bodyText.value,
+                }));
+            }
+        </script>
+    </body>
+</html>
