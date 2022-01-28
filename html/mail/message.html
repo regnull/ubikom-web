@@ -9,11 +9,25 @@
     </head>
     <body>
         <h1 id="subject"></h1>
-        <p id="fromDate" style="font-weight: bold;"></p>
+        <p id="from"></p>
+        <p id="to"></p>
+        <p id="cc"></p>
+        <p id="bcc"></p>
+        <p id="date"></p>
         <pre id="content"></pre>
         <script>
-            var content = document.getElementById("content");
+            let subject = document.getElementById("subject");
+            let from = document.getElementById("from")
+            let to = document.getElementById("to")
+            let cc = document.getElementById("cc")
+            let bcc = document.getElementById("bcc")
+            let date = document.getElementById("date") 
+            let content = document.getElementById("content");
+
             let token = sessionStorage.getItem('token');
+            if (token == "") {
+                location.href="login.html";
+            }
 
             var queryString = location.search.substring(1);
             var parts = queryString.split("=");
@@ -22,14 +36,19 @@
             let req = new XMLHttpRequest();
             req.onload = function () {
                 if (req.status == 200) {
-                    console.log('got reply')
-                    content.innerHTML = req.responseText;
-                    var from = req.getResponseHeader("ubikom-mail-from");
-                    var subject = req.getResponseHeader("ubikom-mail-subject");
-                    var date = req.getResponseHeader("ubikom-mail-date");
-                    document.getElementById("subject").innerHTML = subject;
-                    document.getElementById("fromDate").innerHTML = "From: " + from + ", " + date;
-                    //document.getElementById("date").innerHTML = date;
+                    let res = JSON.parse(req.responseText);
+                    from.innerHTML = formatAddress(res.From);
+                    to.innerHTML = formatAddressList(res.To);
+                    if (res.Cc) {
+                        cc.innerHTML = formatAddressList(res.Cc);
+                    }
+                    if (res.Bcc) {
+                        bcc.innerHTML = formatAddressList(res.Bcc);
+                    }
+                    subject.innerHTML = res.Subject;
+                    let d = new Date(res.Date)
+                    date.innerHTML = d.toLocaleString();
+                    content.innerHTML = res.Body;
                 } else {
                     // TODO: Process error.
                 }
@@ -39,26 +58,20 @@
             console.log('sending request');
             req.send();
 
-            function openAsHTML() {
-                let req = new XMLHttpRequest();
-                req.onload = function () {
-                    if (req.status == 200) {
-                        console.log('got reply')
-                        content.innerHTML = req.responseText;
-                        var from = req.getResponseHeader("ubikom-mail-from");
-                        var subject = req.getResponseHeader("ubikom-mail-subject");
-                        var date = req.getResponseHeader("ubikom-mail-date");
-                        document.getElementById("subject").innerHTML = subject;
-                        document.getElementById("fromDate").innerHTML = "From: " + from + ", " + date;
-                        //document.getElementById("date").innerHTML = date;
-                    } else {
-                        // TODO: Process error.
+            function formatAddress(f) {
+                return f.Name + " (" + f.Address + ")";
+            }
+
+            function formatAddressList(l) {
+                let r = "";
+                for (let i = 0; i < l.length; i++) {
+                    let addr = l[i];
+                    if (r != "") {
+                        r += ", ";
                     }
+                    r += formatAddress(addr)
                 }
-                req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid + '&as-html=true', true);
-                req.setRequestHeader('Authorization', 'Bearer ' + token);
-                console.log('sending request');
-                req.send();
+                return r
             }
         </script>
     </body>
