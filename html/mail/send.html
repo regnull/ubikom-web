@@ -11,6 +11,7 @@
         <h1>Send email</h1>
         <form>
             <input id="to" type="text" minlength="3" placeholder="to" style="display:block"/>
+            <input id="cc" type="text" minlength="3" placeholder="cc" style="display:block"/>
             <input id="subject" type ='text' placeholder="subject" style="display:block" />
             <textarea id="body" rows="20" columns="200" placeholder="email text" style="display:block"></textarea>
             <button name="send" id="sendButton">Send</button>
@@ -18,12 +19,70 @@
         </form>
         <script>
             let toInput = document.getElementById('to');
+            let ccInput = document.getElementById('cc');
             let subjectInput = document.getElementById('subject');
             let bodyText = document.getElementById('body');
             let sendButton = document.getElementById('sendButton');
             let token = sessionStorage.getItem('token');
             let status = document.getElementById('status');
             sendButton.onclick = send;
+
+            if (token == "") {
+                location.href = "login.html";
+            }
+
+            let queryString = location.search.substring(1);
+            if (queryString != "") {
+                let parts = queryString.split("=");
+                let verb = parts[0]
+                let uid = parts[1]
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    if (req.status == 200) {
+                        let res = JSON.parse(req.responseText);
+
+                        if (verb == "reply") {
+                            toInput.value = res.From.Address;
+                            subject.value = "Re: " + res.Subject;
+                            bodyText.innerHTML = quoteText(res.Body);
+                        } else if (verb == "reply-all") {
+                            toInput.value = res.From.Address;
+                            subject.value = "Re: " + res.Subject;
+                            bodyText.innerHTML = quoteText(res.Body);
+                            if (res.Cc != null) {
+                                let cc = "";
+                                for (let i = 0; i < res.Cc.length; i++) {
+                                    if (cc != "") {
+                                        cc += ", "
+                                    }
+                                    cc += res.Cc[i].Address;
+                                }
+                                ccInput.value = cc;
+                            }
+                        } else if (verb == "forward") {
+                            bodyText.innerHTML = res.Body;
+                            subject.value = res.Subject;
+                        }
+                        // subject.value = "Re: " + res.Subject;
+                        // body = res.Body;
+                        // var lines = body.split(/\n/);
+                        // let newLines = ["", ""];
+                        // for (let i = 0; i < lines.length; i++) {
+                        //     line = lines[i];
+                        //     console.log(line);
+                        //     newLines.push("> " + line.trim());
+                        // }
+
+                        // bodyText.innerHTML = newLines.join("\n");
+                    } else {
+                        // TODO: Process error.
+                    }
+                }
+                req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid, true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+            }
 
             function send() {
                 event.preventDefault();
@@ -46,6 +105,17 @@
                     "subject": subjectInput.value,
                     "body": bodyText.value,
                 }));
+            }
+
+            function quoteText(t) {
+                var lines = t.split(/\n/);
+                let newLines = ["", ""];
+                for (let i = 0; i < lines.length; i++) {
+                    line = lines[i];
+                    console.log(line);
+                    newLines.push("> " + line.trim());
+                }
+                return newLines.join("\n");
             }
         </script>
     </body>
