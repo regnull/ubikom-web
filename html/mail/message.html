@@ -48,8 +48,8 @@
             req.onload = function () {
                 if (req.status == 200) {
                     let res = JSON.parse(req.responseText);
-                    from.innerHTML = formatAddress(res.From);
-                    to.innerHTML = formatAddressList(res.To);
+                    from.innerHTML = "From: " + formatAddress(res.From);
+                    to.innerHTML = "To: " + formatAddressList(res.To);
                     if (res.Cc) {
                         cc.innerHTML = formatAddressList(res.Cc);
                     }
@@ -70,22 +70,6 @@
             req.setRequestHeader('Authorization', 'Bearer ' + token);
             console.log('sending request');
             req.send();
-
-            function formatAddress(f) {
-                return f.Name + " (" + f.Address + ")";
-            }
-
-            function formatAddressList(l) {
-                let r = "";
-                for (let i = 0; i < l.length; i++) {
-                    let addr = l[i];
-                    if (r != "") {
-                        r += ", ";
-                    }
-                    r += formatAddress(addr)
-                }
-                return r
-            }
         </script>
     </body>
 </html>
