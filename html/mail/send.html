@@ -8,14 +8,31 @@
             href="https://ubikom.cc/favicon.png">
     </head>
     <body>
-        <h1>Send email</h1>
+        <!-- <h1>Send email</h1> -->
         <form>
-            <input id="to" type="text" minlength="3" placeholder="to" class="sendTo"/>
-            <input id="cc" type="text" placeholder="cc" class="sendCc"/>
-            <input id="subject" type ='text' placeholder="subject" class="sendSubject" />
-            <textarea id="body" rows="20" columns="200" placeholder="email text" class="sendBody"></textarea>
-            <button name="send" id="sendButton" class="sendButton">Send</button>
-            <i><p id="status" class="sendStatus"></p></i>
+            <table class="sendMessage">
+                <tr class="sendMessageRow">
+                    <td class="sendToLabel">To</td>
+                    <td class="sendToValue"><input id="to" type="text" minlength="3" class="sendTo"/></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td class="sendCcLabel">Cc</td>
+                    <td class="sendCcValue"><input id="cc" type="text" class="sendCc"/></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td class="sendSubjectLabel">Subject</td>
+                    <td class="sendSubjectValue"><input id="subject" type ='text' class="sendSubject" /></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendBodyCell"> <textarea id="body" rows="20" placeholder="email text" class="sendBody"></textarea></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendSendCell"> <button name="send" id="sendButton" class="sendButton">Send</button></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendStatusCell"><i><p id="status" class="sendStatus"></p></i></td>
+                </tr>
+        </table>
         </form>
         <script type="text/javascript" src="common.js"></script>
         <script>
@@ -40,7 +57,6 @@
 
             let queryString = location.search.substring(1);
             if (queryString != "") {
-                console.log(queryString);
                 let parts = queryString.split("=");
                 let verb = parts[0]
                 let uid = parts[1]
@@ -118,8 +134,6 @@
                     sendEnabled = false;
                 }
 
-                console.log("send enabled: " + sendEnabled);
-
                 if (!sendEnabled) {
                     sendButton.style.opacity = 0.6;
                 } else {
@@ -132,7 +146,6 @@
                 let newLines = ["", ""];
                 for (let i = 0; i < lines.length; i++) {
                     line = lines[i];
-                    console.log(line);
                     newLines.push("> " + line.trim());
                 }
                 return newLines.join("\n");

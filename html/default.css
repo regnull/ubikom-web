@@ -42,25 +42,10 @@ a.inboxAction {
   padding-bottom: 20px;
 }
 
-input.sendTo {
-  display: block;
-}
-
-input.sendCc {
-  display: block;
-}
-
-input.sendSubject {
-  display: block;
-}
-
-textarea.sendBody {
-  display: block;
-}
-
 a.messageAction {
   margin-right: 20px;
 }
+
 
 pre {
   border-left: 2px solid #69c;
@@ -171,8 +156,6 @@ th.inboxFrom {
   width: 200px;
 }
 
-
-
 tr.inboxRow {
   border: none;
   border-bottom: 1px solid #d9d9d9;
@@ -188,6 +171,42 @@ td.dateCell, td.subjectCell, td.fromCell {
 
 tr.inboxRow:hover {
   background-color:lightcyan;
+}
+
+table.sendMessage {
+  width: 100%;
+  table-layout: fixed;
+  width: 800px;
+  border: none;
+}
+
+tr.sendMessageRow {
+  border: none;
+}
+
+td.sendToLabel, td.sendCcLabel, td.sendSubjectLabel {
+  width: 100px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+}
+
+td.sendBodyCell, td.sendSendCell, td.sendStatusCell {
+  border: none;
+}
+
+input.sendTo, input.sendCc, input.sendSubject {
+  border: none;
+  border-bottom: 1px solid #a7adba;
+  width: 100%;
+}
+
+td.sendToValue, td.sendCcValue, td.sendSubjectValue {
+  border: none;
+}
+
+textarea.sendBody {
+  width: 100%;
 }
 
 /* code {
