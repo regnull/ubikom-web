@@ -15,6 +15,7 @@
             <button name="login" id="loginButton">Login</button>
             <i><p id="status" style="margin: 0"></p></i>
         </form>
+        <script type="text/javascript" src="common.js"></script>
         <script>
             let nameInput = document.getElementById('name')
             let passwordInput = document.getElementById('password')
@@ -50,20 +51,19 @@
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
-                    console.log('got result');
                     if (req.status == 200) {
                         status.innerHTML = "Logged in successfully";
                         status.style.color = '#3ADF00';
                     
                         let res = JSON.parse(req.responseText);
-                        sessionStorage.setItem('token', res.token);
+                        sessionStorage.setItem(TOKEN_NAME, res.token);
                         location.href = "inbox.html";
                     } else {
                         status.innerHTML = "Invalid user name or password";
                         status.style.color = '#FF0000';
                     }
                 }
-                req.open('POST', 'https://alpha.ubikom.cc:8899/login', true);
+                req.open('POST', LOGIN_URL, true);
                 req.setRequestHeader('Content-Type', 'application/json');
                 console.log('sending request');
                 status.innerHTML = "Please wait...";
@@ -76,7 +76,8 @@
                 loginEnabled = false;
             }
             
-            passwordInput.onkeyup = passwordChanged
+            //passwordInput.onkeyup = passwordChanged;
+            passwordInput.oninput = passwordChanged;
             loginButton.onclick = submit;
 
             updateLoginButton();

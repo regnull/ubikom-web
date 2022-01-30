@@ -34,6 +34,34 @@ a {
   color: #30393f;
 }
 
+p.inboxActions {
+  margin-bottom: 20px;
+}
+
+a.inboxAction {
+  padding-bottom: 20px;
+}
+
+input.sendTo {
+  display: block;
+}
+
+input.sendCc {
+  display: block;
+}
+
+input.sendSubject {
+  display: block;
+}
+
+textarea.sendBody {
+  display: block;
+}
+
+a.messageAction {
+  margin-right: 20px;
+}
+
 pre {
   border-left: 2px solid #69c;
   padding: 1em;
@@ -115,6 +143,51 @@ table, th, td {
 
 th, td {
   padding: 15px;
+}
+
+table.inbox {
+  width: 1000px;
+  border: none;
+  table-layout: fixed;
+}
+
+th.inboxDate, th.inboxSubject, th.inboxFrom {
+  text-transform: uppercase;
+  border-top: 2px solid #333;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 2px solid #333;
+}
+
+th.inboxDate {
+  width: 100px;
+}
+
+th.inboxSubject {
+  width: 700px;
+}
+
+th.inboxFrom {
+  width: 200px;
+}
+
+
+
+tr.inboxRow {
+  border: none;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+tr.even.inboxRow {
+  background-color: #a7adba;
+}
+
+td.dateCell, td.subjectCell, td.fromCell {
+  border: none;
+}
+
+tr.inboxRow:hover {
+  background-color:lightcyan;
 }
 
 /* code {

@@ -10,22 +10,29 @@
     <body>
         <h1>Send email</h1>
         <form>
-            <input id="to" type="text" minlength="3" placeholder="to" style="display:block"/>
-            <input id="cc" type="text" minlength="3" placeholder="cc" style="display:block"/>
-            <input id="subject" type ='text' placeholder="subject" style="display:block" />
-            <textarea id="body" rows="20" columns="200" placeholder="email text" style="display:block"></textarea>
-            <button name="send" id="sendButton">Send</button>
-            <i><p id="status" style="margin: 0"></p></i>
+            <input id="to" type="text" minlength="3" placeholder="to" class="sendTo"/>
+            <input id="cc" type="text" placeholder="cc" class="sendCc"/>
+            <input id="subject" type ='text' placeholder="subject" class="sendSubject" />
+            <textarea id="body" rows="20" columns="200" placeholder="email text" class="sendBody"></textarea>
+            <button name="send" id="sendButton" class="sendButton">Send</button>
+            <i><p id="status" class="sendStatus"></p></i>
         </form>
+        <script type="text/javascript" src="common.js"></script>
         <script>
             let toInput = document.getElementById('to');
             let ccInput = document.getElementById('cc');
             let subjectInput = document.getElementById('subject');
             let bodyText = document.getElementById('body');
             let sendButton = document.getElementById('sendButton');
-            let token = sessionStorage.getItem('token');
+            let token = sessionStorage.getItem(TOKEN_NAME);
             let status = document.getElementById('status');
-            sendButton.onclick = send;
+            let sendEnabled = false;
+            sendButton.onclick = doSend;
+
+            toInput.oninput = updateSendButton;
+            bodyText.oninput = updateSendButton;
+
+            updateSendButton();
 
             if (token == "") {
                 location.href = "login.html";
@@ -33,6 +40,7 @@
 
             let queryString = location.search.substring(1);
             if (queryString != "") {
+                console.log(queryString);
                 let parts = queryString.split("=");
                 let verb = parts[0]
                 let uid = parts[1]
@@ -63,40 +71,36 @@
                             bodyText.innerHTML = res.Body;
                             subject.value = res.Subject;
                         }
-                        // subject.value = "Re: " + res.Subject;
-                        // body = res.Body;
-                        // var lines = body.split(/\n/);
-                        // let newLines = ["", ""];
-                        // for (let i = 0; i < lines.length; i++) {
-                        //     line = lines[i];
-                        //     console.log(line);
-                        //     newLines.push("> " + line.trim());
-                        // }
-
-                        // bodyText.innerHTML = newLines.join("\n");
+                    } else if (req.status == 401 || req.status == 403) {
+                        location.href = "login.html";
                     } else {
                         // TODO: Process error.
                     }
                 }
-                req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid, true);
+                req.open('GET', MESSAGE_URL + '?uid=' + uid, true);
                 req.setRequestHeader('Authorization', 'Bearer ' + token);
                 console.log('sending request');
                 req.send();
             }
 
-            function send() {
+            function doSend() {
+                event.preventDefault();
+                if (!sendEnabled) {
+                    return;
+                }
+
                 event.preventDefault();
                 let req = new XMLHttpRequest();
                 req.onload = function () {
                     console.log('got result');
                     if (req.status == 200) {
-                        alert("email sent")
+                        location.href = "inbox.html";
                     } else {
                         status.innerHTML = req.status;
                         status.style.color = '#FF0000';
                     }
                 }
-                req.open('POST', 'https://alpha.ubikom.cc:8899/send', true);
+                req.open('POST', SEND_URL, true);
                 req.setRequestHeader('Content-Type', 'application/json');
                 req.setRequestHeader('Authorization', 'Bearer ' + token);
                 console.log('sending request');
@@ -105,6 +109,22 @@
                     "subject": subjectInput.value,
                     "body": bodyText.value,
                 }));
+            }
+
+            function updateSendButton() {
+                if (toInput.value.length > 7 && bodyText.value.length > 0) {
+                    sendEnabled = true;
+                } else {
+                    sendEnabled = false;
+                }
+
+                console.log("send enabled: " + sendEnabled);
+
+                if (!sendEnabled) {
+                    sendButton.style.opacity = 0.6;
+                } else {
+                    sendButton.style.opacity = 1.0;
+                }
             }
 
             function quoteText(t) {

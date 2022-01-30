@@ -9,16 +9,31 @@
     </head>
     <body>
         <h1>Inbox</h1>
-        <a href="send.html">Compose</a>
-        <table id="messages" style="width:100%" class="inbox">
-            <th style="width:10%">Date</th>
-            <th style="width:70%">Subject</th>
-            <th style="width:20%">From</th>
-        </table>
+        <p id="loading" style="display:block;">Loading...</p>
+        <div id="messageList" style="display: none;">
+            <p class="inboxActions">
+                <a href="send.html" class="inboxAction">Compose</a>
+            </p>
+            <table id="messages" class="inbox">
+                <tr class="inboxRow">
+                    <th class="inboxDate">Date</th>
+                    <th class="inboxSubject">Subject</th>
+                    <th class="inboxFrom">From</th>
+                </tr>
+            </table>
+        </div>
 
+        <script type="text/javascript" src="common.js"></script>
         <script>
+            let token = sessionStorage.getItem(TOKEN_NAME);
+            if (token == "") {
+                location.href = "login.html";
+            }
+
+            let messageList = document.getElementById("messageList");
+            let loading = document.getElementById("loading");
+
             var messagesTable = document.getElementById("messages");
-            let token = sessionStorage.getItem('token');
             let req = new XMLHttpRequest();
             req.onload = function () {
                 if (req.status == 200) {
@@ -26,19 +41,31 @@
 
                     for(var i = 0; i < res.length; i++) {
                         var row = messagesTable.insertRow(1);
+                        row.classList.add("inboxRow");
                         var dateCell = row.insertCell(0);
+                        dateCell.classList.add("dateCell");
                         var subjectCell = row.insertCell(1);
+                        subjectCell.classList.add("subjectCell");
                         var fromCell = row.insertCell(2);
+                        fromCell.classList.add("fromCell");
                         var obj = res[i];
-                        dateCell.innerHTML = obj.Date;
-                        fromCell.innerHTML = obj.From;
+
+                        let d = new Date(obj.Date)
+
+                        dateCell.innerHTML = d.toLocaleString();
+                        fromCell.innerHTML = formatAddress(obj.From);
                         subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + obj.Subject + "</div>";
                     }
+                    loading.style.display = "none";
+                    messageList.style.display = "block";
+                } else if (req.status == 401 || req.status == 403) {
+                    location.href = "login.html";
                 } else {
-                    // TODO: Process error.
+                    loading.innerHTML = "error " + req.status + " " + req.statusText;
+                    loading.style.color = '#FF0000';
                 }
             }
-            req.open('GET', 'https://alpha.ubikom.cc:8899/inbox', true);
+            req.open('GET', INBOX_URL, true);
             req.setRequestHeader('Authorization', 'Bearer ' + token);
             console.log('sending request');
             req.send();

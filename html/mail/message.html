@@ -14,8 +14,11 @@
         <p id="cc"></p>
         <p id="bcc"></p>
         <p id="date"></p>
-        <p><a id="reply">Reply</a> <a id="replyAll">Reply All</a><a id="forward">Forward</a></p>
+        <p><a id="reply" class="messageAction">Reply</a> 
+            <a id="replyAll" class="messageAction">Reply All</a>
+            <a id="forward" class="messageActinon">Forward</a></p>
         <pre id="content"></pre>
+        <script type="text/javascript" src="common.js"></script>
         <script>
             let subject = document.getElementById("subject");
             let from = document.getElementById("from")
@@ -28,7 +31,7 @@
             let replyAll = document.getElementById("replyAll");
             let forward = document.getElementById("forward");
 
-            let token = sessionStorage.getItem('token');
+            let token = sessionStorage.getItem(TOKEN_NAME);
             if (token == "") {
                 location.href="login.html";
             }
@@ -57,11 +60,13 @@
                     let d = new Date(res.Date)
                     date.innerHTML = d.toLocaleString();
                     content.innerHTML = res.Body;
+                } else if (req.status == 401 || req.status == 403) {
+                    location.href = "login.html";
                 } else {
                     // TODO: Process error.
                 }
             }
-            req.open('GET', 'https://alpha.ubikom.cc:8899/message?uid=' + uid, true);
+            req.open('GET', MESSAGE_URL +  '?uid=' + uid, true);
             req.setRequestHeader('Authorization', 'Bearer ' + token);
             console.log('sending request');
             req.send();
