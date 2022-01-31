@@ -16,7 +16,8 @@
         <p id="date"></p>
         <p><a id="reply" class="messageAction">Reply</a> 
             <a id="replyAll" class="messageAction">Reply All</a>
-            <a id="forward" class="messageActinon">Forward</a></p>
+            <a id="forward" class="messageAction">Forward</a>
+            <a id="viewAsHTML" class="messageAction">View as HTML</a></p>
         <pre id="content"></pre>
         <script type="text/javascript" src="common.js"></script>
         <script>
@@ -30,6 +31,7 @@
             let reply = document.getElementById("reply");
             let replyAll = document.getElementById("replyAll");
             let forward = document.getElementById("forward");
+            let viewAsHTML = document.getElementById("viewAsHTML")
 
             let token = sessionStorage.getItem(TOKEN_NAME);
             if (token == "") {
@@ -43,6 +45,7 @@
             reply.href = "send.html?reply=" + uid;
             replyAll.href = "send.html?reply-all=" + uid;
             forward.href = "send.html?forward=" + uid;
+            viewAsHTML.href = "html-message.html?uid=" + uid;
 
             let req = new XMLHttpRequest();
             req.onload = function () {

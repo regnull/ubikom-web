@@ -2,6 +2,7 @@ const TOKEN_NAME = "ubikom_token";
 const LOGIN_URL = "https://alpha.ubikom.cc:8899/login";
 const INBOX_URL = "https://alpha.ubikom.cc:8899/inbox";
 const MESSAGE_URL = "https://alpha.ubikom.cc:8899/message";
+const HTML_MESSAGE_URL = "https://alpha.ubikom.cc:8899/html-message";
 const SEND_URL = "https://alpha.ubikom.cc:8899/send";
 
 function formatAddress(f) {
