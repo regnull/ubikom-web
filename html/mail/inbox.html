@@ -2,7 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../default.css">
+        <link rel="stylesheet" href="default.css">
         <link rel="icon" 
             type="image/png" 
             href="https://ubikom.cc/favicon.png">
@@ -51,8 +51,8 @@
                         var obj = res[i];
 
                         let d = new Date(obj.Date)
-
-                        dateCell.innerHTML = d.toLocaleString();
+                        var options = {day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+                        dateCell.innerHTML = d.toLocaleString('en-US', options);
                         fromCell.innerHTML = formatAddress(obj.From);
                         subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + obj.Subject + "</div>";
                     }

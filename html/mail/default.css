@@ -1,0 +1,58 @@
+body {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  padding: 4em 1em;
+  color: #30393f;
+}
+
+.subjectLink {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+table.inbox {
+  width: 100%;
+}
+
+th.inboxDate, th.inboxSubject, th.inboxFrom {
+  text-transform: uppercase;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+
+th.inboxDate {
+  width: 20%;
+}
+
+th.inboxSubject {
+  width: 60%;
+}
+
+th.inboxFrom {
+  width: 20%;
+}
+
+tr.inboxRow {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* tr.inboxRow:nth-child(even) {
+  background-color: lightgoldenrodyellow;
+} */
+
+tr.inboxRow:hover {
+  background-color:lightcyan;
+}
+
+td.dateCell, td.subjectCell, td.fromCell {
+  border-bottom: 1px solid #d9d9d9;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+td.subjectCell {
+  padding-left: 20px;
+}
