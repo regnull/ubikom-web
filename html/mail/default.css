@@ -15,6 +15,7 @@ body {
 
 table.inbox {
   width: 100%;
+  table-layout: fixed;
 }
 
 th.inboxDate, th.inboxSubject, th.inboxFrom {
