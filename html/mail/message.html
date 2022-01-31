@@ -17,7 +17,8 @@
         <p><a id="reply" class="messageAction">Reply</a> 
             <a id="replyAll" class="messageAction">Reply All</a>
             <a id="forward" class="messageAction">Forward</a>
-            <a id="viewAsHTML" class="messageAction">View as HTML</a></p>
+            <a id="viewAsHTML" class="messageAction">View as HTML</a>
+            <a id="delete" class="deleteAction" style="text-decoration: underline; cursor: pointer;">Delete</a></p>
         <pre id="content"></pre>
         <script type="text/javascript" src="common.js"></script>
         <script>
@@ -32,6 +33,7 @@
             let replyAll = document.getElementById("replyAll");
             let forward = document.getElementById("forward");
             let viewAsHTML = document.getElementById("viewAsHTML")
+            let deleteMessage = document.getElementById("delete")
 
             let token = sessionStorage.getItem(TOKEN_NAME);
             if (token == "") {
@@ -46,6 +48,23 @@
             replyAll.href = "send.html?reply-all=" + uid;
             forward.href = "send.html?forward=" + uid;
             viewAsHTML.href = "html-message.html?uid=" + uid;
+
+            deleteMessage.onclick = function () {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                if (req.status == 200) {
+                        location.href = "inbox.html";
+                    } else if (req.status == 401 || req.status == 403) {
+                        location.href = "login.html";
+                    } else {
+                        // TODO: Process error.
+                    }
+                }
+                req.open('GET', DELETE_URL +  '?uid=' + uid, true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+            };
 
             let req = new XMLHttpRequest();
             req.onload = function () {
