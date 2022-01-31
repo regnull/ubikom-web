@@ -25,8 +25,6 @@
             let loginEnabled = false;
             
             function passwordChanged() {
-                console.log("password changed");
-
                 updateLoginButton();
 
                 if(passwordInput.value.length < 6) {
@@ -83,8 +81,9 @@
             passwordInput.onpaste = passwordChanged;
             loginButton.onclick = submit;
 
+            // This allows us to enable login button in case password and user identifier
+            // are auto populated by a password manager.
             setTimeout(() => {
-                console.log("timeout, password length: " + passwordInput.value.length);
                 passwordChanged();
             }, 500);
 
