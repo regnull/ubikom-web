@@ -25,6 +25,8 @@
             let loginEnabled = false;
             
             function passwordChanged() {
+                console.log("password changed");
+
                 updateLoginButton();
 
                 if(passwordInput.value.length < 6) {
@@ -76,10 +78,15 @@
                 loginButton.style.opacity = 0.6;
                 loginEnabled = false;
             }
-            
+
             passwordInput.oninput = passwordChanged;
             passwordInput.onpaste = passwordChanged;
             loginButton.onclick = submit;
+
+            setTimeout(() => {
+                console.log("timeout, password length: " + passwordInput.value.length);
+                passwordChanged();
+            }, 500);
 
             updateLoginButton();
         </script>
