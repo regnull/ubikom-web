@@ -2,15 +2,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../default.css">
+        <link rel="stylesheet" href="default.css">
         <link rel="icon" 
             type="image/png" 
             href="https://ubikom.cc/favicon.png">
     </head>
-    <body>
+    <body class="messageBody">
         <h1 id="subject"></h1>
-        <p id="from"></p>
-        <p id="to"></p>
+        <p>From: <span id="from" class="messageFrom"></span></p>
+        <p>To: <span id="to" class="messageTo"></span></p>
         <p id="cc"></p>
         <p id="bcc"></p>
         <p id="date"></p>
@@ -70,8 +70,8 @@
             req.onload = function () {
                 if (req.status == 200) {
                     let res = JSON.parse(req.responseText);
-                    from.innerHTML = "From: " + formatAddress(res.From);
-                    to.innerHTML = "To: " + formatAddressList(res.To);
+                    from.innerHTML = formatAddress(res.From);
+                    to.innerHTML = formatAddressList(res.To);
                     if (res.Cc) {
                         cc.innerHTML = formatAddressList(res.Cc);
                     }

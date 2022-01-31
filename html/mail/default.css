@@ -7,6 +7,35 @@ body {
   color: #30393f;
 }
 
+a {
+  color: #30393f;
+}
+
+pre {
+  border-left: 2px solid #69c;
+  padding: 1em;
+  font-family: courier, "courier new", monospace;
+  font-size: 18px;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  color: #30393f;
+}
+
+a.messageAction {
+  margin-right: 20px;
+}
+
+.messageBody {
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 4em 1em;
+  color: #30393f;
+}
+
 .subjectLink {
   color: blue;
   text-decoration: underline;
@@ -56,4 +85,8 @@ td.dateCell, td.subjectCell, td.fromCell {
 
 td.subjectCell {
   padding-left: 20px;
+}
+
+.messageFrom, .messageTo {
+  font-style: italic;
 }
