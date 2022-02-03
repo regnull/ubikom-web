@@ -39,6 +39,14 @@
                 if (req.status == 200) {
                     let res = JSON.parse(req.responseText);
 
+                    let seen = sessionStorage.getItem('ubikom-seen');
+                    const seenMap = new Map();
+                    if (seen != null) {
+                        let seenIds = seen.split(',');
+                        for (let i = 0; i < seenIds.length; i++) {
+                            seenMap.set(seenIds[i], true);
+                        }
+                    }      
                     for(var i = 0; i < res.length; i++) {
                         var row = messagesTable.insertRow(1);
                         row.classList.add("inboxRow");
@@ -58,7 +66,21 @@
                         if (subject == "") {
                             subject = "[no subject]";
                         }
-                        subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + subject + "</div>";
+
+                        var messageClass = 'subjectLink';
+                        if (!obj.Seen) {
+                            messageClass = 'subjectLinkUnseen';
+                        }
+                        if (obj.Recent) {
+                            messageClass = 'subjectLinkRecent';
+                        }
+
+                        if (seenMap.has(obj.Uid.toString())) {
+                            messageClass = 'subjectLink';
+                        } 
+
+                        subjectCell.innerHTML =  "<div class='" + messageClass + "' id='" + obj.Uid + "' onclick='openMessage(this)'>" + 
+                             subject + "</div>";
                     }
                     loading.style.display = "none";
                     messageList.style.display = "block";
@@ -71,10 +93,17 @@
             }
             req.open('GET', INBOX_URL, true);
             req.setRequestHeader('Authorization', 'Bearer ' + token);
-            console.log('sending request');
             req.send();
-            function openMessage(id) {
-                location.href = "message.html?uid=" + id
+            function openMessage(e) {
+                e.className = 'subjectLink';
+                location.href = "message.html?uid=" + e.id;
+                let seen = sessionStorage.getItem('ubikom-seen');
+                if (seen != null) {
+                    seen += ',' + e.id;
+                } else {
+                    seen = e.id;
+                }
+                sessionStorage.setItem('ubikom-seen', seen);
             }
         </script>
     </body>

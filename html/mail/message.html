@@ -90,6 +90,13 @@
                     let d = new Date(res.Date)
                     date.innerHTML = d.toLocaleString();
                     content.innerHTML = res.Body;
+
+                    // Mark message as seen.
+                    let req1 = new XMLHttpRequest();
+                    req1.open('GET', MARK_AS_SEEN_URL + '?uid=' + uid, true)
+                    req1.setRequestHeader('Authorization', 'Bearer ' + token);
+                    console.log('marking message as seen');
+                    req1.send();
                 } else if (req.status == 401 || req.status == 403) {
                     location.href = "login.html";
                 } else {
