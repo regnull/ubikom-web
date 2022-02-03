@@ -11,8 +11,8 @@
         <h1 id="subject"></h1>
         <p>From: <span id="from" class="messageFrom"></span></p>
         <p>To: <span id="to" class="messageTo"></span></p>
-        <p id="cc"></p>
-        <p id="bcc"></p>
+        <p style="display:none;" id="ccPara">Cc: <span id="cc" class="messageCc"></span></p>
+        <p style="display:none;" id="bccPara">Bcc: <span id="bcc" class="messageBcc"></span></p>
         <p id="date"></p>
         <p><a id="reply" class="messageAction">Reply</a> 
             <a id="replyAll" class="messageAction">Reply All</a>
@@ -23,17 +23,19 @@
         <script type="text/javascript" src="common.js"></script>
         <script>
             let subject = document.getElementById("subject");
-            let from = document.getElementById("from")
-            let to = document.getElementById("to")
-            let cc = document.getElementById("cc")
-            let bcc = document.getElementById("bcc")
-            let date = document.getElementById("date") 
+            let from = document.getElementById("from");
+            let to = document.getElementById("to");
+            let ccPara = document.getElementById("ccPara")
+            let cc = document.getElementById("cc");
+            let bcc = document.getElementById("bcc");
+            let bccPara = document.getElementById("bccPara");
+            let date = document.getElementById("date"); 
             let content = document.getElementById("content");
             let reply = document.getElementById("reply");
             let replyAll = document.getElementById("replyAll");
             let forward = document.getElementById("forward");
-            let viewAsHTML = document.getElementById("viewAsHTML")
-            let deleteMessage = document.getElementById("delete")
+            let viewAsHTML = document.getElementById("viewAsHTML");
+            let deleteMessage = document.getElementById("delete");
 
             let token = sessionStorage.getItem(TOKEN_NAME);
             if (token == "") {
@@ -73,12 +75,18 @@
                     from.innerHTML = formatAddress(res.From);
                     to.innerHTML = formatAddressList(res.To);
                     if (res.Cc) {
+                        ccPara.style.display = "block";
                         cc.innerHTML = formatAddressList(res.Cc);
                     }
                     if (res.Bcc) {
+                        bccPara.style.display = "block";
                         bcc.innerHTML = formatAddressList(res.Bcc);
                     }
-                    subject.innerHTML = res.Subject;
+                    if (res.Subject != "") {
+                        subject.innerHTML = res.Subject;
+                    } else {
+                        subject.innerHTML = "[no subject]";
+                    }
                     let d = new Date(res.Date)
                     date.innerHTML = d.toLocaleString();
                     content.innerHTML = res.Body;

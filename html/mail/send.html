@@ -122,6 +122,7 @@
                 console.log('sending request');
                 req.send(JSON.stringify({
                     "to": toInput.value,
+                    "cc": ccInput.value,
                     "subject": subjectInput.value,
                     "body": bodyText.value,
                 }));

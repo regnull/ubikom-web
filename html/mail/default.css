@@ -87,6 +87,6 @@ td.subjectCell {
   padding-left: 20px;
 }
 
-.messageFrom, .messageTo {
+.messageFrom, .messageTo, .messageCc, .messageBcc {
   font-style: italic;
 }

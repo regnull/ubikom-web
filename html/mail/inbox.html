@@ -54,7 +54,11 @@
                         var options = {day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
                         dateCell.innerHTML = d.toLocaleString('en-US', options);
                         fromCell.innerHTML = formatAddressShort(obj.From);
-                        subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + obj.Subject + "</div>";
+                        var subject = obj.Subject;
+                        if (subject == "") {
+                            subject = "[no subject]";
+                        }
+                        subjectCell.innerHTML =  "<div class='subjectLink' id='" + obj.Uid + "' onclick='openMessage(this.id)'>" + subject + "</div>";
                     }
                     loading.style.display = "none";
                     messageList.style.display = "block";
