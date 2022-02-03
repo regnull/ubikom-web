@@ -4,6 +4,7 @@
     <list default="true" id="1468663a-2d69-45be-8e8b-687e6f58611e" name="Default Changelist" comment="revamped the website">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/beyond_email.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/beyond_email.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,11 +92,11 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="100" y="100" width="2360" height="1240" key="DiffContextDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1643130958681" />
-    <state x="295" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1643841469486">
+    <state x="295" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1643901116171">
       <screen x="0" y="25" width="1280" height="719" />
     </state>
     <state x="295" y="231" key="com.intellij.ide.util.TipDialog/0.0.1280.800/-339.-1055.1920.1055@0.0.1280.800" timestamp="1643056859216" />
-    <state x="295" y="232" key="com.intellij.ide.util.TipDialog/0.25.1280.719/-909.-1055.1920.1055@0.25.1280.719" timestamp="1643841469486" />
+    <state x="295" y="232" key="com.intellij.ide.util.TipDialog/0.25.1280.719/-909.-1055.1920.1055@0.25.1280.719" timestamp="1643901116171" />
     <state x="295" y="233" key="com.intellij.ide.util.TipDialog/0.25.1280.722/-909.-1055.1920.1055@0.25.1280.722" timestamp="1643813198714" />
     <state x="590" y="410" key="com.intellij.ide.util.TipDialog/0.25.2560.1335@0.25.2560.1335" timestamp="1643613005019" />
     <state x="590" y="410" key="com.intellij.ide.util.TipDialog/2560.352.1280.775/0.25.2560.1335@0.25.2560.1335" timestamp="1643407261287" />
