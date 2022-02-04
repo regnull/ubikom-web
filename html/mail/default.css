@@ -42,6 +42,20 @@ a.messageAction {
   cursor: pointer;
 }
 
+.subjectLinkUnseen {
+  color: blue;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.subjectLinkRecent {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 table.inbox {
   width: 100%;
   table-layout: fixed;
@@ -87,6 +101,7 @@ td.subjectCell {
   padding-left: 20px;
 }
 
-.messageFrom, .messageTo {
+.messageFrom, .messageTo, .messageCc, .messageBcc {
   font-style: italic;
 }
+
