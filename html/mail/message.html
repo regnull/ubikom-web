@@ -13,6 +13,14 @@
         <p>To: <span id="to" class="messageTo"></span></p>
         <p style="display:none;" id="ccPara">Cc: <span id="cc" class="messageCc"></span></p>
         <p style="display:none;" id="bccPara">Bcc: <span id="bcc" class="messageBcc"></span></p>
+        <p style="display:none;" id="securePara">
+            <span id="secure" class="messageSecure">Secure: </span>
+            <span id="fromUbikomName" class="messageSecure"></span>
+            <span id="fromUbikomAddress" class="messageSecure"></span>
+            <span class="messageSecure">-></span>
+            <span id="toUbikomName" class="messageSecure"></span>
+            <span id ="toUbikomAddress" class="messageSecure"></span>
+        </p>
         <p id="date"></p>
         <p><a id="reply" class="messageAction">Reply</a> 
             <a id="replyAll" class="messageAction">Reply All</a>
@@ -29,6 +37,11 @@
             let cc = document.getElementById("cc");
             let bcc = document.getElementById("bcc");
             let bccPara = document.getElementById("bccPara");
+            let securePara = document.getElementById("securePara");
+            let fromUbikomName = document.getElementById("fromUbikomName");
+            let fromUbikomAddress = document.getElementById("fromUbikomAddress");
+            let toUbikomName = document.getElementById("toUbikomName");
+            let toUbikomAddress = document.getElementById("toUbikomAddress");
             let date = document.getElementById("date"); 
             let content = document.getElementById("content");
             let reply = document.getElementById("reply");
@@ -71,6 +84,7 @@
             let req = new XMLHttpRequest();
             req.onload = function () {
                 if (req.status == 200) {
+                    console.log(req.responseText);
                     let res = JSON.parse(req.responseText);
                     from.innerHTML = formatAddress(res.From);
                     to.innerHTML = formatAddressList(res.To);
@@ -90,6 +104,14 @@
                     let d = new Date(res.Date)
                     date.innerHTML = d.toLocaleString();
                     content.innerHTML = res.Body;
+
+                    if (res.Secure) {
+                        securePara.style.display = "block";
+                        fromUbikomName.innerHTML = res.FromUbikomName;
+                        fromUbikomAddress.innerHTML = "(" + res.FromUbikomAddress + ")";
+                        toUbikomName.innerHTML = res.ToUbikomName;
+                        toUbikomAddress.innerHTML = "(" + res.ToUbikomAddress + ")";
+                    }
 
                     // Mark message as seen.
                     let req1 = new XMLHttpRequest();
