@@ -109,3 +109,9 @@ td.subjectCell {
   color:green;
   font-weight: bold;
 }
+
+.messageAttachmentName {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

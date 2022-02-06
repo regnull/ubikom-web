@@ -22,12 +22,15 @@
             <span id ="toUbikomAddress" class="messageSecure"></span>
         </p>
         <p id="date"></p>
+        <p style="display:none;" id="attachmentsPara">
+        </p>
         <p><a id="reply" class="messageAction">Reply</a> 
             <a id="replyAll" class="messageAction">Reply All</a>
             <a id="forward" class="messageAction">Forward</a>
             <a id="viewAsHTML" class="messageAction">View as HTML</a>
             <a id="delete" class="deleteAction" style="text-decoration: underline; cursor: pointer;">Delete</a></p>
         <pre id="content"></pre>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
         <script type="text/javascript" src="common.js"></script>
         <script>
             let subject = document.getElementById("subject");
@@ -38,6 +41,7 @@
             let bcc = document.getElementById("bcc");
             let bccPara = document.getElementById("bccPara");
             let securePara = document.getElementById("securePara");
+            let attachmentsPara = document.getElementById("attachmentsPara");
             let fromUbikomName = document.getElementById("fromUbikomName");
             let fromUbikomAddress = document.getElementById("fromUbikomAddress");
             let toUbikomName = document.getElementById("toUbikomName");
@@ -84,7 +88,6 @@
             let req = new XMLHttpRequest();
             req.onload = function () {
                 if (req.status == 200) {
-                    console.log(req.responseText);
                     let res = JSON.parse(req.responseText);
                     from.innerHTML = formatAddress(res.From);
                     to.innerHTML = formatAddressList(res.To);
@@ -113,6 +116,20 @@
                         toUbikomAddress.innerHTML = "(" + res.ToUbikomAddress + ")";
                     }
 
+                    console.log(res.Attachments);
+                    if (res.Attachments) {
+                        let attachmentsStr = "";
+                        for (let i = 0; i < res.Attachments.length; i++) {
+                            let attachment = res.Attachments[i];
+                            attachmentsStr += "<div class='messageAttachment'>" +
+                                "<span class='messageAttachmentLabel'>Attachment: </span>" + 
+                                "<span class='messageAttachmentName' onclick='openAttachment(this)'>" + attachment + "</span>" +
+                                "</div>";
+                        }
+                        attachmentsPara.style.display = "block";
+                        attachmentsPara.innerHTML = attachmentsStr;
+                    }
+
                     // Mark message as seen.
                     let req1 = new XMLHttpRequest();
                     req1.open('GET', MARK_AS_SEEN_URL + '?uid=' + uid, true)
@@ -129,6 +146,26 @@
             req.setRequestHeader('Authorization', 'Bearer ' + token);
             console.log('sending request');
             req.send();
+
+            function openAttachment(e) {
+                event.preventDefault(); 
+                
+                fetch(GET_ATTACHMENT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "uid": parseInt(uid, 10),
+                        "name": e.innerHTML,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                }).then(function(resp) {
+                    return resp.blob();
+                }).then(function(blob) {
+                    return download(blob, e.innerHTML);
+                });
+            }
         </script>
     </body>
 </html>
