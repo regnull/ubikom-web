@@ -7,6 +7,7 @@ const SEND_URL = "https://alpha.ubikom.cc:8899/send";
 const DELETE_URL = "https://alpha.ubikom.cc:8899/delete";
 const MARK_AS_SEEN_URL = "https://alpha.ubikom.cc:8899/mark-as-seen"
 const GET_ATTACHMENT_URL = "https://alpha.ubikom.cc:8899/get-attachment"
+const UPLOAD_FILE_URL = "https://alpha.ubikom.cc:8899/upload-file"
 
 function formatAddressShort(f) {
     if (f.Name != "") {

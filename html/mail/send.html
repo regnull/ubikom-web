@@ -2,7 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../default.css">
+        <link rel="stylesheet" href="default.css">
         <link rel="icon" 
             type="image/png" 
             href="https://ubikom.cc/favicon.png">
@@ -24,6 +24,33 @@
                     <td class="sendSubjectValue"><input id="subject" type ='text' class="sendSubject" /></td>
                 </tr>
                 <tr class="sendMessageRow">
+                    <td class="sendAttachLabel">Attach</td>
+                    <td class="sendAttachValue">
+                        <label class="smallButton">
+                            Choose File
+                            <input 
+                                type="file" 
+                                name="fileName" 
+                                id="fileName" 
+                                class="chooseFile"
+                                onchange="fileNameChanged(this)"/>
+                        </label>
+                        <span id="selectedFileName" class="selectedFileName"></span>
+                        <button 
+                            id="uploadFile" 
+                            type="submit" 
+                            value="upload" 
+                            class="smallButton"
+                            style="display:none;">
+                            Upload
+                        </button>
+                    </td>
+                </tr>
+                <tr class="sendMessageRow" id ="attachedFilesRow">
+                    <td class="sendAttachedLabel"></td>
+                    <td class="sendAttachedValue" id="attachedFiles"></td>
+                </tr>
+                <tr class="sendMessageRow">
                     <td colspan="2" class="sendBodyCell"> <textarea id="body" rows="20" placeholder="email text" class="sendBody"></textarea></td>
                 </tr>
                 <tr class="sendMessageRow">
@@ -43,17 +70,26 @@
             let sendButton = document.getElementById('sendButton');
             let token = sessionStorage.getItem(TOKEN_NAME);
             let status = document.getElementById('status');
+            let uploadButton = document.getElementById('uploadFile')
+            let attachedFilesRow = document.getElementById('attachedFilesRow');
+            let attachedFiles = document.getElementById('attachedFiles');
+            let selectedFileName = document.getElementById('selectedFileName');
+            
             let sendEnabled = false;
             sendButton.onclick = doSend;
 
             toInput.oninput = updateSendButton;
             bodyText.oninput = updateSendButton;
 
+            uploadButton.onclick = uploadFile;
+
             updateSendButton();
 
             if (token == "") {
                 location.href = "login.html";
             }
+
+            let attachedFilesMap = new Map();
 
             let queryString = location.search.substring(1);
             if (queryString != "") {
@@ -99,6 +135,9 @@
                 req.send();
             }
 
+            toInput.focus();
+            toInput.select();
+
             function doSend() {
                 event.preventDefault();
                 if (!sendEnabled) {
@@ -116,6 +155,13 @@
                         status.style.color = '#FF0000';
                     }
                 }
+
+                let attachments = [];
+                for (let i = 0; i < attachedFiles.childNodes.length; i++) {
+                    let id = attachedFiles.childNodes[i].id;
+                    attachments.push(id);
+                }
+
                 req.open('POST', SEND_URL, true);
                 req.setRequestHeader('Content-Type', 'application/json');
                 req.setRequestHeader('Authorization', 'Bearer ' + token);
@@ -125,6 +171,7 @@
                     "cc": ccInput.value,
                     "subject": subjectInput.value,
                     "body": bodyText.value,
+                    "attachments": attachments
                 }));
             }
 
@@ -150,6 +197,40 @@
                     newLines.push("> " + line.trim());
                 }
                 return newLines.join("\n");
+            }
+
+            function uploadFile() {
+                event.preventDefault();
+
+                let file = document.getElementById("fileName").files[0];
+                let formData = new FormData();
+
+                console.log(file.name);
+     
+                formData.append("fileName", file);
+                formData.append("token", token);
+                fetch(UPLOAD_FILE_URL, {method: "POST", body: formData})
+                    .then(response => response.json())
+                    .then(res => {
+                        console.log(res);
+                        attachedFilesMap.set(res.Id, file.name);
+                        //attachedFilesRow.style.display = "block";
+                        attachedFiles.innerHTML += `<div class='sendAttachedFile' id='${res.Id}'>` + file.name + 
+                            "<button class='smallButton' onclick='removeFile(this)'>remove</button>" + "</div>";
+                    });
+            }
+
+            function removeFile(e) {
+                event.preventDefault();
+                e.parentElement.remove();
+                console.log(e);
+            }
+
+            function fileNameChanged(e) {
+                console.log(e.value);
+                let fileName = e.value.replace(/^.*[\\\/]/, '');
+                selectedFileName.innerHTML = fileName;
+                uploadButton.style = "display:inline;"
             }
         </script>
     </body>

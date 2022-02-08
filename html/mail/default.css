@@ -115,3 +115,95 @@ td.subjectCell {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.sendMessage {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sendToLabel, .sendCcLabel, .sendSubjectLabel, .sendAttachLabel {
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 20%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+input.sendTo, input.sendCc, input.sendSubject {
+  border: none;
+  border-bottom: 1px solid #a7adba;
+  width: 100%;
+}
+
+.sendToValue, .sendCcValue, .sendSubjectValue {
+  width: 80%;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+}
+
+input[type="text"] {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+}
+
+.sendBodyCell {
+  width: 100%;
+}
+
+.sendBody {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+button {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  background-color: #0099ff;
+  border: none;
+  color: white;
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px;
+  margin-left: 1em;
+}
+
+button.smallButton, label.smallButton {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 14px;
+  background-color: #0099ff;
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px;
+  margin-left: 1em;
+}
+
+
+button.sendButton {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+input.chooseFile {
+  background-color: green;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.sendAttachedFile {
+  padding-top: 10px;
+}
