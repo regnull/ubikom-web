@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
+<html lang="ru">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,84 +9,84 @@
             href="https://ubikom.cc/favicon.png">
     </head>
     <body>
-        <h1>Generic Client Setup</h1>
+        <h1>Общая настройка клиента</h1>
         <p>
-            This page contains instructions on how to set up Ubikom Mail on a generic 
-            client, i.e. any mail client that supports SMTP and IMAP protocols. Most clients do.
+            Эта страница содержит инструкции по настройке Ubikom Mail на обычном
+            клиент, то есть любой почтовый клиент, поддерживающий протоколы SMTP и IMAP. У большинства клиентов так.
         </p>
-        <h2>Check Your Identity Details</h2>
-        <p>From the identity details page, you must have at least the following:
+        <h2>Проверьте свои идентификационные данные</h2>
+        <p>На странице идентификационных данных у вас должно быть как минимум следующее:
             <ul>
-                <li>Your email</li>
-                <li>Your password</li>
+                <li>Ваш адрес электронной почты</li>
+                <li>Ваш пароль</li>
             </ul>
         </p>
-        <p>If your client does not support automatic configuration, you will also need these:
+        <p>Если ваш клиент не поддерживает автоматическую настройку, вам также понадобятся:
             <ul>
-                <li>Outgoing server address and port</li>
-                <li>Incoming server address and port</li>
-                <li>User name (same as your identifier, email will also work)</li>
+                <li>Исходящий адрес сервера и порт</li>
+                <li>Входящий адрес сервера и порт</li>
+                <li>Имя пользователя (такое же, как ваш идентификатор, адрес электронной почты также будет работать)</li>
             </ul>
         </p>
-        <h2>Create New IMAP Account</h2>
+        <h2>Создать новую учетную запись IMAP</h2>
         <p>
-            Most email clients support IMAP protocol. When you create a new account, 
-            choose IMAP (sometimes you would have to choose "other", or "mail client", etc.)
+            Большинство почтовых клиентов поддерживают протокол IMAP. Когда вы создаете новую учетную запись,
+            выберите IMAP (иногда вам нужно будет выбрать «другой» или «почтовый клиент» и т. д.)
         </p>
-        <h2>Specify Account Details</h2>
+        <h2>Укажите данные учетной записи</h2>
         <p>
-            You will have to fill in the account details. Most likely they will come in a few
-            groups, general account information, incoming server (IMAP) details, and outgoing
-            server (SMTP) details. Lets go over them.
+            Вам нужно будет заполнить данные учетной записи. Скорее всего, они придут через несколько
+             группы, общую информацию об учетной записи, сведения о входящем сервере (IMAP) и исходящие
+             сведения о сервере (SMTP). Давайте пройдемся по ним.
         </p>
-       <h3>General Account Information</h3>
+       <h3>Общая информация об учетной записи</h3>
        <p>
-           Here, you would need to specify a few things:
+            Здесь вам нужно будет указать несколько вещей:
             <ul>
-                <li>Email address - this is your identifier with "@ubikom.cc" added to it.
-                    If your identifier is "bob", your email address is "bob@ubikom.cc".
+                <li>Адрес электронной почты — это ваш идентификатор с добавленным к нему «@ubikom.cc».
+                    Если ваш идентификатор — «bob», ваш адрес электронной почты — «bob@ubikom.cc».
                 </li>
-                <li>Account name - this is just a name for your account. Something like 
-                    "Ubikom Mail" would do.
+                <li>Имя учетной записи — это просто имя для вашей учетной записи. Что-то типа
+                    Подойдет "Убиком мэйл".
                 </li>
-                <li>Password - the client may use this password for IMAP (and possibly SMTP) login.</li>
-                <li>Account type - if you can chose between POP and IMAP, chose IMAP.</li>
+                <li>Пароль — клиент может использовать этот пароль для входа по IMAP (и, возможно, по SMTP).</li>
+                <li>Тип учетной записи — если вы можете выбирать между POP и IMAP, выберите IMAP.</li>
             </ul>
        </p>
-       <h3>Incoming Server Information</h3>
+       <h3>Входящая информация о сервере</h3>
        <p>
-           Here you specify information for your incoming (IMAP) server:
+            Здесь вы указываете информацию для вашего входящего (IMAP) сервера:
            <ul>
-               <li>Server addres - enter "imap.ubikom.cc"</li>
-               <li>Server port - 993, which is the default.</li>
-               <li>User name - this is your user name from the identity details page.</li>
-               <li>Password - your password.</li>
-               <li>Security - chose SSL/TLS.</li>
-               <li>Authentication - choose Plain, or Normal Password.</li>
+               <li>Адрес сервера - введите "imap.ubikom.cc""</li>
+               <li>Порт сервера - 993, что по умолчанию.</li>
+               <li>Имя пользователя — это ваше имя пользователя со страницы идентификационных данных.</li>
+               <li>Пароль - ваш пароль.</li>
+               <li>Безопасность - выбрал SSL/TLS.</li>
+               <li>Аутентификация — выберите Обычный или Обычный пароль.</li>
            </ul>
        </p>
-       <h3>Outgoing Server Information</h3>
+       <h3>Исходящая информация о сервере</h3>
        <p>
-           This section is for outgoing (SMTP) server:
+            Этот раздел предназначен для исходящего (SMTP) сервера:
            <ul>
-            <li>Server addres - enter "smtp.ubikom.cc"</li>
-            <li>Server port - 465, which is the default.</li>
-            <li>User name - this is your user name from the identity details page.</li>
-            <li>Password - your password.</li>
-            <li>Security - chose SSL/TLS.</li>
-            <li>Authentication - choose Plain, or Normal Password.</li>
-            <li>If you have a checkbox saying something like 
-                "server requires authentication", make sure it's checked</li>
+            <li>Адрес сервера - введите "smtp.ubikom.cc"</li>
+            <li>Порт сервера — 465, что по умолчанию.</li>
+            <li>Имя пользователя — это ваше имя пользователя со страницы идентификационных данных.</li>
+            <li>Пароль - ваш пароль.</li>
+            <li>Безопасность - выбрал SSL/TLS.</li>
+            <li>Аутентификация — выберите Обычный или Обычный пароль.</li>
+            <li>Если у вас есть флажок, говорящий что-то вроде
+                «сервер требует аутентификации», убедитесь, что он отмечен</li>
         </ul>
        </p>
-       <h2>Problems?</h2>
-       <p>If your setup doesn't work, double-check your settings. You might want to
-           delete this account completely and try to set it up again. 
+       <h2>Проблемы?</h2>
+       <p>Если ваша установка не работает, перепроверьте свои настройки. Вы можете захотеть
+        полностью удалите эту учетную запись и попробуйте настроить ее снова.
        </p>
        <p>
-           Check the list of known issues 
-           <a href="https://github.com/regnull/ubikom/issues">here</a>. If you think
-           you have found a bug, submit a new issue, or 
+            Проверьте список известных проблем 
+           <a href="https://github.com/regnull/ubikom/issues">здесь</a>. Если вы считаете
+           вы нашли ошибку, отправьте новую проблему, или свяжитесь по елецтронной почте
            email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
        </p>
    </body>
