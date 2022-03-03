@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Generic Client Setup</h1>
+        <p>
+            This page contains instructions on how to set up Ubikom Mail on a generic 
+            client, i.e. any mail client that supports SMTP and IMAP protocols. Most clients do.
+        </p>
+        <h2>Check Your Identity Details</h2>
+        <p>From the identity details page, you must have at least the following:
+            <ul>
+                <li>Your email</li>
+                <li>Your password</li>
+            </ul>
+        </p>
+        <p>If your client does not support automatic configuration, you will also need these:
+            <ul>
+                <li>Outgoing server address and port</li>
+                <li>Incoming server address and port</li>
+                <li>User name (same as your identifier, email will also work)</li>
+            </ul>
+        </p>
+        <h2>Create New IMAP Account</h2>
+        <p>
+            Most email clients support IMAP protocol. When you create a new account, 
+            choose IMAP (sometimes you would have to choose "other", or "mail client", etc.)
+        </p>
+        <h2>Specify Account Details</h2>
+        <p>
+            You will have to fill in the account details. Most likely they will come in a few
+            groups, general account information, incoming server (IMAP) details, and outgoing
+            server (SMTP) details. Lets go over them.
+        </p>
+       <h3>General Account Information</h3>
+       <p>
+           Here, you would need to specify a few things:
+            <ul>
+                <li>Email address - this is your identifier with "@ubikom.cc" added to it.
+                    If your identifier is "bob", your email address is "bob@ubikom.cc".
+                </li>
+                <li>Account name - this is just a name for your account. Something like 
+                    "Ubikom Mail" would do.
+                </li>
+                <li>Password - the client may use this password for IMAP (and possibly SMTP) login.</li>
+                <li>Account type - if you can chose between POP and IMAP, chose IMAP.</li>
+            </ul>
+       </p>
+       <h3>Incoming Server Information</h3>
+       <p>
+           Here you specify information for your incoming (IMAP) server:
+           <ul>
+               <li>Server addres - enter "imap.ubikom.cc"</li>
+               <li>Server port - 993, which is the default.</li>
+               <li>User name - this is your user name from the identity details page.</li>
+               <li>Password - your password.</li>
+               <li>Security - chose SSL/TLS.</li>
+               <li>Authentication - choose Plain, or Normal Password.</li>
+           </ul>
+       </p>
+       <h3>Outgoing Server Information</h3>
+       <p>
+           This section is for outgoing (SMTP) server:
+           <ul>
+            <li>Server addres - enter "smtp.ubikom.cc"</li>
+            <li>Server port - 465, which is the default.</li>
+            <li>User name - this is your user name from the identity details page.</li>
+            <li>Password - your password.</li>
+            <li>Security - chose SSL/TLS.</li>
+            <li>Authentication - choose Plain, or Normal Password.</li>
+            <li>If you have a checkbox saying something like 
+                "server requires authentication", make sure it's checked</li>
+        </ul>
+       </p>
+       <h2>Problems?</h2>
+       <p>If your setup doesn't work, double-check your settings. You might want to
+           delete this account completely and try to set it up again. 
+       </p>
+       <p>
+           Check the list of known issues 
+           <a href="https://github.com/regnull/ubikom/issues">here</a>. If you think
+           you have found a bug, submit a new issue, or 
+           email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
+       </p>
+   </body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>iOS Client Setup</h1>
+        <h2>Check Your Identity Details</h2>
+        <p>From the identity details page, you must have at least the following:
+            <ul>
+                <li>Your email</li>
+                <li>Your password</li>
+            </ul>
+        </p>
+        <p>If your client does not support automatic configuration, you will also need these:
+            <ul>
+                <li>Outgoing server address and port</li>
+                <li>Incoming server address and port</li>
+                <li>User name (same as your identifier, email will also work)</li>
+            </ul>
+        </p>
+        <h2>iOS Mail</h2>
+        <p>iOS mail is the default iOS email program. If you have an iPhone/iPad, 
+            chances are, you have it installed. To configure iOS Mail to work with Ubikom service, you need to download
+            a profile, which you will then activate in settings. For profile download to work, you must view this
+            page on iPhone or iPad in Safari. Enter your identifier below (or make sure it's correct) and tap "Download Profile" button.
+        </p>
+        <p>
+            <form id="name-form">
+                <input type="text" id="identifier" placeholder="identifier (i.e. spongebob)"/>
+                <button name="submit" id="iosMailConfig">Download Profile</button>
+            </form>
+        </p>
+        <p>
+            <img src="ios-mail-1.png" />
+        </p>
+        <p>
+            <b>
+                Tap on downloaded profile to install it. You will need to enter your PIN, then enter the password.
+                You might get warning that the profile is not signed. 
+            </b>
+        </p>
+        <br/>
+        <p>
+            <img src="ios-mail-2.png" />
+        </p>
+        <p>
+            <b>
+                If everything is done correctly, the profile will appear as installed.
+            </b>
+        </p>
+        <br/>
+        <h2><a href="https://apps.apple.com/us/app/blue-mail-email-mailbox/id1063729305">Blue Mail</a></h2>
+        <p>
+            We recommend Blue Mail because it's a great email client, it works on any platform (mobile and
+            desktop), and it configures automatically using your email and password 
+            (<a href="https://apps.apple.com/us/app/blue-mail-email-mailbox/id1063729305">download</a>).
+        </p>
+        <p>
+            Open the app. You will be asked to set up new account.
+        </p>
+        <p>
+            <img src="blue-mail-1.png" />
+        </p>
+        <p>
+            <b>Tap "Continue" to proceed.</b>
+        </p>
+        <br/>
+        <p>
+            <img src="blue-mail-2.png" />
+        </p>
+        <p>
+            <b>Enter your email (your identifier + "@ubikom.cc") and tap "Sign In".</b>
+        </p>
+        <br/>
+        <p>
+            <img src="blue-mail-3.png" />
+        </p>
+        <p>
+            <b>Enter your password, tap "Next".</b>
+        </p>
+        <br/>
+        <p>
+            <img src="blue-mail-4.png" />
+        </p>
+        <p>
+            <b>Enter your name. This is what your recipients will see when they get a message from you.
+                Change the account description and color, if you feel like it.
+            </b>
+        </p>
+        <br/>
+        <p>
+            <img src="blue-mail-5.png" />
+        </p>
+        <p>
+            <b>
+                Leave the values as they are, tap "Done".
+            </b>
+        </p>
+
+        <h3>Optional: Change Name</h3>
+        <p>
+            If you want to change your name (the name other users see when you send them an email), 
+            you can do so under <b>Settings, Mail, Accounts</b>. Choose the Ubikom account, tap on Name, and change
+            it to whatever you prefer.
+        </p>
+
+        <h2>Any other client</h2>
+        <p>You can use any email client that supports IMAP (or POP3) and SMTP, which
+            is virtually all of them! Check out the instructions for setting up 
+            a <a href="../generic-client/index.html">generic client</a>.
+        </p>
+        <h2>Problems?</h2>
+        <p>If your setup doesn't work, double-check your settings. You might want to
+            delete this account completely and try to set it up again. 
+        </p>
+        <p>
+            Check the list of known issues 
+            <a href="https://github.com/regnull/ubikom/issues">here</a>. If you think
+            you have found a bug, submit a new issue, or 
+            email <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>.            
+        </p>
+        <script>
+            let downloadProfileEnabled = false;
+            let json = sessionStorage.getItem('identityJSON');
+            console.log('hello');
+            if (json != null && json.length > 10) {
+                let res = JSON.parse(json);
+                document.getElementById('identifier').value = res.user_name
+                downloadProfileEnabled = true;
+            } 
+            document.getElementById('iosMailConfig').onclick = submit;
+            identifierChanged();
+            document.getElementById('identifier').onkeyup = identifierChanged;
+            
+            function submit(event) {
+                event.preventDefault();
+
+                if (!downloadProfileEnabled) {
+                    return
+                }
+
+                let identifier = document.getElementById('identifier').value;
+                let email = identifier + "@ubikom.cc";
+                location.href = 'https://mail.ubikom.cc/email.mobileconfig?email=' + encodeURIComponent(email)
+            }
+
+            function identifierChanged() {
+                if (document.getElementById('identifier').value.length >= 3) {
+                    downloadProfileEnabled = true;
+                    document.getElementById('iosMailConfig').style.opacity = 1.0;
+                } else {
+                    downloadProfileEnabled = false;
+                    document.getElementById('iosMailConfig').style.opacity = 0.6;
+                }
+            }
+        </script>
+    </body>
+</html>

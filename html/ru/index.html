@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+    <p align = "right">
+        <h2 style = "text-align: right;">
+        <a name = "#top" href="mail/login.html"> Webmail</a>&ensp;&ensp;
+        <a name = "#top" href="blogs.html"> News</a>
+    </h2>
+    </p>
+    <h1>Ubikom: безопасная электронная почта и реестр личных данных на блокчейне</h1>
+    <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto:sasha@ubikom.cc">sasha@ubikom.cc</a></p>
+
+    <p>Ubikom для вас, если вы беспокоитесь о конфиденциальности своей электронной почты, ведете бизнес, 
+        требующий полной конфиденциальности общения, беспокоитесь о том, что за вами шпионит государственный 
+        или корпоративный Большой Брат, или ищете надежное, удобное и дружественное к клиенту решение 
+        для регулируемой агентства или медицинской организации.</p>
+    <p>Цифровой аватар — центральная концепция Ubikom. Аватар состоит из имени, свободно выбранного пользователем, 
+        и ключей шифрования, привязанных к этому имени. Аватары создаются, принадлежат и управляются пользователями. 
+        Ubikom — это децентрализованная инфраструктура цифровых аватаров на блокчейне.</p>
+
+    <p>Шифрование и децентрализация обеспечивают превосходную конфиденциальность данных,
+        устойчивость к цензуре, безопасное общение и удобная онлайн-аутентификация.</p>
+
+    <p> Существует <a href="beyond_email.html">множество</a> приложений реестра аватаров. Сначала 
+        мы сосредоточились на создании безопасной децентрализованной электронной почты. 
+        Все <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">электронные 
+        письма</a> Ubikom зашифрованы сквозным шифрованием с помощью алгоритмов, защищающих биткойн. 
+        Даже если ваши электронные письма будут перехвачены, криптография делает невозможным чтение их содержимого. 
+        Поскольку все электронные письма Ubikom по умолчанию зашифрованы, пользователям не нужно беспокоиться о 
+        конфиденциальности в системе Ubikom.</p>
+
+    <p>Более того, децентрализованный реестр защищен от цензуры и неподкупен. Целостность записей
+        защищены технологией блокчейн. Ни один государственный или корпоративный субъект не может запретить кому-либо 
+        использовать Ubikom.</p>
+
+    <p>Если вы хотите попробовать Ubikom, вы можете начать на этой странице, выбрав имя для своего аватара/идентификатора электронной почты.
+        Вы также можете узнать больше информации ниже.</p>
+
+    <form id="name-form">
+        <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
+        <button name="submit" id="nextButton">Next</button>
+        <i><p id="status" style="margin: 0"></p></i>
+    </form>
+    <p><i>Идентификатор должен состоять из одного слова, допускаются только буквы, цифры и символы «_» и «-».</i></p>
+    <h2>Уже пользователь?</h2>
+    <!--<p>You can change your password <a href="/change_password.html">here.</a></p>-->
+    <h2>Служба поддержки</h2>
+    <p><a href="clients.html">Как настроить почтовые клиенты</a></p>
+
+    <p></p>
+    <h2>Узнать больше</h2>
+    <p><a href="intro.html" target="_blank" rel="noopener noreferrer">Давайте заново изобретем электронную почту</a></p>
+    <!--            <h2>There is more!</h2>-->
+    <p><a href="beyond_email.html" target="_blank" rel="noopener noreferrer">Помимо электронной почты</a></p>
+    <!--        <h2>How?</h2>-->
+
+    <p><a href="tech-description.html" target="_blank" rel="noopener noreferrer">Техническое описание</a></p>
+
+    <h2>Подключайтесь, обращайтесь</h2>
+    <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a> (разработчики приветствуются
+        способствовать).</p>
+    <p>Контакт: <a href="mailto: lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto: sasha@ubikom.cc">sasha@ubikom.cc</a>
+    </p>
+    <p>В Твиттере: <a href="https://twitter.com/UbikomProject">@UbikomProject</a> </p>
+    <p>Присоединяйтесь к нашему сообществу Reddit: <a href="https://www.reddit.com/r/ubikom/">Ubikom на Reddit</a></p>
+    <script>
+            let nextEnabled = false;
+            function submit(event) {
+                event.preventDefault();
+                if (!nextEnabled) {
+                    return;
+                }
+                sessionStorage.setItem('identifier', document.getElementById('identifier').value);
+                location.href = 'password.html';
+            }
+
+            function nameChanged() {
+                let idInput = document.getElementById("identifier");
+
+                if(idInput.value.length < 3) {
+                    document.getElementById("status").innerHTML = "name is too short";
+                    document.getElementById("status").style.color = '#FF0000';
+                    document.getElementById('nextButton').style.opacity = 0.6;
+                    nextEnabled = false;
+                    return;
+                }
+
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    console.log(req.status, req.statusText)
+                    if (req.status == 200) {
+                        res = JSON.parse(req.responseText);
+                        if(res.available) {
+                            document.getElementById("status").innerHTML = "available!";
+                            document.getElementById("status").style.color = '#3ADF00';
+                            document.getElementById('nextButton').style.opacity = 1.0;
+                            nextEnabled = true;
+                        } else {
+                            document.getElementById("status").innerHTML = "not available :(";
+                            document.getElementById("status").style.color = '#FF0000';
+                            document.getElementById('nextButton').style.opacity = 0.6;
+                            nextEnabled = false;
+                        }
+                    } else {
+                        document.getElementById("status").innerHTML = "invalid name";
+                        document.getElementById("status").style.color = '#FF0000';
+                        document.getElementById('nextButton').style.opacity = 0.6;
+                        nextEnabled = false;
+                    }
+                }
+                req.open('GET', 'https://alpha.ubikom.cc:8088/lookupName?name=' + encodeURIComponent(idInput.value), true);
+                req.send(null);
+            }
+            let idInput = document.getElementById("identifier");
+            idInput.onkeyup = nameChanged;
+            document.getElementById('nextButton').style.opacity = 0.6;
+            document.getElementById('nextButton').onclick = submit;
+        </script>
+    </body>
+</html>

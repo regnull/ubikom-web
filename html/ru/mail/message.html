@@ -1,0 +1,171 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body class="messageBody">
+        <h1 id="subject"></h1>
+        <p>From: <span id="from" class="messageFrom"></span></p>
+        <p>To: <span id="to" class="messageTo"></span></p>
+        <p style="display:none;" id="ccPara">Cc: <span id="cc" class="messageCc"></span></p>
+        <p style="display:none;" id="bccPara">Bcc: <span id="bcc" class="messageBcc"></span></p>
+        <p style="display:none;" id="securePara">
+            <span id="secure" class="messageSecure">Secure: </span>
+            <span id="fromUbikomName" class="messageSecure"></span>
+            <span id="fromUbikomAddress" class="messageSecure"></span>
+            <span class="messageSecure">-></span>
+            <span id="toUbikomName" class="messageSecure"></span>
+            <span id ="toUbikomAddress" class="messageSecure"></span>
+        </p>
+        <p id="date"></p>
+        <p style="display:none;" id="attachmentsPara">
+        </p>
+        <p><a id="reply" class="messageAction">Reply</a> 
+            <a id="replyAll" class="messageAction">Reply All</a>
+            <a id="forward" class="messageAction">Forward</a>
+            <a id="viewAsHTML" class="messageAction">View as HTML</a>
+            <a id="delete" class="deleteAction" style="text-decoration: underline; cursor: pointer;">Delete</a></p>
+        <pre id="content"></pre>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+        <script type="text/javascript" src="common.js"></script>
+        <script>
+            let subject = document.getElementById("subject");
+            let from = document.getElementById("from");
+            let to = document.getElementById("to");
+            let ccPara = document.getElementById("ccPara")
+            let cc = document.getElementById("cc");
+            let bcc = document.getElementById("bcc");
+            let bccPara = document.getElementById("bccPara");
+            let securePara = document.getElementById("securePara");
+            let attachmentsPara = document.getElementById("attachmentsPara");
+            let fromUbikomName = document.getElementById("fromUbikomName");
+            let fromUbikomAddress = document.getElementById("fromUbikomAddress");
+            let toUbikomName = document.getElementById("toUbikomName");
+            let toUbikomAddress = document.getElementById("toUbikomAddress");
+            let date = document.getElementById("date"); 
+            let content = document.getElementById("content");
+            let reply = document.getElementById("reply");
+            let replyAll = document.getElementById("replyAll");
+            let forward = document.getElementById("forward");
+            let viewAsHTML = document.getElementById("viewAsHTML");
+            let deleteMessage = document.getElementById("delete");
+
+            let token = sessionStorage.getItem(TOKEN_NAME);
+            if (token == "") {
+                location.href="login.html";
+            }
+
+            var queryString = location.search.substring(1);
+            var parts = queryString.split("=");
+            uid = parts[1];
+
+            reply.href = "send.html?reply=" + uid;
+            replyAll.href = "send.html?reply-all=" + uid;
+            forward.href = "send.html?forward=" + uid;
+            viewAsHTML.href = "html-message.html?uid=" + uid;
+
+            deleteMessage.onclick = function () {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                if (req.status == 200) {
+                        location.href = "inbox.html";
+                    } else if (req.status == 401 || req.status == 403) {
+                        location.href = "login.html";
+                    } else {
+                        // TODO: Process error.
+                    }
+                }
+                req.open('GET', DELETE_URL +  '?uid=' + uid, true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+            };
+
+            let req = new XMLHttpRequest();
+            req.onload = function () {
+                if (req.status == 200) {
+                    let res = JSON.parse(req.responseText);
+                    from.innerHTML = formatAddress(res.From);
+                    to.innerHTML = formatAddressList(res.To);
+                    if (res.Cc) {
+                        ccPara.style.display = "block";
+                        cc.innerHTML = formatAddressList(res.Cc);
+                    }
+                    if (res.Bcc) {
+                        bccPara.style.display = "block";
+                        bcc.innerHTML = formatAddressList(res.Bcc);
+                    }
+                    if (res.Subject != "") {
+                        subject.innerHTML = res.Subject;
+                    } else {
+                        subject.innerHTML = "[no subject]";
+                    }
+                    let d = new Date(res.Date)
+                    date.innerHTML = d.toLocaleString();
+                    content.innerHTML = res.Body;
+
+                    if (res.Secure) {
+                        securePara.style.display = "block";
+                        fromUbikomName.innerHTML = res.FromUbikomName;
+                        fromUbikomAddress.innerHTML = "(" + res.FromUbikomAddress + ")";
+                        toUbikomName.innerHTML = res.ToUbikomName;
+                        toUbikomAddress.innerHTML = "(" + res.ToUbikomAddress + ")";
+                    }
+
+                    console.log(res.Attachments);
+                    if (res.Attachments) {
+                        let attachmentsStr = "";
+                        for (let i = 0; i < res.Attachments.length; i++) {
+                            let attachment = res.Attachments[i];
+                            attachmentsStr += "<div class='messageAttachment'>" +
+                                "<span class='messageAttachmentLabel'>Attachment: </span>" + 
+                                "<span class='messageAttachmentName' onclick='openAttachment(this)'>" + attachment + "</span>" +
+                                "</div>";
+                        }
+                        attachmentsPara.style.display = "block";
+                        attachmentsPara.innerHTML = attachmentsStr;
+                    }
+
+                    // Mark message as seen.
+                    let req1 = new XMLHttpRequest();
+                    req1.open('GET', MARK_AS_SEEN_URL + '?uid=' + uid, true)
+                    req1.setRequestHeader('Authorization', 'Bearer ' + token);
+                    console.log('marking message as seen');
+                    req1.send();
+                } else if (req.status == 401 || req.status == 403) {
+                    location.href = "login.html";
+                } else {
+                    // TODO: Process error.
+                }
+            }
+            req.open('GET', MESSAGE_URL +  '?uid=' + uid, true);
+            req.setRequestHeader('Authorization', 'Bearer ' + token);
+            console.log('sending request');
+            req.send();
+
+            function openAttachment(e) {
+                event.preventDefault(); 
+                
+                fetch(GET_ATTACHMENT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "uid": parseInt(uid, 10),
+                        "name": e.innerHTML,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                }).then(function(resp) {
+                    return resp.blob();
+                }).then(function(blob) {
+                    return download(blob, e.innerHTML);
+                });
+            }
+        </script>
+    </body>
+</html>

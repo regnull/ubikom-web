@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="default.css">
+    <link rel="icon"
+          type="image/png"
+          href="https://ubikom.cc/favicon.png">
+</head>
+<body>
+<h1>How does it work?</h1>
+<p>Any messaging platform must uniquely identify senders and recipients and guarantee faithful delivery.
+    We can break this task into three parts:
+<ul>
+    <li>Guarantee name uniqueness</li>
+    <li>Guarantee message delivery to the correct recipient</li>
+    <li>Guarantee that the message was not tampered with in transit</li>
+</ul>
+One possibility is for a central authority to assign globally unique names to users and manage delivery between
+them. The problem with this approach is that everything is dependent on the existence and goodwill of a central
+authority. Since power corrupts, centralization leads to abuse of trust and bad service from corporations, and
+trampling of rights, censorship, and oppression from governments.
+</p>
+
+<p>
+    A better way to create a public encryption utility is to have a unique cryptographic key pair assigned to
+    each user. Every sent message will be signed by the private key and verified using the public key. The problem
+    of the user identification is reduced to the control of the private key.
+</p>
+
+<p>
+    If you are signing all the outgoing messages with your private key, you might as well encrypt them with a unique key
+    derived from your private key and the recipient's public key. This way, only the recipient can decrypt the message.
+</p>
+<p>
+    Finally, addressing users by their public keys works well for machines but not for humans. We prefer short names
+    that
+    are easy to remember, so we might want to create a registry to keep such names and the corresponding keys. But we
+    must make sure that such a registry does not become the central authority that we seek to avoid.
+</p>
+<p>
+    These ideas led to the creation of Ubikom, the registry of digital avatars.
+    The diagrams below explain Ubikom‘s protocol for sending and receiving emails, which are end-to-end encrypted by
+    design.
+</p>
+
+<h4> Alice and Bob met at a party and exchanged avatars/ubikoms.</h4>
+<img src="diag/email diag 1.png" width="670" height="200"/>
+
+<h4> The next day, Alice contacts Bob. Her email app sends Bob’s ubikom (avatar name)
+    to the avatar registry and receives Bob’s public key.</h4>
+<img src="diag/email diag 2.png" width="670" height="150"/>
+
+<h4> Alice encrypts the message with this key and sends it to a storage server.</h4>
+<img src="diag/email diag 3.png" width="670" height="150"/>
+
+<h4> Alice encrypts the message with this key and sends it to a storage server.</h4>
+<img src="diag/email diag 4.png" width="670" height="150"/>
+
+<p> As you can see, only encrypted messages are ever sent via public network. </p>
+
+<p> If you are interested to learn more technical details, please
+    <a href="/tech-description.html" target="_blank" rel="noopener noreferrer">read on</a>.</p>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Inbox</h1>
+        <p id="loading" style="display:block;">Loading...</p>
+        <div id="messageList" style="display: none;">
+            <p class="inboxActions">
+                <a href="send.html" class="inboxAction">Compose</a>
+            </p>
+            <table id="messages" class="inbox">
+                <tr class="inboxRow">
+                    <th class="inboxDate">Date</th>
+                    <th class="inboxSubject">Subject</th>
+                    <th class="inboxFrom">From</th>
+                </tr>
+            </table>
+        </div>
+
+        <script type="text/javascript" src="common.js"></script>
+        <script>
+            let token = sessionStorage.getItem(TOKEN_NAME);
+            if (token == "") {
+                location.href = "login.html";
+            }
+
+            let messageList = document.getElementById("messageList");
+            let loading = document.getElementById("loading");
+
+            var messagesTable = document.getElementById("messages");
+            let req = new XMLHttpRequest();
+            req.onload = function () {
+                if (req.status == 200) {
+                    let res = JSON.parse(req.responseText);
+
+                    let seen = sessionStorage.getItem('ubikom-seen');
+                    const seenMap = new Map();
+                    if (seen != null) {
+                        let seenIds = seen.split(',');
+                        for (let i = 0; i < seenIds.length; i++) {
+                            seenMap.set(seenIds[i], true);
+                        }
+                    }      
+                    for(var i = 0; i < res.length; i++) {
+                        var row = messagesTable.insertRow(1);
+                        row.classList.add("inboxRow");
+                        var dateCell = row.insertCell(0);
+                        dateCell.classList.add("dateCell");
+                        var subjectCell = row.insertCell(1);
+                        subjectCell.classList.add("subjectCell");
+                        var fromCell = row.insertCell(2);
+                        fromCell.classList.add("fromCell");
+                        var obj = res[i];
+
+                        let d = new Date(obj.Date)
+                        var options = {day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+                        dateCell.innerHTML = d.toLocaleString('en-US', options);
+                        fromCell.innerHTML = formatAddressShort(obj.From);
+                        var subject = obj.Subject;
+                        if (subject == "") {
+                            subject = "[no subject]";
+                        }
+
+                        var messageClass = 'subjectLink';
+                        if (!obj.Seen) {
+                            messageClass = 'subjectLinkUnseen';
+                        }
+                        if (obj.Recent) {
+                            messageClass = 'subjectLinkRecent';
+                        }
+
+                        if (seenMap.has(obj.Uid.toString())) {
+                            messageClass = 'subjectLink';
+                        } 
+
+                        subjectCell.innerHTML =  "<div class='" + messageClass + "' id='" + obj.Uid + "' onclick='openMessage(this)'>" + 
+                             subject + "</div>";
+                    }
+                    loading.style.display = "none";
+                    messageList.style.display = "block";
+                } else if (req.status == 401 || req.status == 403) {
+                    location.href = "login.html";
+                } else {
+                    loading.innerHTML = "error " + req.status + " " + req.statusText;
+                    loading.style.color = '#FF0000';
+                }
+            }
+            req.open('GET', INBOX_URL, true);
+            req.setRequestHeader('Authorization', 'Bearer ' + token);
+            req.send();
+            function openMessage(e) {
+                e.className = 'subjectLink';
+                location.href = "message.html?uid=" + e.id;
+                let seen = sessionStorage.getItem('ubikom-seen');
+                if (seen != null) {
+                    seen += ',' + e.id;
+                } else {
+                    seen = e.id;
+                }
+                sessionStorage.setItem('ubikom-seen', seen);
+            }
+        </script>
+    </body>
+</html>

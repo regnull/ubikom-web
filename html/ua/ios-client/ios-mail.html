@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Configure iOS Mail</h1>
+        <p>
+            If you want to use iOS Mail with Ubikom, and you are viewing this page on your iPhone in Safari,
+            you can use the button below to download the configuration profile.
+        </p>
+        <p>
+            The following link will allow you to download iOS Mail configuration profile. Click this link,
+            and download the profile.
+        </p>
+        <p>
+            <form id="name-form">
+                <button name="submit" id="iosMailConfig">Configure iOS Mail</button>
+            </form>
+        </p>
+        <h2>Install the Profile</h2>
+        <p>
+            After the profile is downloaded, you will need to go to <b>Settings, General, VPN & Device Management</b>.
+            You will see the downloaded profile, tap on it and install it. You will be asked for your password.
+            After the profile is installed, open iOS Mail and you will be ready to go.
+        </p>
+        <h2>Optional: Change Name</h2>
+        <p>
+            If you want to change your name (the name other users see when you send them an email), 
+            you can do so under <b>Settings, Mail, Accounts</b>. Choose the Ubikom account, tap on Name, and change
+            it to whatever you prefer.
+        </p>
+        <script>
+            let json = sessionStorage.getItem('identityJSON');
+            if (json == null || json.length < 10) {
+                sessionStorage.clear();
+                location.href = "index.html";
+            }
+            let res = JSON.parse(json);
+            email = res.user_name + '@ubikom.cc'
+            document.getElementById('iosMailConfig').onclick = submit;
+            function submit(event) {
+                event.preventDefault();
+                location.href = 'https://mail.ubikom.cc/email.mobileconfig?email=' + encodeURIComponent(email)
+            }
+        </script>
+    </body>
+</html>

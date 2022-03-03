@@ -1,0 +1,209 @@
+body {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  padding: 4em 1em;
+  color: #30393f;
+}
+
+a {
+  color: #30393f;
+}
+
+pre {
+  border-left: 2px solid #69c;
+  padding: 1em;
+  font-family: courier, "courier new", monospace;
+  font-size: 18px;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  color: #30393f;
+}
+
+a.messageAction {
+  margin-right: 20px;
+}
+
+.messageBody {
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 4em 1em;
+  color: #30393f;
+}
+
+.subjectLink {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.subjectLinkUnseen {
+  color: blue;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.subjectLinkRecent {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+table.inbox {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th.inboxDate, th.inboxSubject, th.inboxFrom {
+  text-transform: uppercase;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+
+th.inboxDate {
+  width: 20%;
+}
+
+th.inboxSubject {
+  width: 60%;
+}
+
+th.inboxFrom {
+  width: 20%;
+}
+
+tr.inboxRow {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* tr.inboxRow:nth-child(even) {
+  background-color: lightgoldenrodyellow;
+} */
+
+tr.inboxRow:hover {
+  background-color:lightcyan;
+}
+
+td.dateCell, td.subjectCell, td.fromCell {
+  border-bottom: 1px solid #d9d9d9;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+td.subjectCell {
+  padding-left: 20px;
+}
+
+.messageFrom, .messageTo, .messageCc, .messageBcc {
+  font-style: italic;
+}
+
+.messageSecure {
+  color:green;
+  font-weight: bold;
+}
+
+.messageAttachmentName {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sendMessage {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sendToLabel, .sendCcLabel, .sendSubjectLabel, .sendAttachLabel {
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 20%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+input.sendTo, input.sendCc, input.sendSubject {
+  border: none;
+  border-bottom: 1px solid #a7adba;
+  width: 100%;
+}
+
+.sendToValue, .sendCcValue, .sendSubjectValue {
+  width: 80%;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+}
+
+input[type="text"] {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+}
+
+.sendBodyCell {
+  width: 100%;
+}
+
+.sendBody {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+button {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  background-color: #0099ff;
+  border: none;
+  color: white;
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px;
+  margin-left: 1em;
+}
+
+button.smallButton, label.smallButton {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 14px;
+  background-color: #0099ff;
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px;
+  margin-left: 1em;
+}
+
+
+button.sendButton {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+input.chooseFile {
+  background-color: green;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.sendAttachedFile {
+  padding-top: 10px;
+}

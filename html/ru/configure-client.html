@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Configure Your Email Client</h1>
+        <p>This guide tells you how to configure your POP3/SMTP client. Notice that IMAP service exists, but it is still experimental,
+            please use POP3 for now.</p>
+        <p>
+            <a href="clients.html">I like to live dangerously</a>
+        </p>
+        <h2>Check Your Identity Details</h2>
+        <p>After you finish the web setup, you must have the following information (below is an example, your details will 
+            obviously be different):
+            <img src="identitydetails.png" />
+        </p>
+        <p>To set up your email client, we will use the following information:
+            <ul>
+                <li>Your identifier (1)</li>
+                <li>Your SMTP/POP3 user name and password (2 and 3)</li>
+                <li>SMPT and POP3 server (4)</li>
+            </ul>
+        </p>
+        <p>Below, we will show how to set up some popular email clients, step by step</p>
+        <h2>Mozilla Thunderbird</h2>
+        <h3>Download and Install Mozilla Thunderbird</h3>
+        <p>If you haven't done it already, download Mozilla Thunderbird <a href="https://www.thunderbird.net/en-US/">here.</a></p>
+        <h3>Set Up New Email Account</h3>
+        <p>When you first open Thunderbird, it will invite you to add a new account.</p>
+        <p>
+            <img src="thunderbird-set-up-email-address.png" />
+        </p>
+        <p>
+           Put your name in "Your name" box. Thunderbird doesn't care what it is, but the other users will see this name when
+            they receive an email from you.
+        </p>
+        <p>
+            In "Email address" box, put your identifier (1) from your identity details page, and add "@ubikom.cc". Our identifier was testuser765,
+            so we entered testuser765@ubikom.cc.
+        </p>
+        <p>
+            In "Password" box, put your password from the identity details page (3).
+        </p>
+        <p>
+            Click "Continue". We support automatic client configuration for Thunderbird, so all the settings will be autopopulated and you
+            will be ready to do some emailing.
+        </p>
+        <h2>iOS Mail</h2>
+        <p>Go to Settings, Mail, Accounts. Tap "Add Account"</p>
+        <p>
+            <img src="ios-mail-add-account-1.png" />
+        </p>
+        <p>Tap "Other".</p>
+        <p>
+            <img src="ios-mail-add-account-2.png" />
+        </p>
+        <p>Tap "Add Mail Account"</p>
+        <p>
+            <img src="ios-mail-add-account-3.png" />
+        </p>
+        <p>In "Name" box, enter your name as you want it to appear to other users. iOS Mail does not care what it is.</p>
+        <p>In "Email" box, enter your identifier (item 1 in identity details page) and append "@ubikom.cc". So, if 
+            your identifier is testuser765, your email will be testuser765@ubikom.cc.
+        </p>
+        <p>In "Password" box, enter your password from the identity details page (3).</p>
+        <p>You can enter anything in the "Description" box to help you identify the account. Here, we name the 
+            account "Ubikom".
+        </p>
+        <p>Tap "Next". You will see the following screen:</p>
+        <p>
+            <img src="ios-mail-add-account-4.png" />
+        </p>
+        <p>Choose POP instead of IMAP.</p>
+        <p>In both "INCOMING MAIL SERVER" and "OUTGOING MAIL SERVER" sections, enter the following:
+            <ul>
+                <li>For "Host Name", use Server URL item from the identity details page (4)</li>
+                <li>For "User Name", use the User name item from the identity details page (2)</li>
+                <li>For "Password", use Password from the identity details page (3)</li>
+            </ul>
+        </p>
+        <p>Tap "Save". It might sit there for a while testing the server connection, but eventually it will succeed.
+            If you get an error back, double-check your values and try again.
+        </p>
+        <h2>BlueMail for iOS</h2>
+        <p>Our personal favorite! At the time we tested it, it worked better than the native iOS Mail, which
+           at times refused to display simple text messages and had trouble displaying forwarded email. BlueMail
+           is available for most platforms, including all the popular desktop OSes, iOS and Android. We
+           haven't tested it on Android, but it should be similar.</p>
+        <h3>Install BlueMail for iOS</h3>
+        <p><a href="https://apps.apple.com/us/app/blue-mail-email-mailbox/id1063729305">Download BlueMail from AppStore.</a></p>
+        <h3>Configure Account in BlueMail</h3>
+        <p><img src="bluemail-setup-1.png" /></p>
+        <p>Tap "Continue"</p>
+        <p><img src="bluemail-setup-2.png" /></p>
+        <p>Tap "Manual Setup"</p>
+        <p><img src="bluemail-setup-3.png" /></p>
+        <p>You mean business! Tap "Manual Setup" again.</p>
+        <p><img src="bluemail-setup-4.png" /></p>
+        <p>Tap "POP3"</p>
+        <p><img src="bluemail-setup-5.png" /></p>
+        <p>Finally, to those juicy POP3 details:
+            <ul>
+                <li>In "Email Address" box, enter your identifier (item 1 in identity details page) and append "@ubikom.cc". So, if 
+                    your identifier is testuser765, your email will be testuser765@ubikom.cc.</li>
+                <li>Username is the one from idenity details (2).</li>
+                <li>Password is the password from identity details page (3).</li>
+                <li>POP3 Server is also from identity details page (4).</li>
+                <li>Choose "SSL/TLS" for Security.</li>
+                <li>Choose "PLAIN" for Authentication.</li>
+                <li>Make sure the port is 995, correct if needed.</li>
+            </ul>
+            When done, tap "Next".
+        </p>
+        <p><img src="bluemail-setup-6.png" /></p>
+        <p>Now, the SMTP settings:
+            <ul>
+                <li>Username is the one from idenity details (2).</li>
+                <li>Password is the password from identity details page (3).</li>
+                <li>SMTP Server is also from identity details page (4).</li>
+                <li>Choose "SSL/TLS" for Security.</li>
+                <li>Choose "PLAIN" for Authentication.</li>
+                <li>Make sure the port is 465, correct if needed.</li>
+            </ul>
+            When done, tap "Next".
+        </p>
+        <p><img src="bluemail-setup-7.png" /></p>
+        <p>Tap "Next".</p>
+        <p><img src="bluemail-setup-8.png" /></p>
+        <p>Tap "Done". Enjoy! The only issue we've seen so far was BlueMail getting stuck and not retrieving the latest messages,
+            if you suspect this is the case, just kill the app and restart it.</p>
+        <h2>Caution: Sending Email to External Recipients</h2>
+        <p>
+            When you send email to another Ubikom user, your message is encrypted with a unique key
+            so only the recipient can decrypt it. Sometimes you might want to send email to users
+            outside the Ubikom ecosystem. Currently we provide a gateway to the legacy email world.
+            When you send email through the gateway, it will be decrypted and sent as a regular old
+            email. Be careful when you send email to the external addresses. In future we will add a warning,
+            but for now you need to pay attention.
+        </p>
+        <h2>How to Be Even More Secure</h2>
+        <p>
+            With the simplest configuration, public email proxy handles encryption and decryption for you.
+            One of the key ideas we have is that user must be able to strike the right balance between
+            security and convenience. Because Ubikom is an open-source project, you can run any part of
+            it (and really the whole thing, if you want) yourself. Probably the first part you might want to
+            consider running is the email proxy. If you run it yourself, your encryption key never leaves
+            your possession. See the code at <a href="https://github.com/regnull/ubikom">GitHub repo</a>,
+            where you can also download the binaries (or build them from source yourself).
+        </p>
+        <h2>Questions?</h2>
+        <p>Check the list of known issues: <a href="https://github.com/regnull/ubikom/issues">github.com/regnull/ubikom/issues</a></p>
+        <p>Contact: <a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a></p>
+    </body>
+</html>

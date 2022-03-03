@@ -1,0 +1,237 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <!-- <h1>Send email</h1> -->
+        <form>
+            <table class="sendMessage">
+                <tr class="sendMessageRow">
+                    <td class="sendToLabel">To</td>
+                    <td class="sendToValue"><input id="to" type="text" minlength="3" class="sendTo"/></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td class="sendCcLabel">Cc</td>
+                    <td class="sendCcValue"><input id="cc" type="text" class="sendCc"/></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td class="sendSubjectLabel">Subject</td>
+                    <td class="sendSubjectValue"><input id="subject" type ='text' class="sendSubject" /></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td class="sendAttachLabel">Attach</td>
+                    <td class="sendAttachValue">
+                        <label class="smallButton">
+                            Choose File
+                            <input 
+                                type="file" 
+                                name="fileName" 
+                                id="fileName" 
+                                class="chooseFile"
+                                onchange="fileNameChanged(this)"/>
+                        </label>
+                        <span id="selectedFileName" class="selectedFileName"></span>
+                        <button 
+                            id="uploadFile" 
+                            type="submit" 
+                            value="upload" 
+                            class="smallButton"
+                            style="display:none;">
+                            Upload
+                        </button>
+                    </td>
+                </tr>
+                <tr class="sendMessageRow" id ="attachedFilesRow">
+                    <td class="sendAttachedLabel"></td>
+                    <td class="sendAttachedValue" id="attachedFiles"></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendBodyCell"> <textarea id="body" rows="20" placeholder="email text" class="sendBody"></textarea></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendSendCell"> <button name="send" id="sendButton" class="sendButton">Send</button></td>
+                </tr>
+                <tr class="sendMessageRow">
+                    <td colspan="2" class="sendStatusCell"><i><p id="status" class="sendStatus"></p></i></td>
+                </tr>
+        </table>
+        </form>
+        <script type="text/javascript" src="common.js"></script>
+        <script>
+            let toInput = document.getElementById('to');
+            let ccInput = document.getElementById('cc');
+            let subjectInput = document.getElementById('subject');
+            let bodyText = document.getElementById('body');
+            let sendButton = document.getElementById('sendButton');
+            let token = sessionStorage.getItem(TOKEN_NAME);
+            let status = document.getElementById('status');
+            let uploadButton = document.getElementById('uploadFile')
+            let attachedFilesRow = document.getElementById('attachedFilesRow');
+            let attachedFiles = document.getElementById('attachedFiles');
+            let selectedFileName = document.getElementById('selectedFileName');
+            
+            let sendEnabled = false;
+            sendButton.onclick = doSend;
+
+            toInput.oninput = updateSendButton;
+            bodyText.oninput = updateSendButton;
+
+            uploadButton.onclick = uploadFile;
+
+            updateSendButton();
+
+            if (token == "") {
+                location.href = "login.html";
+            }
+
+            let attachedFilesMap = new Map();
+
+            let queryString = location.search.substring(1);
+            if (queryString != "") {
+                let parts = queryString.split("=");
+                let verb = parts[0]
+                let uid = parts[1]
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    if (req.status == 200) {
+                        let res = JSON.parse(req.responseText);
+
+                        if (verb == "reply") {
+                            toInput.value = res.From.Address;
+                            subject.value = "Re: " + res.Subject;
+                            bodyText.innerHTML = quoteText(res.Body);
+                        } else if (verb == "reply-all") {
+                            toInput.value = res.From.Address;
+                            subject.value = "Re: " + res.Subject;
+                            bodyText.innerHTML = quoteText(res.Body);
+                            if (res.Cc != null) {
+                                let cc = "";
+                                for (let i = 0; i < res.Cc.length; i++) {
+                                    if (cc != "") {
+                                        cc += ", "
+                                    }
+                                    cc += res.Cc[i].Address;
+                                }
+                                ccInput.value = cc;
+                            }
+                        } else if (verb == "forward") {
+                            bodyText.innerHTML = res.Body;
+                            subject.value = res.Subject;
+                        }
+                    } else if (req.status == 401 || req.status == 403) {
+                        location.href = "login.html";
+                    } else {
+                        // TODO: Process error.
+                    }
+                }
+                req.open('GET', MESSAGE_URL + '?uid=' + uid, true);
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send();
+            }
+
+            toInput.focus();
+            toInput.select();
+
+            function doSend() {
+                event.preventDefault();
+                if (!sendEnabled) {
+                    return;
+                }
+
+                event.preventDefault();
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    console.log('got result');
+                    if (req.status == 200) {
+                        location.href = "inbox.html";
+                    } else {
+                        status.innerHTML = req.status;
+                        status.style.color = '#FF0000';
+                    }
+                }
+
+                let attachments = [];
+                for (let i = 0; i < attachedFiles.childNodes.length; i++) {
+                    let id = attachedFiles.childNodes[i].id;
+                    attachments.push(id);
+                }
+
+                req.open('POST', SEND_URL, true);
+                req.setRequestHeader('Content-Type', 'application/json');
+                req.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log('sending request');
+                req.send(JSON.stringify({
+                    "to": toInput.value,
+                    "cc": ccInput.value,
+                    "subject": subjectInput.value,
+                    "body": bodyText.value,
+                    "attachments": attachments
+                }));
+            }
+
+            function updateSendButton() {
+                if (toInput.value.length > 7 && bodyText.value.length > 0) {
+                    sendEnabled = true;
+                } else {
+                    sendEnabled = false;
+                }
+
+                if (!sendEnabled) {
+                    sendButton.style.opacity = 0.6;
+                } else {
+                    sendButton.style.opacity = 1.0;
+                }
+            }
+
+            function quoteText(t) {
+                var lines = t.split(/\n/);
+                let newLines = ["", ""];
+                for (let i = 0; i < lines.length; i++) {
+                    line = lines[i];
+                    newLines.push("> " + line.trim());
+                }
+                return newLines.join("\n");
+            }
+
+            function uploadFile() {
+                event.preventDefault();
+
+                let file = document.getElementById("fileName").files[0];
+                let formData = new FormData();
+
+                console.log(file.name);
+     
+                formData.append("fileName", file);
+                formData.append("token", token);
+                fetch(UPLOAD_FILE_URL, {method: "POST", body: formData})
+                    .then(response => response.json())
+                    .then(res => {
+                        console.log(res);
+                        attachedFilesMap.set(res.Id, file.name);
+                        //attachedFilesRow.style.display = "block";
+                        attachedFiles.innerHTML += `<div class='sendAttachedFile' id='${res.Id}'>` + file.name + 
+                            "<button class='smallButton' onclick='removeFile(this)'>remove</button>" + "</div>";
+                    });
+            }
+
+            function removeFile(e) {
+                event.preventDefault();
+                e.parentElement.remove();
+                console.log(e);
+            }
+
+            function fileNameChanged(e) {
+                console.log(e.value);
+                let fileName = e.value.replace(/^.*[\\\/]/, '');
+                selectedFileName.innerHTML = fileName;
+                uploadButton.style = "display:inline;"
+            }
+        </script>
+    </body>
+</html>
