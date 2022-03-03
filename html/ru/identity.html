@@ -9,23 +9,23 @@
             href="https://ubikom.cc/favicon.png">
     </head>
     <body>
-        <h1>Identity Details</h1>
-        <p><b>Please make sure you don't forget your identifier and password. You own your identity - 
-            there is no "forgot my password" function. Write it down, or use a password manager.
+        <h1>Детали Вашей Конфигурации</h1>
+        <p><b>Убедитесь, что вы не забыли свой идентификатор и пароль. Вы владеете своей информацией -
+            нет функции "забыл пароль". Запишите его или используйте менеджер паролей.
         </b>
         </p>
-        <h2>Your Identity</h2>
-        <p>The identifier and password are the most important parts of your identity. You
-            will use your email and password to configure your email client (if your client
-            supports automatic configuration, that's all you need).
+        <h2>Ваша Идентификаця</h2>
+        <p>Идентификатор и пароль являются наиболее важными частями вашей личности. Ты
+            будет использовать ваш адрес электронной почты и пароль для настройки вашего почтового клиента (если ваш клиент
+            поддерживает автоматическую настройку, это все, что вам нужно).
         </p>
         <table>
-            <tr><td><b>Identifier</b></td><td id="identifier"></td></tr>
-            <tr><td><b>Email</b></td><td id="email"></td></tr>
-            <tr><td><b>Password</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
+            <tr><td><b>Идентификатор</b></td><td id="identifier"></td></tr>
+            <tr><td><b>Адрес електронной почты</b></td><td id="email"></td></tr>
+            <tr><td><b>Пароль</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
         </table>
-        <h2>Additional Details</h2>
-        <p>If your email client requires manual configuration, you will also need these.</p>
+        <h2>Дополнительные данные</h2>
+        <p>Если ваш почтовый клиент требует ручной настройки, вам также понадобятся эти настройки.</p>
         <table>
             <tr><td><b>User name</b></td><td id="name"></td></tr>
             <tr><td><b>Outgoing Server Address</b></td><td id="outgoing_server"></td></tr>
@@ -34,24 +34,24 @@
             <tr><td><b>Incoming Server Port</b></td><td id="incoming_server_port"></td></tr>
         </table>
         <div id="priv_key">
-            <h2>Private Key</h2>
-            <p>You don't have to use your private key to send and receive email, but you may need it
-                if your SMTP/POP3 credentials become compromised. Download the key file and save it in a safe location. 
+            <h2>Закрытый ключ</h2>
+            <p>Вам не обязательно использовать свой закрытый ключ для отправки и получения электронной почты, но он может вам понадобиться.
+                если ваши учетные данные SMTP/POP3 будут скомпрометированы. Загрузите файл ключа и сохраните его в безопасном месте.
             </p>
-            <p><button id="downloadKey">Download private key</button></p>
-            <h3>Private Key Recovery Phrase</h3>
-            <p>Key recovery phrase is a sequence of 24 words that can be used to re-create your private key
-                if it ever gets lost. Write it down and keep it in a safe place.
+            <p><button id="downloadKey">Скачать закрытый ключ</button></p>
+            <h3>Фраза восстановления закрытого ключа</h3>
+            <p>Ключевая фраза восстановления представляет собой последовательность из 24 слов, которые можно использовать для воссоздания вашего закрытого ключа.
+                если он когда-нибудь потеряется. Запишите его и сохраните в надежном месте.
             </p>
             <p>
                 <table id="mnemonicTable"></table>
             </p>
         </div>
-        <h2>Next</h2>
-        <p>Make sure you save the information on this page.</p>
-        <p><font size="+2">After you are done, you can use <a href="https://ubikom.cc/mail/login.html">webmail</a>
-            right away, or proceed to <a href="clients.html">configure your email client.</a></font></p>
-        We are working on webmail at the moment, so you may see changes and improvements.
+        <h2>Дальше</h2>
+        <p>Убедитесь, что вы сохранили информацию на этой странице.</p>
+        <p><font size="+2">После того, как вы закончите, вы можете использовать <a href="https://ubikom.cc/mail/login.html">веб-почту</a>
+            сразу, или следуйте сюда чтобю <a href="clients.html">настроить почтовый клиент.</a></font></p>
+            В настоящее время мы работаем над веб-почтой, поэтому вы можете увидеть изменения и улучшения.
 
         <script>
             function submit(event) {
