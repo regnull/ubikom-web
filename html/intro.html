@@ -225,8 +225,10 @@ trampling of rights, censorship, and oppression from governments.
 </p>
 
 <p>
-    If you are signing all the outgoing messages with your private key, you might as well encrypt them with a unique key
-    derived from your private key and the recipient's public key. This way, only the recipient can decrypt the message.
+    When a message is received, we need assurance that came from the declared source. This is typically accomplished by
+    using Private Key Infrastructure (PKI). All messages are signed with the senders' private keys. Using PKI,
+    we can also encrypt data with a key derived from the sender's private key and the recipient’s public key. In this
+    way, the message's provenance and authenticity is established, and only the intended recipient can decrypt it.
 </p>
 <p>
     Finally, addressing users by their public keys works well for machines but not for humans. We prefer short names
@@ -247,10 +249,11 @@ trampling of rights, censorship, and oppression from governments.
     to the avatar registry and receives Bob’s public key.</h4>
 <img src="diag/email diag 2.png" width="670" height="150"/>
 
-<h4> Alice encrypts the message with this key and sends it to a storage server.</h4>
+<h4> Alice encrypts the message with this key, signs it with her private key, and sends it to the storage server.</h4>
 <img src="diag/email diag 3.png" width="670" height="150"/>
 
-<h4> Alice encrypts the message with this key and sends it to a storage server.</h4>
+<h4> Bob retrives his emails, authenticates their provenance using the senders' public keys, and decrypts them with
+    his private key.</h4>
 <img src="diag/email diag 4.png" width="670" height="150"/>
 
 <p> As you can see, only encrypted messages are ever sent via public network. </p>
