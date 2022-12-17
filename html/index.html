@@ -76,7 +76,57 @@
     <p>On twitter: <a href="https://twitter.com/UbikomProject">@UbikomProject</a> (yes, using Twitter does strike us as
         ironic).</p>
     <p>Join our Reddit community: <a href="https://www.reddit.com/r/ubikom/">Ubikom on Reddit</a></p>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script>
+            contractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+            {"indexed":false,"internalType":"string","name":"protocol","type":"string"},
+            {"indexed":false,"internalType":"string","name":"location","type":"string"}],
+            "name":"ConnectorRegistered","type":"event"},{"anonymous":false,
+            "inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+            {"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],
+            "name":"NameOwnershipUpdated","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+            {"indexed":false,"internalType":"address","name":"owner","type":"address"}],
+            "name":"NameRegistered","type":"event"},{"anonymous":false,
+            "inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+            {"indexed":false,"internalType":"uint256","name":"price","type":"uint256"}],
+            "name":"PriceUpdated","type":"event"},{"anonymous":false,
+            "inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"}],
+            "name":"PublicKeyUpdated","type":"event"},{"anonymous":false,
+            "inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+            {"indexed":false,"internalType":"uint256","name":"price","type":"uint256"},
+            {"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],
+            "name":"Sale","type":"event"},{"inputs":[{"internalType":"string","name":"name","type":"string"},
+            {"internalType":"bytes","name":"publicKey","type":"bytes"}],"name":"buy","outputs":[],
+            "stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"string","name":"name","type":"string"},
+            {"internalType":"string","name":"protocol","type":"string"}],"name":"lookupConnector",
+            "outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"name","type":"string"}],"name":"lookupName",
+            "outputs":[{"internalType":"address","name":"owner","type":"address"},
+            {"internalType":"bytes","name":"publicKey","type":"bytes"},
+            {"internalType":"uint256","name":"price","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"name","type":"string"},
+            {"internalType":"string","name":"protocol","type":"string"},
+            {"internalType":"string","name":"location","type":"string"}],
+            "name":"registerConnector","outputs":[],
+            "stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"bytes","name":"publicKey","type":"bytes"},
+            {"internalType":"string","name":"name","type":"string"}],"name":"registerName",
+            "outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":
+            "address","name":"newOwner","type":"address"}],"name":"updateOwnership","outputs":[],
+            "stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string",
+            "name":"name","type":"string"},{"internalType":"uint256","name":"price","type":"uint256"}],
+            "name":"updatePrice","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"bytes","name":"publicKey","type":"bytes"},
+            {"internalType":"string","name":"name","type":"string"}],
+            "name":"updatePublicKey","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+
+            const web3 = new Web3("https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23")
+            const nameRegistry = new web3.eth.Contract(contractAbi, "0xed7a3009dc614469ac5222f5a6efc9f16d6190da")
+
+
             let nextEnabled = false;
             function submit(event) {
                 event.preventDefault();
@@ -97,32 +147,27 @@
                     nextEnabled = false;
                     return;
                 }
-
-                let req = new XMLHttpRequest();
-                req.onload = function () {
-                    console.log(req.status, req.statusText)
-                    if (req.status == 200) {
-                        res = JSON.parse(req.responseText);
-                        if(res.available) {
+                nameRegistry.methods.lookupName(idInput.value).call(function (err, res) {
+                    if (err) {
+                        document.getElementById("status").innerHTML = err;
+                        document.getElementById("status").style.color = '#FF0000';
+                        document.getElementById('nextButton').style.opacity = 0.6;
+                        nextEnabled = false;
+                        return
+                    }
+                    if (res.owner == "0x0000000000000000000000000000000000000000") {
                             document.getElementById("status").innerHTML = "available!";
                             document.getElementById("status").style.color = '#3ADF00';
                             document.getElementById('nextButton').style.opacity = 1.0;
                             nextEnabled = true;
-                        } else {
-                            document.getElementById("status").innerHTML = "not available :(";
+                    } else {
+                            document.getElementById("status").innerHTML = "name taken by " + res.owner;
                             document.getElementById("status").style.color = '#FF0000';
                             document.getElementById('nextButton').style.opacity = 0.6;
                             nextEnabled = false;
-                        }
-                    } else {
-                        document.getElementById("status").innerHTML = "invalid name";
-                        document.getElementById("status").style.color = '#FF0000';
-                        document.getElementById('nextButton').style.opacity = 0.6;
-                        nextEnabled = false;
                     }
-                }
-                req.open('GET', 'https://alpha.ubikom.cc:8088/lookupName?name=' + encodeURIComponent(idInput.value), true);
-                req.send(null);
+                    console.log(res)
+                })
             }
             let idInput = document.getElementById("identifier");
             idInput.onkeyup = nameChanged;
