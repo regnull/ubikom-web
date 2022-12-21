@@ -126,7 +126,6 @@
             const web3 = new Web3("https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23")
             const nameRegistry = new web3.eth.Contract(contractAbi, "0xed7a3009dc614469ac5222f5a6efc9f16d6190da")
 
-
             let nextEnabled = false;
             function submit(event) {
                 event.preventDefault();
