@@ -54,7 +54,7 @@
                     await loadWeb3();
                     window.contract = await loadContract();
                     const account = await getCurrentAccount();
-                    let result = await window.contract.methods.registerName("0x" + publicKey, name).send({ from: account });
+                    let result = await window.contract.methods.registerName(publicKey, name).send({ from: account });
                     status.innerHTML = JSON.stringify(result);
                     console.log(result);
                 } finally {
