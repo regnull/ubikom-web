@@ -37,7 +37,7 @@
             async function loadWeb3() {
                 if (window.ethereum) {
                     window.web3 = new Web3(window.ethereum);
-                    window.ethereum.enable();
+                    window.ethereum.eth_requestAccounts();
                 }
             }
 
@@ -50,14 +50,17 @@
             }
 
             async function run(publicKey, name) {
-                await loadWeb3();
-                window.contract = await loadContract();
-                const account = await getCurrentAccount();
-                let result = await window.contract.methods.registerName("0x" + publicKey, name).send({ from: account });
-                status.innerHTML = JSON.stringify(result);
-                console.log(result);
-                registerIdentityEnabled = true;
-                registerIdentityButton.style.opacity = 1.0;
+                try {
+                    await loadWeb3();
+                    window.contract = await loadContract();
+                    const account = await getCurrentAccount();
+                    let result = await window.contract.methods.registerName("0x" + publicKey, name).send({ from: account });
+                    status.innerHTML = JSON.stringify(result);
+                    console.log(result);
+                } finally {
+                    registerIdentityEnabled = true;
+                    registerIdentityButton.style.opacity = 1.0;
+                }
             }
 
             async function registerIdentity(event) {
