@@ -44,4 +44,6 @@ nameRegistryContractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"intern
 "name":"updatePublicKey","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
 const infuraUrl = "https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
+const infuraTestUrl = "https://sepolia.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
 const nameRegistryContractAddress = "0xed7a3009dc614469ac5222f5a6efc9f16d6190da";
+const nameRegistryTestContractAddress = "0xcc8650c9cd8d99b62375c22f270a803e7abf0de9";
