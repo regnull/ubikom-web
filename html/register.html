@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="https://ubikom.cc/favicon.png">
+    </head>
+    <body>
+        <h1>Register Identity</h1>
+        </p>
+        <p>You are about to register your identity on Ethereum blockchain.
+        </p>
+        <table>
+            <tr><td><b>Name</b></td><td id="identifier"></td></tr>
+            <tr><td><b>Password</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
+        </table>
+        <br/>
+        <button id="registerIdentity">Register Identity</button>
+        <script src="scripts/wasm_exec.js" type="text/javascript"></script>
+        <script src="scripts/contract.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script>
+            const go = new Go();
+            WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+            });
+
+            async function loadWeb3() {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                    window.ethereum.enable();
+                }
+            }
+
+            async function loadContract() {
+                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryContractAddress);
+            }
+            async function getCurrentAccount() {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                return accounts[0];
+            }
+
+            async function run(publicKey, name) {
+                await loadWeb3();
+                window.contract = await loadContract();
+                const account = await getCurrentAccount();
+                const hexToArray = (hexString) =>
+                    Uint8Array.from(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+                publicKeyArray = hexToArray(publicKey);
+                console.log(publicKeyArray);
+                let result = await window.contract.methods.registerName("0x" + publicKey, name).send({ from: account });
+            }
+
+            async function registerIdentity(event) {
+                event.preventDefault();
+
+                if (typeof window.ethereum === 'undefined') {
+                    console.log('MetaMask is not installed!');
+                    return;
+                }
+                
+                console.log(nameRegistryContractAddress);
+                id = sessionStorage.getItem('identifier');
+                password = sessionStorage.getItem('password');
+                publicKey = publicKeyFromPassword(password, id)
+                console.log(publicKey);
+
+                await run(publicKey, id);
+                // location.href = 'password.html';
+            }
+
+            let registerIdentityButton = document.getElementById('registerIdentity');
+            registerIdentityButton.onclick = registerIdentity;
+
+            document.getElementById('identifier').innerHTML = sessionStorage.getItem('identifier');
+            document.getElementById('password').innerHTML = "*********";
+            let showPasswordButton = document.getElementById('showPassword');
+            showPasswordButton.onclick = function () {
+                if (showPasswordButton.innerHTML == "Show") {
+                    document.getElementById('password').innerHTML = sessionStorage.getItem('password');
+                    showPasswordButton.innerHTML = "Hide";
+                } else {
+                    document.getElementById('password').innerHTML = "*********";
+                    showPasswordButton.innerHTML = "Show";
+                }
+            }
+        </script>
+    </body>
+</html>
