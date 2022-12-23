@@ -107,7 +107,7 @@
                     nextEnabled = false;
                     return;
                 }
-                nameRegistry.methods.lookupName(idInput.value).call(function (err, res) {
+                nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
                     if (err) {
                         document.getElementById("status").innerHTML = err;
                         document.getElementById("status").style.color = '#FF0000';
@@ -121,7 +121,13 @@
                             document.getElementById('nextButton').style.opacity = 1.0;
                             nextEnabled = true;
                     } else {
-                            document.getElementById("status").innerHTML = "name taken by " + res.owner;
+                            let status = "name taken by " + res.owner;
+                            if (res.price == 0) {
+                                status += ", not for sale";
+                            } else {
+                                status += ", for sale for " + res.price;
+                            }
+                            document.getElementById("status").innerHTML = status;
                             document.getElementById("status").style.color = '#FF0000';
                             document.getElementById('nextButton').style.opacity = 0.6;
                             nextEnabled = false;
