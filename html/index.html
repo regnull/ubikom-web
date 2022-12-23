@@ -15,7 +15,7 @@
         <a name = "#top" href="blogs.html"> News</a>
     </h2>
     </p>
-    <h1>Ubikom: secure email and identity registry on blockchain</h1>
+    <h1>Ubikom: Blockchain-Powered Digital Identity for Secure Communications</h1>
     <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto:sasha@ubikom.cc">sasha@ubikom.cc</a></p>
 
     <p style="font-weight: bold;">!!! Registrations are currently disabled as we are working to transition to the Ethereum ecosystem !!!</p>
@@ -121,7 +121,7 @@
                             document.getElementById('nextButton').style.opacity = 1.0;
                             nextEnabled = true;
                     } else {
-                            let status = "name taken by " + res.owner;
+                            let status = "owned by <a href='https://etherscan.io/address/" + res.owner + "'>" + res.owner + "</a>";
                             if (res.price == 0) {
                                 status += ", not for sale";
                             } else {
