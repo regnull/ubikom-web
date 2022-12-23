@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Confirm Registration</h1>
+        </p>
+        <p>You are about to register your identity on Ethereum blockchain. To proceed, you must have Metamask Wallet installed
+            in your browser. If you don't have it installed, you may install it from <a href="https://metamask.io/download/">here</a>.
+        </p>
+        <table>
+            <tr><td><b>Name</b></td><td id="identifier"></td></tr>
+            <tr><td><b>Password</b></td><td><div id="password" style="display: inline;"></div><button id="showPassword">Show</button></td></tr>
+        </table>
+        <br/>
+        <br/>
+        <button id="proceedWithRegistration">Proceed</button>
+        <script>
+            document.getElementById('identifier').innerHTML = sessionStorage.getItem('identifier');
+            document.getElementById('password').innerHTML = "*********";
+            let showPasswordButton = document.getElementById('showPassword');
+            showPasswordButton.onclick = function () {
+                if (showPasswordButton.innerHTML == "Show") {
+                    document.getElementById('password').innerHTML = sessionStorage.getItem('password');
+                    showPasswordButton.innerHTML = "Hide";
+                } else {
+                    document.getElementById('password').innerHTML = "*********";
+                    showPasswordButton.innerHTML = "Show";
+                }
+            }
+
+            let proceedWithRegistrationButton = document.getElementById('proceedWithRegistration');
+
+            proceedWithRegistrationButton.onclick = function() {
+                event.preventDefault();
+                location.href = 'register.html';
+            };
+        </script>
+    </body>
+</html>
