@@ -9,25 +9,24 @@
             href="favicon.png">
     </head>
     <body>
-        <h1>Name Registration</h1>
+        <h1>Endpoint Registration</h1>
         <p style="font-weight: bold;" id="network"></p>
         <div id="log"></div>
         <br/>
         <br/>
         <button id="continueButton" style="margin-left: 0em">Continue</button>
         <button id="retryButton" style="margin-left: 0em">Retry</button>
-        <script src="scripts/wasm_exec.js" type="text/javascript"></script>
         <script src="scripts/common.js" type="text/javascript"></script>
         <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script>
             document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 
             // If this name is already registered, redirect to the main page.
-            id = sessionStorage.getItem('identifier');
-            idRegistered = sessionStorage.getItem('identifierRegistered');
-            if (id === idRegistered) {
-                location.href = "index.html";
-            }
+            // id = sessionStorage.getItem('identifier');
+            // idRegistered = sessionStorage.getItem('identifierRegistered');
+            // if (id === idRegistered) {
+            //     location.href = "index.html";
+            // }
 
             let logElement = document.getElementById("log");
             function logMessage(msg) {
@@ -53,7 +52,7 @@
                     return;
                 }
                 
-                location.href = 'confirm_endpoint.html';
+                location.href = 'registration_done.html';
             }
 
             let retryButton = document.getElementById('retryButton');
@@ -88,17 +87,16 @@
                 return accounts[0];
             }
 
-            async function run(publicKey, name) {
+            async function run(name, endpoint) {
                 await loadWeb3();
                 logMessage("Metamask account is connected");
                 window.contract = await loadContract();
                 logMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logMessage("Registering name (this may take a minute, please wait)...");
-
-                let result = await window.contract.methods.registerName(publicKey, name).send({ from: account });
+                logMessage("Registering endpoint (this may take a minute, please wait)...");
+                let result = await window.contract.methods.updateConfig(name, "dms-endpoint", endpoint).send({ from: account });
                 if (result.status !== undefined && result.status) {
-                    logMessage("Congratulations! The name was successfully registered!");
+                    logMessage("Congratulations! The endpoint was successfully registered!");
 
                     logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
                     logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
@@ -112,7 +110,7 @@
                 }
             }
 
-            async function registerIdentity() {
+            async function registerEndpoint() {
                 continueButtonEnabled = false;
                 retryButtonEnabled = false;
                 checkContinueButton();
@@ -123,24 +121,16 @@
                     return;
                 }
 
-                const go = new Go();
-                let goResult = await WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject);
-                go.run(goResult.instance);
-
-                id = sessionStorage.getItem('identifier');
-                password = sessionStorage.getItem('password');
-                publicKey = publicKeyFromPassword(password, id)
-                console.log(publicKey);
+                let id = sessionStorage.getItem('identifier');
+                let endpoint = sessionStorage.getItem('ubikom-dms-endpoint');
 
                 try {
-                    await run(publicKey, id);
+                    await run(id, endpoint);
                 } catch(e) {
                     logMessage(e.message);
-                    retryButtonEnabled = true;
-                    checkRetryButton();
                 }
             }
-            registerIdentity();
+            registerEndpoint();
         </script>
     </body>
 </html>

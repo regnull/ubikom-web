@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Endpoint Registration</h1>
+        </p>
+        <p>Now that you have your name registered, you can register an endpoint where your messages will be delivered.
+            This can be the public endpoint we provide, or any other endpoint implementing the correct protocol.
+            You can host your own endpoint if you wish. Even if you use the public endpoint, your messages are secure -
+            they are always encrypted with the key derived from your password. You can also skip the endpont registration
+            for now, and do it later (but before you register the endpoint, you won't be able to receive any messages).
+        </p>
+        <input type="text" id="endpoint" placeholder="endpoint" value=''/>
+        <br/>
+        <button id="proceedWithRegistration" style="margin-left: 0em;">Proceed</button>
+        <script src="scripts/common.js" type="text/javascript"></script>
+        <script>
+            document.getElementById('endpoint').value = dumpServerAddress;
+            let endpointInput = document.getElementById("endpoint");
+            let proceedWithRegistrationButton = document.getElementById('proceedWithRegistration');
+            let proceedWithRegistrationButtonEnabled = false;
+            function checkProceedButton() {
+                let endpoint = endpointInput.value;
+                if (endpoint.length > 5) {
+                    proceedWithRegistrationButton.style.opacity = 1.0;
+                    proceedWithRegistrationButtonEnabled = true;
+                } else {
+                    proceedWithRegistrationButton.style.opacity = 0.6;
+                    proceedWithRegistrationButtonEnabled = false;
+                }
+            }
+            checkProceedButton();
+            endpointInput.onchange = function(event) {
+                event.preventDefault();
+                checkProceedButton();
+            }
+
+            proceedWithRegistrationButton.onclick = function() {
+                event.preventDefault();
+                if (!proceedWithRegistrationButtonEnabled) {
+                    return;
+                }
+                sessionStorage.setItem('ubikom-dms-endpoint', endpointInput.value);
+                location.href = 'register_endpoint.html';
+            }
+        </script>
+    </body>
+</html>

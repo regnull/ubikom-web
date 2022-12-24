@@ -84,12 +84,6 @@
     <script src ="scripts/common.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
     <script>
-        document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
-
-        const web3 = new Web3(getInfuraUrl());
-        const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
-
-        let nextEnabled = false;
         function submit(event) {
             event.preventDefault();
             if (!nextEnabled) {
@@ -106,7 +100,7 @@
         }
 
         function clearStatus() {
-            document.getElementById("status").innerHTML = "";
+            document.getElementById("status").innerHTML = " ";
         }
 
         function enableNext(enable) {
@@ -145,6 +139,13 @@
                 }
             })
         }
+        document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+
+        const web3 = new Web3(getInfuraUrl());
+        const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+
+        let nextEnabled = false;
+
         let idInput = document.getElementById("identifier");
         idInput.onkeyup = nameChanged;
         enableNext(false);
