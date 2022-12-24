@@ -1,4 +1,4 @@
-nameRegistryContractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
+let nameRegistryContractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},
 {"indexed":false,"internalType":"string","name":"protocol","type":"string"},
 {"indexed":false,"internalType":"string","name":"location","type":"string"}],
 "name":"ConnectorRegistered","type":"event"},{"anonymous":false,
@@ -43,7 +43,49 @@ nameRegistryContractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"intern
 {"internalType":"string","name":"name","type":"string"}],
 "name":"updatePublicKey","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
+const useTestnet = true;
 const infuraUrl = "https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
 const infuraTestUrl = "https://sepolia.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
 const nameRegistryContractAddress = "0xed7a3009dc614469ac5222f5a6efc9f16d6190da";
 const nameRegistryTestContractAddress = "0xcc8650c9cd8d99b62375c22f270a803e7abf0de9";
+const etherscanBaseTestUrl = "https://sepolia.etherscan.io";
+const etherscanBaseUrl = "https://etherscan.io";
+
+function getInfuraUrl() {
+    if (useTestnet) {
+        return infuraTestUrl;
+    }
+    return infuraUrl;
+}
+
+function getContractAddress() {
+    if (useTestnet) {
+        return nameRegistryTestContractAddress;
+    }
+    return nameRegistryContractAddress;
+}
+
+function getNetworkName() {
+    if (useTestnet) {
+        return "Sepolia testnet";
+    }
+    return "ETH mainnet";
+}
+
+function usingTestnet() {
+    return useTestnet;
+}
+
+function getEtherscanTransactionUrl(tx) {
+    if (useTestnet) {
+        return `${etherscanBaseTestUrl}/tx/${tx}`;
+    }
+    return `${etherscanBaseUrl}/tx/${tx}`
+}
+
+function getEtherscanAddressUrl(addr) {
+    if (useTestnet) {
+        return `${etherscanBaseTestUrl}/address/${addr}`;
+    }
+    return `${etherscanBaseUrl}/address/${addr}`
+}
