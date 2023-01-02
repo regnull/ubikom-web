@@ -146,8 +146,9 @@
                     setStatus("available!", '#3ADF00');
                     enableNext(true);
                 } else {
+                    price = weiToEth(res.price);
                     setStatus(`owned by <a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>, \
-                       ${res.price == 0 ? 'not for sale' : 'for sale for res.price'}`, '#FF0000');
+                       ${res.price == 0 ? 'not for sale' : 'for sale for '} ${price} ETH`, '#FF0000');
                     enableNext(false);
                 }
             })

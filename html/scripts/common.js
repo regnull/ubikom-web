@@ -101,3 +101,13 @@ function setInputFilter(textbox, inputFilter, errMsg) {
       });
     });
   }
+
+  const ethFactor = BigInt("1000000000000000000");
+
+  function ethToWei(x) {
+    return BigInt(x)*ethFactor;
+  }
+
+  function weiToEth(x) {
+    return x / ethFactor;
+  }
