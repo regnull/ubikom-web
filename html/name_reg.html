@@ -60,7 +60,7 @@
                     document.getElementById('name_owner').innerHTML = `<a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>`;
                     document.getElementById('name_public_key').innerHTML = res.publicKey;
                     document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
-                    document.getElementById('name_price').innerHTML = res.price != 0 ? res.price + ' ETH' : '';
+                    document.getElementById('name_price').innerHTML = res.price != 0 ? price + ' ETH' : '';
                 }
             });
 
