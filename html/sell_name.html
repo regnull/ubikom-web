@@ -114,6 +114,8 @@
             }
 
             async function run(name, price) {
+                p = new BigInt(price * 1000000000000000000);
+                console.log(p);
                 await loadWeb3();
                 logMessage("Metamask account is connected");
                 window.contract = await loadContract();
@@ -121,7 +123,7 @@
                 const account = await getCurrentAccount();
                 logMessage("Updating endpoint (this may take a minute, please wait)...");
 
-                let result = await window.contract.methods.updatePrice(name, price).send({ from: account });
+                let result = await window.contract.methods.updatePrice(name, p.toString()).send({ from: account });
                 if (result.status !== undefined && result.status) {
                     logMessage("Price was successfully updated. ");
 
