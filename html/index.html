@@ -137,6 +137,7 @@
                 return;
             }
             nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
+                console.log(res);
                 if (err) {
                     setStatus(err, '#FF0000');
                     enableNext(false);
@@ -151,7 +152,7 @@
                        ${res.price == 0 ? 'not for sale' : 'for sale for '} ${price} ETH`, '#FF0000');
                     enableNext(false);
                 }
-            })
+             });
         }
         document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 

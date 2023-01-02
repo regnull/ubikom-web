@@ -100,14 +100,16 @@ function setInputFilter(textbox, inputFilter, errMsg) {
         }
       });
     });
-  }
+}
 
-  const ethFactor = BigInt("1000000000000000000");
+const ethFactor = BigInt('1000000000000000000');
+const gweiFactor = BigInt('1000000000');
 
-  function ethToWei(x) {
+function ethToWei(x) {
     return BigInt(x)*ethFactor;
-  }
+}
 
-  function weiToEth(x) {
-    return x / ethFactor;
-  }
+function weiToEth(x) {
+    x = BigInt(x) / gweiFactor;
+    return Number(x) / 1000000000;
+}
