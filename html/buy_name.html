@@ -139,7 +139,7 @@
                 // TODO: Generate a fresh public key here, just to be safe.
                 const tempKey = '0x03b7e8d7e1f934832c348d827e2a486e948055cffa08976d4c6aa65c740dcbeb15';
 
-                let result = await window.contract.methods.buyName(name, tempKey).send({ from: account, value: p });
+                let result = await window.contract.methods.buyName(name, tempKey).send({ from: account, value: Number(p) });
                 if (result.status !== undefined && result.status) {
                     logMessage("Price was successfully updated. ");
 
