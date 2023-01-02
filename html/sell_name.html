@@ -114,7 +114,7 @@
             }
 
             async function run(name, price) {
-                p = new BigInt(price * 1000000000000000000);
+                p = BigInt(price * 1000000000000000000);
                 console.log(p);
                 await loadWeb3();
                 logMessage("Metamask account is connected");
