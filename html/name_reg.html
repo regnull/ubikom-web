@@ -25,15 +25,16 @@
             <tr><td><b>Name</b></td><td id="name_returned"></td></tr>
             <tr><td><b>Status</b></td><td id="name_status"></td></tr>
             <tr><td><b>Owner</b></td><td id="name_owner"></td></tr>
+            <tr><td><b>Public Key</b></td><td id="name_public_key"></td></tr>
+            <tr><td><b>Endpoint</b></td><td id="name_endpoint"></td></tr>            
             <tr><td><b>For Sale?</b></td><td id="name_for_sale"></td></tr>
-            <tr><td><b>Price</b></td><td id="name_price"></td></tr>
+            <tr><td><b>Price</b></td><td id="name_price"></td></tr>            
         </table>
     </div>
     <script src ="scripts/common.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
     <script>
         function submit(event) {
-            console.log('submit');
             event.preventDefault();
             if (!nextEnabled) {
                 return;
@@ -49,16 +50,27 @@
                     document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
                     document.getElementById('name_status').innerHTML = 'Available (not registered)';
                     document.getElementById('name_owner').innerHTML = 'None';
+                    document.getElementById('name_public_key').innerHTML = '';
                     document.getElementById('name_for_sale').innerHTML = '';
                     document.getElementById('name_price').innerHTML = '';
                 } else {
                     document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
                     document.getElementById('name_status').innerHTML = 'Registered';
                     document.getElementById('name_owner').innerHTML = `<a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>`;
+                    document.getElementById('name_public_key').innerHTML = res.publicKey;
                     document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
                     document.getElementById('name_price').innerHTML = res.price != 0 ? res.price : '';
                 }
-            })
+            });
+
+            nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call(function (err, res) {
+                enableNext(false);
+                if (err) {
+                    setStatus(err, '#FF0000');
+                    return
+                }
+                document.getElementById('name_endpoint').innerHTML = res;
+            });
         }
 
         function setStatus(msg, color = '#FFFFFF') {
