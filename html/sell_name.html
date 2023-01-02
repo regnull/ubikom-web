@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Sell a Name</h1>
+        </p>
+        <p>You can list a name registered to you for sale. Once you do it, anyone who pays the 
+            price will automatically become the new owner. The account that was used to register
+            the name will automatically receive the proceeds, after the sale is done.
+        </p>
+        <p>Proceed with caution! The transaction is not reversible, once you sell your name,
+            it's gone forever. You may, however, de-list your name at any point before
+            the sale transaction takes place.
+        </p>
+        <p style="font-weight: bold;" id="network"></p>
+        <p>
+            <input type="text" id="name" placeholder="name" value=''/>
+        </p>
+        <p>
+            <input type="text" id="price" placeholder="price, ETH" value=''/>
+        </p>
+        <i><p id="status" style="margin: 0"></p></i>
+        <br/>
+        <button id="proceed" style="margin-left: 0em;">Go!</button>
+        <div id="log"></div>
+        <script src="scripts/common.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script>
+            document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+            let nameInput = document.getElementById('name');
+            let priceInput = document.getElementById('price');
+            let proceedButton = document.getElementById('proceed');
+            let proceedButtonEnabled = false;
+            let done = false;
+
+            let logElement = document.getElementById("log");
+            function logMessage(msg) {
+                var newLogElem = document.createElement('pre');
+                newLogElem.innerHTML = msg;
+                logElement.appendChild(newLogElem);
+            }
+
+            nameInput.onkeyup = (event) => {
+                event.preventDefault();
+
+                if (nameInput.value.length < 3) {
+                    setStatus('name is too short', StatusType.Error);
+                } else {
+                    clearStatus();
+                }
+
+                checkProceedButton();
+            };
+
+            priceInput.onkeyup = (event) => {
+                event.preventDefault();
+                checkProceedButton();
+            };
+
+            checkProceedButton();
+
+            setInputFilter(priceInput, function(value) {
+                return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+            }, "Only digits and '.' are allowed");
+
+            proceedButton.onclick = () => {
+                event.preventDefault();
+
+                if (!proceedButtonEnabled) {
+                    return;
+                }
+
+                if (done) {
+                    location.href='index.html';
+                }
+
+                run(nameInput.value, priceInput.value);
+            }
+
+            function checkProceedButton() {
+                let price = priceInput.value;
+                let name = nameInput.value;
+                if (done || (price > 0 && name.length >= 3)) {
+                    proceedButton.style.opacity = 1.0;
+                    proceedButtonEnabled = true;
+                } else {
+                    proceedButton.style.opacity = 0.6;
+                    proceedButtonEnabled = false;
+                }
+            }
+
+            async function loadWeb3() {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                } else {
+                    logMessage("Metamask is not installed");
+                }
+            }
+
+            async function loadContract() {
+                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
+            }
+
+            async function getCurrentAccount() {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                return accounts[0];
+            }
+
+            async function run(name, price) {
+                await loadWeb3();
+                logMessage("Metamask account is connected");
+                window.contract = await loadContract();
+                logMessage("Contract is loaded");
+                const account = await getCurrentAccount();
+                logMessage("Updating endpoint (this may take a minute, please wait)...");
+
+                let result = await window.contract.methods.updatePrice(name, price).send({ from: account });
+                if (result.status !== undefined && result.status) {
+                    logMessage("Price was successfully updated. ");
+
+                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    done = true;
+                    proceedButton.innerText = 'Finish';
+                } else {
+                    logMessage("On no! There was an error.");
+                    proceedButton.innerText = 'Retry';
+                }
+            }
+        </script>
+    </body>
+</html>
