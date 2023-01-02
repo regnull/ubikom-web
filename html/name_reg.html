@@ -16,23 +16,52 @@
     <p style="font-weight: bold;" id="network"></p>
     <form id="name-form">
         <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
-        <button name="submit" id="nextButton">Details</button>
+        <button name="submit" id="nextButton">Check</button>
         <i><p id="status" style="margin: 0"></p></i>
     </form>
     <p><i>Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</i></p>
+    <div id="details" style="visibility:hidden">
+        <table>
+            <tr><td><b>Name</b></td><td id="name_returned"></td></tr>
+            <tr><td><b>Status</b></td><td id="name_status"></td></tr>
+            <tr><td><b>Owner</b></td><td id="name_owner"></td></tr>
+            <tr><td><b>For Sale?</b></td><td id="name_for_sale"></td></tr>
+            <tr><td><b>Price</b></td><td id="name_price"></td></tr>
+        </table>
+    </div>
     <script src ="scripts/common.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
     <script>
         function submit(event) {
+            console.log('submit');
             event.preventDefault();
             if (!nextEnabled) {
                 return;
             }
-            sessionStorage.setItem('identifier', document.getElementById('identifier').value);
-            location.href = 'password.html';
+            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
+                enableNext(false);
+                if (err) {
+                    setStatus(err, '#FF0000');
+                    return
+                }
+                details.style.visibility = 'visible';
+                if (res.owner == "0x0000000000000000000000000000000000000000") {
+                    document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
+                    document.getElementById('name_status').innerHTML = 'Available (not registered)';
+                    document.getElementById('name_owner').innerHTML = 'None';
+                    document.getElementById('name_for_sale').innerHTML = '';
+                    document.getElementById('name_price').innerHTML = '';
+                } else {
+                    document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
+                    document.getElementById('name_status').innerHTML = 'Registered';
+                    document.getElementById('name_owner').innerHTML = `<a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>`;
+                    document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
+                    document.getElementById('name_price').innerHTML = res.price != 0 ? res.price : '';
+                }
+            })
         }
 
-        function setStatus(msg, color, opacity) {
+        function setStatus(msg, color = '#FFFFFF') {
             let status = document.getElementById("status");
             status.innerHTML = msg;
             status.style.color = color;
@@ -54,6 +83,7 @@
 
         async function nameChanged() {
             clearStatus();
+            details.style.visibility = 'hidden';
 
             let idInput = document.getElementById("identifier");
 
@@ -61,23 +91,10 @@
                 setStatus("name is too short", '#FF0000');
                 enableNext(false);
                 return;
+            } else {
+                setStatus('');
+                enableNext(true);
             }
-            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
-                console.log(res)
-                if (err) {
-                    setStatus(err, '#FF0000');
-                    enableNext(false);
-                    return
-                }
-                if (res.owner == "0x0000000000000000000000000000000000000000") {
-                    setStatus("available!", '#3ADF00');
-                    enableNext(true);
-                } else {
-                    setStatus(`owned by <a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>, \
-                       ${res.price == 0 ? 'not for sale' : 'for sale for res.price'}`, '#FF0000');
-                    enableNext(false);
-                }
-            })
         }
         document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 
@@ -90,6 +107,9 @@
         idInput.onkeyup = nameChanged;
         enableNext(false);
         document.getElementById('nextButton').onclick = submit;
+
+        let detailsElement = document.getElementById("details");
+        details.style.visibility = 'hidden';
     </script>
     </body>
 </html>
