@@ -10,6 +10,44 @@ body {
     padding: 4em 1em;
     color: #30393f;
 }
+
+ /* .nav-bar{
+  width: 30%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+} */
+/*
+.nav-bar a{
+  text-decoration: none;
+  color: red;
+  display: block;
+}
+.nav-bar ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-bar ul li a{
+  padding: 10px;
+}
+
+.nav-bar ul li a:hover{
+  background: #173459;
+}
+.nav-bar li{
+}
+.nav-bar li:last-child{
+  border: none;
+}
+
+.content{
+  margin-left: 30%;
+  width: 70%;
+  padding: 2%;
+} */
   
 h2 {
   margin-top: 1em;
@@ -209,3 +247,11 @@ textarea.sendBody {
   width: 100%;
 }
 
+.top-link {
+  padding: 12px;
+}
+
+/* .top-menu {
+  display: inline-block;
+  *display: inline;
+} */

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Change Endpoint</h1>
+        </p>
+        <p>Endpoint is where your messages are getting sent by other Ubikom users. We provide a public endpoint,
+            so you can always use that, but you can also use a custom one, or even run your own server
+            and provide your own endpoint.
+        </p>
+        <p>
+            <input type="text" id="name" placeholder="name" value=''/>
+        </p>
+        <p>
+            <input type="text" id="endpoint" placeholder="endpoint" value=''/>
+        </p>
+        <br/>
+        <button id="proceed" style="margin-left: 0em;">Go!</button>
+        <div id="log"></div>
+        <script src="scripts/common.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script>
+            let nameInput = document.getElementById('name');
+            let endpointInput = document.getElementById('endpoint');
+            endpointInput.value = dumpServerAddress;
+            let proceedButton = document.getElementById('proceed');
+            let proceedButtonEnabled = false;
+            let done = false;
+
+            let logElement = document.getElementById("log");
+            function logMessage(msg) {
+                var newLogElem = document.createElement('pre');
+                newLogElem.innerHTML = msg;
+                logElement.appendChild(newLogElem);
+            }
+
+            nameInput.onkeyup = function(event) {
+                event.preventDefault();
+                checkProceedButton();
+            };
+
+            endpointInput.onkeyup = function(event) {
+                event.preventDefault();
+                checkProceedButton();
+            };
+
+            checkProceedButton();
+
+            proceedButton.onclick = function() {
+                event.preventDefault();
+
+                if (!proceedButtonEnabled) {
+                    return;
+                }
+
+                if (done) {
+                    location.href='index.html';
+                }
+
+                run(nameInput.value, endpointInput.value);
+            }
+
+            function checkProceedButton() {
+                let endpoint = endpointInput.value;
+                let name = nameInput.value;
+                if (done || (endpoint.length > 5 && name.length >= 3)) {
+                    proceedButton.style.opacity = 1.0;
+                    proceedButtonEnabled = true;
+                } else {
+                    proceedButton.style.opacity = 0.6;
+                    proceedButtonEnabled = false;
+                }
+            }
+
+            async function loadWeb3() {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                } else {
+                    logMessage("Metamask is not installed");
+                }
+            }
+
+            async function loadContract() {
+                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
+            }
+
+            async function getCurrentAccount() {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                return accounts[0];
+            }
+
+            async function run(name, endpoint) {
+                await loadWeb3();
+                logMessage("Metamask account is connected");
+                window.contract = await loadContract();
+                logMessage("Contract is loaded");
+                const account = await getCurrentAccount();
+                logMessage("Updating endpoint (this may take a minute, please wait)...");
+
+                let result = await window.contract.methods.updateConfig(name, "dms-endpoint", endpoint).send({ from: account });
+                if (result.status !== undefined && result.status) {
+                    logMessage("Endpoint was successfully updated. ");
+
+                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    done = true;
+                    proceedButton.innerText = 'Finish';
+                } else {
+                    logMessage("On no! There was an error.");
+                    proceedButton.innerText = 'Retry';
+                }
+            }
+        </script>
+    </body>
+</html>
