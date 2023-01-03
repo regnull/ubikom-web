@@ -137,8 +137,8 @@
                 enableNext(false);
                 return;
             }
-            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
-                console.log(res);
+            let name = idInput.value.toLowerCase();
+            nameRegistry.methods.lookupName(name).call(function (err, res) {
                 if (err) {
                     setStatus(err, '#FF0000');
                     enableNext(false);
@@ -148,9 +148,14 @@
                     setStatus("available!", '#3ADF00');
                     enableNext(true);
                 } else {
-                    price = weiToEth(res.price);
-                    setStatus(`owned by <a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>, \
-                       ${res.price == 0 ? 'not for sale' : 'for sale for '} ${price} ETH`, '#FF0000');
+                    let price = weiToEth(res.price);
+                    let forSaleStr = 'not for sale';
+                    if (res.price != 0) {
+                        forSaleStr = `for sale for <a href="buy_name.html?name=${name}">${price} ETH</a>`;
+                    }
+                    console.log(forSaleStr);
+                    setStatus(`owned by <a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>, ` +
+                        forSaleStr);
                     enableNext(false);
                 }
              });

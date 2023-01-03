@@ -43,31 +43,41 @@
             const web3 = new Web3(getInfuraUrl());
             const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
 
-            nameInput.onkeyup = (event) => {
-                event.preventDefault();
+            let queryParams = new URLSearchParams(window.location.search);
+            let name = queryParams.get("name");
+            if (name) {
+                nameInput.value = name;
+                nameChanged();
+            }
 
+            function nameChanged() {
                 if (nameInput.value.length < 3) {
                     setStatus('name is too short', StatusType.Error);
                     checkProceedButton();
                     return;
                 }
                 nameRegistry.methods.lookupName(nameInput.value.toLowerCase()).call(function (err, res) {
-                console.log(res);
-                if (err) {
-                    setStatus(err, StatusType.Error);
-                    checkProceedButton();
-                    return
-                }
-                if (res.owner == "0x0000000000000000000000000000000000000000") {
-                    setStatus("Not registered", StatusType.Info);
-                    checkProceedButton();
-                } else {
-                    price = weiToEth(res.price);
-                    priceInput.value = price;
-                    clearStatus();
-                    checkProceedButton();
-                }
-             });
+                    console.log(res);
+                    if (err) {
+                        setStatus(err, StatusType.Error);
+                        checkProceedButton();
+                        return
+                    }
+                    if (res.owner == "0x0000000000000000000000000000000000000000") {
+                        setStatus("Not registered", StatusType.Info);
+                        checkProceedButton();
+                    } else {
+                        price = weiToEth(res.price);
+                        priceInput.value = price;
+                        clearStatus();
+                        checkProceedButton();
+                    }
+                });
+            }
+
+            nameInput.onkeyup = (event) => {
+                event.preventDefault();
+                nameChanged();
             };
 
             priceInput.onkeyup = (event) => {
