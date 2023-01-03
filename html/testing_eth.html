@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+<body>
+
+<h1>
+    Testing Ubikom on Ethereum Blockchain
+</h1>
+<p>
+    Before we fully switch to Ethereum blockchain for identity registry, we will test 
+    it on Sepolia testnet. This page describes what do you need to do to help with testing.
+</p>
+<h2>Install MetaMask Wallet</h2>
+<p>You need to install MetaMask wallet as Chrome extension. Get it <a href="https://metamask.io/">here</a>. 
+    After you install it, configure your account. Now you will need to enable test networks in MetaMask:
+    Click on the network name (probably "Ethereum mainnet") in the top middle, and choose "show/hide test networks".
+    You will be sent to the configuration page, where you would need to enable test networks.
+</p>
+<p>
+    Once this is done, go back to the main window, click on "Ethereum mainnet" and select "Sepolia test network".
+</p>
+<h2>Get Your Account Funded</h2>
+<p>
+    Since this is a test network, the currency (SepoliaETH) has no real value. You can get it by going to one of
+    Sepolia Faucets and requesting some ETH. Google for "Sepolia Faucet". Try a few of them. I had some luck with
+    <a href="https://sepolia-faucet.pk910.de/">this one</a>, and <a href="https://sepolia-faucet.com/">this one.</a>
+    By the time you read this, the situation may change and you might need to try another one.
+</p>
+<p>
+    You don't need a lot of ETH - something like 0.2 would be enough.
+</p>
+<h2>Register a Name</h2>
+<p>For now, please do not register your main name (the one you were using to send and receive emails on Ubikom).
+    Because we used a different encryption algorithm in the past, your encryption keys might not match (even
+    if you used the same password), which would result in your mailbox being deleted and re-created. It's safer
+    to try with another, test name.
+</p>
+<p>Now that you have your wallet configured and funded, you can go ahead and register a name on
+    Sepolia testnet. You can start from our <a href="https://www.ubikom.cc/">main page</a>, enter the name you 
+    want to register and go from there. You will need to perform two transactions on the block chain - 
+    the first one to register the name (and the associated encryption key, derived from your password), and the
+    second one to register the endpoint, i.e. where your messages are getting delivered.
+</p>
+<p>
+    Strictly speaking, you don't even need to do the second one - without the endpoint, you cannot receive 
+    messages, but that's okay if you just want to own the name, and maybe use it in future.
+</p>
+<p>
+    Notice that when transaction is successfully done, you can click on the transaction hash to see the
+    details on Etherscan.
+</p>
+<h2>Verify That the Name is Registered</h2>
+<p>You can verify your name registration <a href="https://www.ubikom.cc/name_reg.html">here.</a> Verify
+    that the name was successfully registered.
+</p>
+<h2>Send and Receive Email</h2>
+<p>You can use the newly registered name as before - either in the webmail, or in a standalone email
+    client. Notice that you will only be able to receive email if you registered the endpoint, as a part of
+    name registration.
+</p>
+<h2>Try Other Name Operations</h2>
+<p>When you own a name, you can update the configuration information, sell it or transfer it to another owner:</p>
+<p><a href="name_reg.html">Check name registration</a></p>
+<p><a href="change_enckey.html">Change password (encryption key)</a></p>
+<p><a href="change_endpoint.html">Update endpoint</a></p>
+<p><a href="sell_name.html">Sell a name</a></p>
+<p><a href="buy_name.html">Buy a name</a></p>
+<p>Notice that when a price for a name is zero, it's not for sale. If you update price to anything greater than
+zero, anyone will be able to pay the price and get ownership over the name. You will automatically get the proceeds
+in the account that was used to register the name.
+</p>
+<h2>Need Help?</h2>
+<p>Contact us on Twitter <a href="https://twitter.com/UbikomProject">@UbikomProject</a>, or on  <a href="https://www.reddit.com/r/ubikom/">Reddit</a></p>
+<br><br>
+<p>
+    Back to <a href='index.html'>main page</a>.
+</p>
+
+</body>
+</html>
