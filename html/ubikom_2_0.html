@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Ubikom 2.0</h1>
+
+        <p>We started <a href="https://ubikom.cc">Ubikom</a> with a vision of decentralized private identity and secure communications, 
+            where you are in control of both your identity and the encryption keys. While you’ve been enjoying secure 
+            communication, we are now ready to deliver another key part - decentralized identity registry. 
+            As of now, we are running  a mix of database-centered identity registry and private blockchain. 
+            Today, with crypto prices much lower than a year ago and Ethereum’s “merge” complete, we are 
+            ready to switch to Ethereum blockchain and accomplish the goal of delivering private 
+            decentralized identity to our users. We are finalizing testing on the new Ethereum testnet, 
+            <a href="https://sepolia.dev/">Sepolia</a>.
+        </p>
+        
+        <p>
+        We are inviting all our users to switch their registration to Ethereum blockchain. 
+        This will require a small gas fee of about $1.5 to perform the name registration transactions 
+        (and ONLY Ethereum gas fees - we are not charging anything for interaction with our smart contract). 
+        You don’t waste your money - you receive something of value, which is your name registered on blockchain. 
+        Later, you can transfer name ownership to another account, if you so desire, or sell it for Ether. 
+        It’s like an NFT, but this one is actually useful. With the cost being so low, why not grab a few other names 
+        (consider some popular words). Maybe they will be worth something in the future, who knows?
+        </p>
+
+        <p>
+        So what to expect? Let’s go over some key milestones:
+        </p>
+        
+        <ul>
+        <li>We will continue testing on Sepolia testnet for at least a few more weeks (roughly until the end of January, 2023). 
+            You can participate on <a href="https://ubikom.cc">our website (ubikom.cc)</a> where you can register your name on 
+            Sepolia without paying real crypto (you pay SepoliaETH, which you can get for free).
+        </li>
+        <li>
+        Once the testing is complete, we will switch to Ethereum mainnet. At this point, names registered on 
+        the mainnet will have priority over the current identity registry. Which is to say, you need to act quickly 
+        lest someone else chooses the same name (this is very unlikely, but you need to know). Rest assured, current 
+        infrastructure will still work until the switch is complete, see below. 
+        </li>
+        <li>
+        Finally, March 1st is the day when we will turn off the legacy infrastructure, and rely ONLY on the Ethereum mainnet. 
+        Names that were not migrated by that time will stop functioning.
+        </li>
+        <li>
+        Obviously, this is a work in progress and all dates may change.
+        </li>
+        </ul>
+        
+        <p>
+        If you do nothing, your service will terminate around March 1st. If you want to continue using Ubikom, here’s what you can do:
+        </p>
+        
+        <ul>
+        <li>Follow the announcements on our Twitter page and Reddit. We will not email future updates to all users, unless absolutely necessary.
+        </li>
+        <li>
+        If you would like to help with testing on Sepolia testnet, <a href="testing_eth.html">we have written the instructions.</a>
+        </li>
+        <li>
+        Look out for the instructions on how to migrate your account to the mainnet, which should be sent out (via Twitter and Reddit) around February 1st.
+        </li>
+        <li>
+        Migrate your account to the mainnet when the migration tools are available (sometime in February).
+        </li>
+        </ul>
+
+        <p>
+        This migration will complete the first stage of the service. But we are not going to stop there. Future enhancements will include 
+        decentralized storage of the encrypted messages, supporting multiple internet gateways, instant messenger and other 
+        services based on the decentralized user-owned identity.
+        </p>
+
+        <p>
+        Thank you for being our loyal users. We hope you are as excited about the future as we are.
+        </p>
+
+        <p>
+        Ubikom Founders
+        </p>
+        
+        <p>Leo (<a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a>)</p>
+        <p>Sasha (<a href="mailto:sasha@ubikom.cc">sasha@ubikom.cc</a>)</p>
+        
+
+        <h2>FAQ</h2>
+
+        <h3>Q: How does the decentralized identity on the blockchain work?</h3>
+        
+        <p>
+        A: An Ethereum <a href="https://github.com/regnull/ubchain/blob/master/contracts/v2/registry.sol">smart contract</a> maintains the 
+        registry of names, public keys, and endpoints where messages should be delivered. This registry is used every time a message is sent, 
+        to construct a shared encryption key and find out the address where the message will be delivered.
+        </p>
+        
+        <h3>
+        Q: Will I truly own the name after I register it on the Ethereum mainnet?
+        </h3>
+        
+        <p>
+        A: Yes. Our smart contract is public (see <a href="https://github.com/regnull/ubchain/blob/master/contracts/v2/registry.sol">here</a>). 
+        Once you register a name, it is associated with your address, and only you can perform operations on it (update the configuration, update 
+        the public key, transfer it to another owner or sell it).
+        </p>
+        
+        <h3>
+        Q: How expensive is it to register a name on the blockchain?
+        </h3>
+
+        <p>
+        A: You pay only the gas fees (i.e. you pay to miners to include this transaction into the next block). Our experiments showed that the 
+        one-time cost of adding your name to Ubikom’s smart contract on Ethereum can be  as little as $1.5. Again, this is not the fee charged 
+        by Ubikom. If you are not in a rush, you can offer even less - but confirmation might take longer. Obviously, gas prices can and do 
+        change, and we have no way to predict future prices.
+        </p>
+        
+        <h3>
+        Q: I understand that the cost is trivial, but this is still more than I can afford.
+        </h3>
+
+        <p>
+        A: We are working on ways to get our loyal users migrated, even if they can’t afford the fees. Stay tuned.
+        </p>
+        
+        <h3>
+        Q: Isn’t crypto a scam?
+        </h3>
+
+        <p>
+        A: Glad that you asked! No, only 95% of crypto is a scam. We believe the crypto foundations are solid, and this is one reason why we 
+        decided to use Ethereum - it’s the network second only to Bitcoin (and we can’t use Bitcoin since we need smart contract support). We 
+        also believe that the current crypto contraction is healthy in the long run - let’s get rid of hype and fraud, and keep building.
+        </p>
+        
+        <h3>
+        Q: How do I get started with crypto?
+        </h3>
+        
+        <p>
+        A: You need to do two things: get a crypto wallet (for example, <a href="https://metamask.io/">Metamask</a>), and fund your account. 
+        There are many ways to get the initial funds, which vary by country. Please consult your local user community. Beware: 
+        crypto message boards and Discord servers are inundated by scammers. If someone is contacting you out of the blue, it’s a scam, no 
+        matter what they say. Never share any passwords or recovery phrases with anyone. Consider using a hardware wallet - it’s more reliable 
+        and secure than a software one.
+        </p>
+
+    </body>
+</html>
