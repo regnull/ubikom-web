@@ -103,8 +103,9 @@
             if (!nextEnabled) {
                 return;
             }
-            sessionStorage.setItem('identifier', document.getElementById('identifier').value);
-            location.href = 'password.html';
+            let name = document.getElementById('identifier').value;
+            sessionStorage.setItem('ubikom_register_name_state', `{ "name": "${name}" }`);
+            location.href = 'register_name.html';
         }
 
         function setStatus(msg, color) {

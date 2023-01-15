@@ -9,24 +9,82 @@
             href="favicon.png">
     </head>
     <body>
-        <h1>Choose Your Password</h1>
+        <h1>Register Name</h1>
         <p>The password is used to generate the encryption key for your messages. You must choose a strong password.</p>
         <p>You will be able to change your password at any time, however, if it is compromised, some of your messages
             may be compromised as well. 
         </p>
+        <p>
+            You must have your Ethereum wallet installed and configured. We recommend <a href="https://metamask.io">MetaMask wallet</a>.
+        </p>
         <form onSubmit={this.handleSubmit}>
+            <input id="name" type="text" />
             <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password" style="display: block;"/>
             <input id="password2" type='password' minlength="6" placeholder="confirm password" autocomplete="new-password"/>
-            <button name="submit" id="nextButton">Next</button>
+            <button name="submit" id="nextButton" style="display: block;">Register!</button>
             <i><p id="status" style="margin: 0"></p></i>
         </form>
-        <script>
 
+        <!-- Modal registration -->
+        <div id="registration_modal" class="modal">
+            <div class="modal_content">
+                <div class="modal_entry">Registering name...</div>
+            </div>
+            <div class="modal_controls">
+                <button id="modal_control" class="modal_control">Continue</button>
+            </div>
+        </div>
+        <!-- End of modal registration -->
+        
+        <script>
+            let nameInput = document.getElementById('name');
             let password1Input = document.getElementById('password1');
             let password2Input = document.getElementById('password2');
             let status = document.getElementById('status');
             let nextButton = document.getElementById('nextButton');
             let nextEnabled = false;
+            let registrationModal = document.getElementById('registration_modal');
+            let modalButtonFunc = null;
+
+            let modalButton = document.getElementById('modal_control');
+            modalButton.onclick = (event) => {
+                event.preventDefault();
+
+                if (modalButtonFunc) {
+                    modalButtonFunc();
+                }
+            };
+
+            disableModalButton();
+
+            // See if we already have a name.
+            let queryParams = new URLSearchParams(window.location.search);
+            let name = params.get("name"); 
+            if (name) {
+                nameInput.value = name;
+            }
+            // let stateJSON = sessionStorage.getItem('ubikom_register_name_state');
+            // if (!stateJSON) {
+            //     location.href = "index.html";
+            // }
+            // console.log(stateJSON);
+            // let state = JSON.parse(stateJSON);
+            // let name = state?.name;
+            // if (!name) {
+            //     location.href = "index.html";
+            // }            
+
+            function enableModalButton(f) {
+                modalButton.style.opacity = 1.0;
+                modalButton.style.cursor = 'pointer';
+                modalButtonFunc = f;
+            }
+
+            function disableModalButton() {
+                modalButton.style.opacity = 0.6;
+                modalButton.style.cursor = 'default';
+                modalButtonFunc = null;
+            }
 
             function handleSubmit() {
                 console.log('submitted!');
@@ -76,8 +134,9 @@
                 if (!nextEnabled) {
                     return;
                 }
-                sessionStorage.setItem('password', password1Input.value);
-                location.href = 'confirm_register.html';
+                // sessionStorage.setItem('password', password1Input.value);
+                // location.href = 'confirm_register.html';
+                registrationModal.style.display = 'block';
             }
             
             password1Input.onkeyup = password1Changed;
