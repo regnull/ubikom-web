@@ -63,14 +63,16 @@
 
                 async validateName() {
                     let obj = this; // Capture this.
+                    if (this.name.length < 3) {
+                        obj.maybeUseCallback({'error': 'name is too short'});
+                        return;
+                    }
                     console.log('looking up ' + this.name);
                     nameRegistry.methods.lookupName(this.name).call(function (err, res) {
                         if (err) {
-                            console.log(err);
                             obj.maybeUseCallback({'error': err});
                             return;
                         }
-                        console.log(res);
                         if (res.owner == "0x0000000000000000000000000000000000000000") {
                             obj.maybeUseCallback({'available': true});
                         } else {
