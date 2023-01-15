@@ -104,8 +104,8 @@
                 return;
             }
             let name = document.getElementById('identifier').value;
-            sessionStorage.setItem('ubikom_register_name_state', `{ "name": "${name}" }`);
-            location.href = 'register_name.html';
+            // sessionStorage.setItem('ubikom_register_name_state', `{ "name": "${name}" }`);
+            location.href = `register_name.html?name=${name}`;
         }
 
         function setStatus(msg, color) {
