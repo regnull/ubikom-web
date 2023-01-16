@@ -140,7 +140,12 @@ class NameHandler {
             obj.maybeUseCallback({'error': 'name is too short'});
             return;
         }
-        if (! /^[a-z0-9_\-]+$/.test(this.name)) {
+        if (! /^[a-zA-Z0-9_][a-zA-Z0-9_\-]*$/.test(this.name)) {
+            obj.maybeUseCallback({'error': 'invalid name'});
+            return;
+        }
+        // Must not contain only symbols.
+        if (/^[_\-]+$/.test(this.name)) {
             obj.maybeUseCallback({'error': 'invalid name'});
             return;
         }

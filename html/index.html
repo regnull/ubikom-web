@@ -104,7 +104,6 @@
                 return;
             }
             let name = document.getElementById('identifier').value;
-            // sessionStorage.setItem('ubikom_register_name_state', `{ "name": "${name}" }`);
             location.href = `register_name.html?name=${name}`;
         }
 
@@ -128,48 +127,41 @@
             nextEnabled = false;
         }
 
-        async function nameChanged() {
-            clearStatus();
-
-            let idInput = document.getElementById("identifier");
-
-            if(idInput.value.length < 3) {
-                setStatus("name is too short", '#FF0000');
-                enableNext(false);
-                return;
-            }
-            let name = idInput.value.toLowerCase();
-            nameRegistry.methods.lookupName(name).call(function (err, res) {
-                if (err) {
-                    setStatus(err, '#FF0000');
-                    enableNext(false);
-                    return
-                }
-                if (res.owner == "0x0000000000000000000000000000000000000000") {
-                    setStatus("available!", '#3ADF00');
-                    enableNext(true);
-                } else {
-                    let price = weiToEth(res.price);
-                    let forSaleStr = 'not for sale';
-                    if (res.price != 0) {
-                        forSaleStr = `for sale for <a href="buy_name.html?name=${name}">${price} ETH</a>`;
-                    }
-                    console.log(forSaleStr);
-                    setStatus(`owned by <a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>, ` +
-                        forSaleStr);
-                    enableNext(false);
-                }
-             });
-        }
         document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 
         const web3 = new Web3(getInfuraUrl());
         const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
 
+        let nameHandler = new NameHandler(document.getElementById("identifier").value, nameRegistry, (o) => {
+                clearStatus();
+
+                if (o.error) {
+                    setStatus(o.error, '#FF0000');
+                    enableNext(false);
+                    return;
+                }
+
+                if (o.available) {
+                    setStatus("available!", '#3ADF00');
+                    enableNext(true);
+                } else {
+                    let price = weiToEth(o.price);
+                    let forSaleStr = 'not for sale';
+                    if (o.price != 0) {
+                        forSaleStr = `for sale for <a href="buy_name.html?name=${o.name}">${price} ETH</a>`;
+                    }
+                    setStatus(`owned by <a href='${getEtherscanAddressUrl(o.owner)}' target='_blank'>${o.owner}</a>, ` +
+                        forSaleStr);
+                    enableNext(false);
+                }
+            });
+
         let nextEnabled = false;
 
         let idInput = document.getElementById("identifier");
-        idInput.onkeyup = nameChanged;
+        idInput.onkeyup = () => {
+            nameHandler.updateName(idInput.value);
+        };
         enableNext(false);
         document.getElementById('nextButton').onclick = submit;
     </script>
