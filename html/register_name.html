@@ -165,7 +165,7 @@
 
             async function run(publicKey, name) {
                 await loadWeb3();
-                logMessage("Metamask account is connected");
+                logMessage("MetaMask account is connected");
                 window.contract = await loadContract();
                 logMessage("Contract is loaded");
                 const account = await getCurrentAccount();
@@ -186,6 +186,9 @@
                         location.href = "confirm_endpoint.html";
                     });
                 } else {
+                    if (result.transactionHash) {
+                        logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    }
                     logMessage("On no! There was an error registering the name!");
                     enableModalButton(() => {
                         let logElement = document.getElementById('log');
@@ -209,7 +212,31 @@
 
                 publicKey = publicKeyFromPassword(password, name);
                 console.log(publicKey);
-                await run(publicKey, name);
+                try {
+                    await run(publicKey, name);
+                } catch (e) {
+                    let logged = false;
+                    if (e?.message) {
+                        logMessage(e?.message);
+                        logged = true;
+                    }
+                    if (e?.receipt?.transactionHash) {
+                        let txHash = e.receipt?.transactionHash;
+                        logMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
+                        logged = true;
+                    }
+                    if (!logged) {
+                        logMessage(e);
+                    }
+                    enableModalButton(() => {
+                        let logElement = document.getElementById('log');
+                        while (logElement.firstChild) {
+                            logElement.removeChild(logElement.firstChild);
+                        }
+                        disableModalButton();
+                        registrationModal.style = 'none';
+                    });
+                }
             }
 
             function submit() {
