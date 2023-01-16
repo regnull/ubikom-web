@@ -33,15 +33,15 @@
             <i><p id="status" style="margin: 0"></p></i>
         </form>
 
-        <!-- Modal registration -->
-        <div id="registration_modal" class="modal">
+        <!-- Modal transaction -->
+        <div id="transaction_modal" class="modal">
             <div class="modal_content" id="log">
             </div>
             <div class="modal_controls">
                 <button id="modal_control" class="modal_control">Continue</button>
             </div>
         </div>
-        <!-- End of modal registration -->
+        <!-- End of modal transaction -->
         
         <script src="scripts/wasm_exec.js" type="text/javascript"></script>
         <script src ="scripts/common.js" type="text/javascript"></script>
@@ -53,7 +53,7 @@
             let status = document.getElementById('status');
             let nextButton = document.getElementById('nextButton');
             let nextEnabled = false;
-            let registrationModal = document.getElementById('registration_modal');
+            let transactionModal = document.getElementById('transaction_modal');
             let modalButtonFunc = null;
 
             let modalButton = document.getElementById('modal_control');
@@ -138,46 +138,21 @@
                 }
             }
 
-            function logMessage(msg) {
-                let logElement = document.getElementById('log');
-                let newLogElem = document.createElement('div');
-                newLogElem.className = 'modal_entry';
-                newLogElem.innerHTML = msg;
-                logElement.appendChild(newLogElem);
-            }
-
-            async function loadWeb3() {
-                if (window.ethereum) {
-                    window.web3 = new Web3(window.ethereum);
-                } else {
-                    logMessage("Metamask is not installed");
-                }
-            }
-
-            async function loadContract() {
-                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
-            }
-
-            async function getCurrentAccount() {
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                return accounts[0];
-            }
-
             async function run(publicKey, name) {
                 await loadWeb3();
-                logMessage("MetaMask account is connected");
+                logTxMessage("MetaMask account is connected");
                 window.contract = await loadContract();
-                logMessage("Contract is loaded");
+                logTxMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logMessage("Using account " + account);
-                logMessage("Registering name (this may take a minute, please wait)...");
+                logTxMessage("Using account " + account);
+                logTxMessage("Registering name (this may take a minute, please wait)...");
 
                 let result = await window.contract.methods.registerName(publicKey, name).send({ from: account });
                 if (result.status !== undefined && result.status) {
-                    logMessage("Congratulations! The name was successfully registered!");
+                    logTxMessage("Congratulations! The name was successfully registered!");
 
-                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
-                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    logTxMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
 
                     enableModalButton(() => {
@@ -187,22 +162,22 @@
                     });
                 } else {
                     if (result.transactionHash) {
-                        logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                        logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
                     }
-                    logMessage("On no! There was an error registering the name!");
+                    logTxMessage("On no! There was an error registering the name!");
                     enableModalButton(() => {
                         let logElement = document.getElementById('log');
                         while (logElement.firstChild) {
                             logElement.removeChild(logElement.firstChild);
                         }
-                        registrationModal.style = 'none';
+                        transactionModal.style = 'none';
                     });
                 }
             }
 
             async function registerIdentity(name, password) {
                 if (typeof window.ethereum === 'undefined') {
-                    logMessage('<a href="http://metamask.io>MetaMask</a> is not installed!');
+                    logTxMessage('<a href="http://metamask.io>MetaMask</a> is not installed!');
                     return;
                 }
 
@@ -217,16 +192,16 @@
                 } catch (e) {
                     let logged = false;
                     if (e?.message) {
-                        logMessage(e?.message);
+                        logTxMessage(e?.message);
                         logged = true;
                     }
                     if (e?.receipt?.transactionHash) {
                         let txHash = e.receipt?.transactionHash;
-                        logMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
+                        logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
                         logged = true;
                     }
                     if (!logged) {
-                        logMessage(e);
+                        logTxMessage(e);
                     }
                     enableModalButton(() => {
                         let logElement = document.getElementById('log');
@@ -234,7 +209,7 @@
                             logElement.removeChild(logElement.firstChild);
                         }
                         disableModalButton();
-                        registrationModal.style = 'none';
+                        transactionModal.style = 'none';
                     });
                 }
             }
@@ -244,7 +219,7 @@
                 if (!nextEnabled) {
                     return;
                 }
-                registrationModal.style.display = 'block';
+                transactionModal.style.display = 'block';
                 registerIdentity(nameInput.value, password1Input.value);
             }
             

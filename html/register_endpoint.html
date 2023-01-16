@@ -70,23 +70,6 @@
                 location.reload();
             }
 
-            async function loadWeb3() {
-                if (window.ethereum) {
-                    window.web3 = new Web3(window.ethereum);
-                } else {
-                    logMessage("Metamask is not installed");
-                }
-            }
-
-            async function loadContract() {
-                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
-            }
-
-            async function getCurrentAccount() {
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                return accounts[0];
-            }
-
             async function run(name, endpoint) {
                 await loadWeb3();
                 logMessage("Metamask account is connected");

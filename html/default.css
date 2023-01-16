@@ -213,11 +213,6 @@ textarea.sendBody {
   padding: 12px;
 }
 
-/* .top-menu {
-  display: inline-block;
-  *display: inline;
-} */
-
 div.modal {
   display: none;
   position: fixed;
@@ -267,18 +262,3 @@ div.modal {
   display: block;
   margin-left: 3%;
 }
-
-/* The Close Button
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-} */

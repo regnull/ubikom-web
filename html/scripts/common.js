@@ -163,3 +163,29 @@ class NameHandler {
     }
 }
 
+// logTxMessage logs a message in transaction modal.
+function logTxMessage(msg) {
+    let logElement = document.getElementById('log');
+    let newLogElem = document.createElement('div');
+    newLogElem.className = 'modal_entry';
+    newLogElem.innerHTML = msg;
+    logElement.appendChild(newLogElem);
+}
+
+// Web3-related functions.
+async function loadWeb3() {
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+    } else {
+        logTxMessage("Metamask is not installed");
+    }
+}
+
+async function loadContract() {
+    return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
+}
+
+async function getCurrentAccount() {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    return accounts[0];
+}
