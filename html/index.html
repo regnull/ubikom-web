@@ -133,28 +133,28 @@
         const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
 
         let nameHandler = new NameHandler(document.getElementById("identifier").value, nameRegistry, (o) => {
-                clearStatus();
+            clearStatus();
 
-                if (o.error) {
-                    setStatus(o.error, '#FF0000');
-                    enableNext(false);
-                    return;
-                }
+            if (o.error) {
+                setStatus(o.error, '#FF0000');
+                enableNext(false);
+                return;
+            }
 
-                if (o.available) {
-                    setStatus("available!", '#3ADF00');
-                    enableNext(true);
-                } else {
-                    let price = weiToEth(o.price);
-                    let forSaleStr = 'not for sale';
-                    if (o.price != 0) {
-                        forSaleStr = `for sale for <a href="buy_name.html?name=${o.name}">${price} ETH</a>`;
-                    }
-                    setStatus(`owned by <a href='${getEtherscanAddressUrl(o.owner)}' target='_blank'>${o.owner}</a>, ` +
-                        forSaleStr);
-                    enableNext(false);
+            if (o.available) {
+                setStatus("available!", '#3ADF00');
+                enableNext(true);
+            } else {
+                let price = weiToEth(o.price);
+                let forSaleStr = 'not for sale';
+                if (o.price != 0) {
+                    forSaleStr = `for sale for <a href="buy_name.html?name=${o.name}">${price} ETH</a>`;
                 }
-            });
+                setStatus(`owned by <a href='${getEtherscanAddressUrl(o.owner)}' target='_blank'>${o.owner}</a>, ` +
+                    forSaleStr);
+                enableNext(false);
+            }
+        });
 
         let nextEnabled = false;
 

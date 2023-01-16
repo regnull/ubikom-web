@@ -21,16 +21,21 @@
         <p style="font-weight: bold;" id="network"></p>
         <form onSubmit={this.handleSubmit}>
             <input id="name" type="text" autocomplete="username" /><span id="nameStatus" style="margin-left: 5px"></span>
-            <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password" style="display: block;"/>
-            <input id="password2" type='password' minlength="6" placeholder="confirm password" autocomplete="new-password"/>
+            <div style="display:block;">
+                <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password"/>
+                <span id="password1Status" style="margin-left: 5px" style="display: inline;"></span>
+            </div>
+            <div style="display:block;">
+                <input id="password2" type='password' minlength="6" placeholder="confirm password" autocomplete="new-password"/>
+                <span id="password2Status" style="margin-left: 5px"></span>
+            </div>
             <button name="submit" id="nextButton" style="display: block;">Register!</button>
             <i><p id="status" style="margin: 0"></p></i>
         </form>
 
         <!-- Modal registration -->
         <div id="registration_modal" class="modal">
-            <div class="modal_content">
-                <div class="modal_entry">Registering name...</div>
+            <div class="modal_content" id="log">
             </div>
             <div class="modal_controls">
                 <button id="modal_control" class="modal_control">Continue</button>
@@ -38,6 +43,7 @@
         </div>
         <!-- End of modal registration -->
         
+        <script src="scripts/wasm_exec.js" type="text/javascript"></script>
         <script src ="scripts/common.js" type="text/javascript"></script>
         <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
         <script>
@@ -120,33 +126,6 @@
                 console.log('submitted!');
             }
 
-            function password1Changed() {
-                updateNextButton();
-
-                if(password1Input.value.length < 6) {
-                    status.innerHTML = "Password is too short";
-                    status.style.color = '#FF0000';
-                } else {
-                    if (password2Input.value.length > 0 && password2Input.value != password1Input.value) {
-                        status.innerHTML = "Passwords don't match";
-                        status.style.color = '#FF0000';
-                    } else {
-                        status.innerHTML = "";
-                    }
-                }
-            }
-
-            function password2Changed() {
-                updateNextButton();
-
-                if(password2Input.value != password1Input.value) {
-                    status.innerHTML = "Passwords don't match";
-                    status.style.color = '#FF0000';
-                } else {
-                    status.innerHTML = "";
-                }
-            }
-
             function updateNextButton() {
                 if (password1Input.value.length < 6 || password2Input.value.length < 6 || 
                     password1Input.value != password2Input.value ) {
@@ -159,18 +138,124 @@
                 }
             }
 
+            function logMessage(msg) {
+                let logElement = document.getElementById('log');
+                let newLogElem = document.createElement('div');
+                newLogElem.className = 'modal_entry';
+                newLogElem.innerHTML = msg;
+                logElement.appendChild(newLogElem);
+            }
+
+            async function loadWeb3() {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                } else {
+                    logMessage("Metamask is not installed");
+                }
+            }
+
+            async function loadContract() {
+                return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
+            }
+
+            async function getCurrentAccount() {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                return accounts[0];
+            }
+
+            async function run(publicKey, name) {
+                await loadWeb3();
+                logMessage("Metamask account is connected");
+                window.contract = await loadContract();
+                logMessage("Contract is loaded");
+                const account = await getCurrentAccount();
+                logMessage("Using account " + account);
+                logMessage("Registering name (this may take a minute, please wait)...");
+
+                let result = await window.contract.methods.registerName(publicKey, name).send({ from: account });
+                if (result.status !== undefined && result.status) {
+                    logMessage("Congratulations! The name was successfully registered!");
+
+                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
+
+                    enableModalButton(() => {
+                        // TODO: Fix this when endpoint registration is fixed.
+                        sessionStorage.setItem('identifier', name);
+                        location.href = "confirm_endpoint.html";
+                    });
+                } else {
+                    logMessage("On no! There was an error registering the name!");
+                    enableModalButton(() => {
+                        let logElement = document.getElementById('log');
+                        while (logElement.firstChild) {
+                            logElement.removeChild(logElement.firstChild);
+                        }
+                        registrationModal.style = 'none';
+                    });
+                }
+            }
+
+            async function registerIdentity(name, password) {
+                if (typeof window.ethereum === 'undefined') {
+                    logMessage('<a href="http://metamask.io>MetaMask</a> is not installed!');
+                    return;
+                }
+
+                const go = new Go();
+                let goResult = await WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject);
+                go.run(goResult.instance);
+
+                publicKey = publicKeyFromPassword(password, name);
+                console.log(publicKey);
+                await run(publicKey, name);
+            }
+
             function submit() {
                 event.preventDefault();
                 if (!nextEnabled) {
                     return;
                 }
-                // sessionStorage.setItem('password', password1Input.value);
-                // location.href = 'confirm_register.html';
                 registrationModal.style.display = 'block';
+                registerIdentity(nameInput.value, password1Input.value);
             }
             
-            password1Input.onkeyup = password1Changed;
-            password2Input.onkeyup = password2Changed;
+            password1Input.onkeyup = () => {
+                updateNextButton();
+
+                let status = document.getElementById('password1Status');
+                if(password1Input.value.length < 6) {
+                    status.innerHTML = "Password is too short";
+                    status.style.color = '#FF0000';
+                } else {
+                    if (password2Input.value.length > 0 && password2Input.value != password1Input.value) {
+                        status.innerHTML = "Passwords don't match";
+                        status.style.color = '#FF0000';
+                    } else {
+                        status.innerHTML = "OK!";
+                        status.style.color = '#3ADF00';
+                    }
+                }
+            };
+
+            password2Input.onkeyup = () => {
+                updateNextButton();
+                
+                let status = document.getElementById('password2Status');
+                if(password2Input.value.length < 6) {
+                    status.innerHTML = "Password is too short";
+                    status.style.color = '#FF0000';
+                } else {
+                    if (password1Input.value.length > 0 && password2Input.value != password1Input.value) {
+                        status.innerHTML = "Passwords don't match";
+                        status.style.color = '#FF0000';
+                    } else {
+                        status.innerHTML = "OK!";
+                        status.style.color = '#3ADF00';
+                    }
+                }
+            };
             nextButton.onclick = submit;
 
             updateNextButton();
