@@ -151,7 +151,7 @@
                     forSaleStr = `for sale for <a href="buy_name.html?name=${o.name}">${price} ETH</a>`;
                 }
                 setStatus(`owned by <a href='${getEtherscanAddressUrl(o.owner)}' target='_blank'>${o.owner}</a>, ` +
-                    forSaleStr);
+                    forSaleStr, '#FF0000');
                 enableNext(false);
             }
         });

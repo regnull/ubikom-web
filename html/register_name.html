@@ -79,6 +79,7 @@
             const web3 = new Web3(getInfuraUrl());
             const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
             let nameHandler = new NameHandler(nameInput.value, nameRegistry, (o) => {
+                updateNextButton();
                 let nameStatus = document.getElementById('nameStatus');
 
                 if (o.error) {
@@ -128,7 +129,8 @@
 
             function updateNextButton() {
                 if (password1Input.value.length < 6 || password2Input.value.length < 6 || 
-                    password1Input.value != password2Input.value ) {
+                    password1Input.value != password2Input.value || nameHandler.error || !nameHandler.ready ||
+                    !nameHandler.available ) {
                     nextButton.style.opacity = 0.6;
                     nextEnabled = false;
                 } else {
@@ -145,7 +147,7 @@
                 logTxMessage("Contract is loaded");
                 const account = await getCurrentAccount();
                 logTxMessage("Using account " + account);
-                logTxMessage("Registering name (this may take a minute, please wait)...");
+                logTxMessage("Please confirm the transaction in MetaMask window, then wait for block confirmation...");
 
                 let result = await window.contract.methods.registerName(publicKey, name).send({ from: account });
                 if (result.status !== undefined && result.status) {
@@ -156,9 +158,7 @@
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
 
                     enableModalButton(() => {
-                        // TODO: Fix this when endpoint registration is fixed.
-                        sessionStorage.setItem('identifier', name);
-                        location.href = "confirm_endpoint.html";
+                        location.href = `register_endpoint.html?name=${name}`;
                     });
                 } else {
                     if (result.transactionHash) {

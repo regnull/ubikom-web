@@ -10,110 +10,166 @@
     </head>
     <body>
         <h1>Endpoint Registration</h1>
+        </p>
+        <p>Now that you have your name registered, you can register an endpoint where your messages will be delivered.
+            This can be the public endpoint we provide, or any other endpoint implementing the correct protocol.
+            You can host your own endpoint if you wish. Even if you use the public endpoint, your messages are secure -
+            they are always encrypted with the key derived from your password. 
+            You can also <a href="index.html">skip the endpoint registration</a>
+            for now, and do it later (but before you register the endpoint, you won't be able to receive any messages).
+        </p>
         <p style="font-weight: bold;" id="network"></p>
-        <div id="log"></div>
+        <div style="display:block">
+            <input id="name" type="text" autocomplete="username" /><span id="nameStatus" style="margin-left: 5px"></span>
+        </div>
+        <input type="text" id="endpoint" placeholder="endpoint" value=''/>
         <br/>
-        <br/>
-        <button id="continueButton" style="margin-left: 0em">Continue</button>
-        <button id="retryButton" style="margin-left: 0em">Retry</button>
+        <button id="proceedWithRegistration" style="margin-left: 0em;">Proceed</button>
+
+        <!-- Modal transaction -->
+        <div id="transaction_modal" class="modal">
+            <div class="modal_content" id="log">
+            </div>
+            <div class="modal_controls">
+                <button id="modal_control" class="modal_control">Continue</button>
+            </div>
+        </div>
+        <!-- End of modal transaction -->
+
         <script src="scripts/common.js" type="text/javascript"></script>
-        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
         <script>
             document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 
-            // If this name is already registered, redirect to the main page.
-            // id = sessionStorage.getItem('identifier');
-            // idRegistered = sessionStorage.getItem('identifierRegistered');
-            // if (id === idRegistered) {
-            //     location.href = "index.html";
-            // }
-
-            let logElement = document.getElementById("log");
-            function logMessage(msg) {
-                var newLogElem = document.createElement('pre');
-                newLogElem.innerHTML = msg;
-                logElement.appendChild(newLogElem);
+            let transactionModal = document.getElementById('transaction_modal');
+            let nameInput = document.getElementById('name');
+            let queryParams = new URLSearchParams(window.location.search);
+            let name = queryParams.get("name"); 
+            if (name) {
+                nameInput.value = name;
             }
 
-            let continueButton = document.getElementById("continueButton");
-            let continueButtonEnabled = false;
-            function checkContinueButton() {
-                if (continueButtonEnabled) {
-                    continueButton.style.opacity = 1.0;
-                } else {
-                    continueButton.style.opacity = 0.6;
-                }
-            }
-            checkContinueButton();
-            continueButton.onclick = function(event) {
+            let modalButtonFunc = null;
+
+            let modalButton = document.getElementById('modal_control');
+            modalButton.onclick = (event) => {
                 event.preventDefault();
 
-                if (!continueButtonEnabled) {
+                if (modalButtonFunc) {
+                    modalButtonFunc();
+                }
+            };
+
+            disableModalButton();
+
+            const web3 = new Web3(getInfuraUrl());
+            const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+            let nameHandler = new NameHandler(nameInput.value, nameRegistry, (o) => {
+                checkProceedButton();
+                let nameStatus = document.getElementById('nameStatus');
+
+                if (o.error) {
+                    nameStatus.innerHTML = o.error;
+                    nameStatus.style.color = '#FF0000';
                     return;
                 }
-                
-                location.href = 'registration_done.html';
+
+                if (o.available) {
+                    nameStatus.innerHTML = 'Not registered';
+                    nameStatus.style.color = '#FF0000';
+                } else {
+                    nameStatus.innerHTML = 'OK!';
+                    nameStatus.style.color = '#3ADF00';
+                }
+            });
+
+            if (nameInput.value.length > 0) {
+                nameHandler.validateName();
             }
 
-            let retryButton = document.getElementById('retryButton');
-            let retryButtonEnabled = false;
-            function checkRetryButton() {
-                if (retryButtonEnabled) {
-                    retryButton.style.opacity = 1.0;
+            nameInput.onkeyup = (event) => {
+                event.preventDefault();
+
+                nameHandler.updateName(nameInput.value);
+            }
+
+            document.getElementById('endpoint').value = dumpServerAddress;
+            let endpointInput = document.getElementById("endpoint");
+            let proceedWithRegistrationButton = document.getElementById('proceedWithRegistration');
+            let proceedWithRegistrationButtonEnabled = false;
+            function checkProceedButton() {
+                let endpoint = endpointInput.value;
+                console.log(endpoint.length > 5 && nameHandler.ready && !nameHandler.error && !nameHandler.available);
+                console.log(nameHandler.available);
+                if (endpoint.length > 5 && nameHandler.ready && !nameHandler.error && !nameHandler.available) {
+                    proceedWithRegistrationButton.style.opacity = 1.0;
+                    proceedWithRegistrationButtonEnabled = true;
                 } else {
-                    retryButton.style.opacity = 0.6;
+                    proceedWithRegistrationButton.style.opacity = 0.6;
+                    proceedWithRegistrationButtonEnabled = false;
                 }
             }
-            checkRetryButton();
-            retryButton.onclick = function(event) {
+            checkProceedButton();
+            endpointInput.onchange = function(event) {
                 event.preventDefault();
-                location.reload();
+                checkProceedButton();
+            }
+
+            proceedWithRegistrationButton.onclick = function() {
+                event.preventDefault();
+                if (!proceedWithRegistrationButtonEnabled) {
+                    return;
+                }
+                transactionModal.style.display = 'block';
+                run(nameInput.value, endpointInput.value);
+            }
+
+            function enableModalButton(f) {
+                modalButton.style.opacity = 1.0;
+                modalButton.style.cursor = 'pointer';
+                modalButtonFunc = f;
+            }
+
+            function disableModalButton() {
+                modalButton.style.opacity = 0.6;
+                modalButton.style.cursor = 'default';
+                modalButtonFunc = null;
             }
 
             async function run(name, endpoint) {
                 await loadWeb3();
-                logMessage("Metamask account is connected");
+                logTxMessage("MetaMask account is connected");
                 window.contract = await loadContract();
-                logMessage("Contract is loaded");
+                logTxMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logMessage("Registering endpoint (this may take a minute, please wait)...");
+                logTxMessage("Using account " + account);
+                logTxMessage("Please confirm the transaction in MetaMask window, then wait for block confirmation...");
+
                 let result = await window.contract.methods.updateConfig(name, "dms-endpoint", endpoint).send({ from: account });
                 if (result.status !== undefined && result.status) {
-                    logMessage("Congratulations! The endpoint was successfully registered!");
+                    logTxMessage("Congratulations! The name was successfully registered!");
 
-                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
-                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    logTxMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
-                    continueButtonEnabled = true;
-                    checkContinueButton();
+
+                    enableModalButton(() => {
+                        location.href = 'registration_done.html';
+                    });
                 } else {
-                    logMessage("On no! There was an error registering the name!");
-                    retryButtonEnabled = true;
-                    checkRetryButton();
+                    if (result.transactionHash) {
+                        logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    }
+                    logTxMessage("On no! There was an error registering the name!");
+                    enableModalButton(() => {
+                        let logElement = document.getElementById('log');
+                        while (logElement.firstChild) {
+                            logElement.removeChild(logElement.firstChild);
+                        }
+                        transactionModal.style = 'none';
+                    });
                 }
             }
-
-            async function registerEndpoint() {
-                continueButtonEnabled = false;
-                retryButtonEnabled = false;
-                checkContinueButton();
-                checkRetryButton();
-
-                if (typeof window.ethereum === 'undefined') {
-                    console.log('MetaMask is not installed!');
-                    return;
-                }
-
-                let id = sessionStorage.getItem('identifier');
-                let endpoint = sessionStorage.getItem('ubikom-dms-endpoint');
-
-                try {
-                    await run(id, endpoint);
-                } catch(e) {
-                    logMessage(e.message);
-                }
-            }
-            registerEndpoint();
         </script>
     </body>
 </html>

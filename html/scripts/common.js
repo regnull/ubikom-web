@@ -116,10 +116,17 @@ function weiToEth(x) {
 
 // Handles name-related operations.
 class NameHandler {
+    #available;
+    #ready;
+    #error;
+
     constructor(name, nameRegistry, statusCallback) {
         this.name = name;
         this.nameRegistry = nameRegistry;
         this.statusCallback = statusCallback;
+        this.#available = false;
+        this.#ready = false;
+        this.#error = false;
     }
 
     maybeUseCallback(o) {
@@ -134,29 +141,59 @@ class NameHandler {
         this.validateName();
     }
 
+    get available() {
+        return this.#available;
+    }
+
+    get ready() {
+        return this.#ready;
+    }
+
+    get error() {
+        return this.#error;
+    }
+
     async validateName() {
         let obj = this; // Capture this.
         if (this.name.length < 3) {
+            this.#available = false;
+            this.#ready = false;
+            this.#error = true;
             obj.maybeUseCallback({'error': 'name is too short'});
             return;
         }
         if (! /^[a-zA-Z0-9_][a-zA-Z0-9_\-]*$/.test(this.name)) {
+            this.#available = false;
+            this.#ready = false;
+            this.#error = true;
             obj.maybeUseCallback({'error': 'invalid name'});
             return;
         }
         // Must not contain only symbols.
         if (/^[_\-]+$/.test(this.name)) {
+            this.#available = false;
+            this.#ready = false;
+            this.#error = true;
             obj.maybeUseCallback({'error': 'invalid name'});
             return;
         }
         nameRegistry.methods.lookupName(this.name).call(function (err, res) {
             if (err) {
+                obj.#available = false;
+                obj.#ready = true;
+                obj.#error = true;
                 obj.maybeUseCallback({'error': err});
                 return;
             }
             if (res.owner == "0x0000000000000000000000000000000000000000") {
+                obj.#available = true;
+                obj.#ready = true;
+                obj.#error = false;
                 obj.maybeUseCallback({'available': true});
             } else {
+                obj.#available = false;
+                obj.#ready = true;
+                obj.#error = false;
                 obj.maybeUseCallback({'available': false, 'price': res.price, 'owner': res.owner});
             }
         });
