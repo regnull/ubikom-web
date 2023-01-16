@@ -113,3 +113,53 @@ function weiToEth(x) {
     x = BigInt(x) / gweiFactor;
     return Number(x) / 1000000000;
 }
+
+// Handles name-related operations.
+class NameHandler {
+    constructor(name, nameRegistry, statusCallback) {
+        this.name = name;
+        this.nameRegistry = nameRegistry;
+        this.statusCallback = statusCallback;
+    }
+
+    maybeUseCallback(o) {
+        if (!this.statusCallback) {
+            return;
+        }
+        this.statusCallback(o);
+    }
+
+    updateName(name) {
+        this.name = name;
+        this.validateName();
+    }
+
+    async validateName() {
+        let obj = this; // Capture this.
+        if (this.name.length < 3) {
+            obj.maybeUseCallback({'error': 'name is too short'});
+            return;
+        }
+        if (! /^[a-zA-Z0-9_][a-zA-Z0-9_\-]*$/.test(this.name)) {
+            obj.maybeUseCallback({'error': 'invalid name'});
+            return;
+        }
+        // Must not contain only symbols.
+        if (/^[_\-]+$/.test(this.name)) {
+            obj.maybeUseCallback({'error': 'invalid name'});
+            return;
+        }
+        nameRegistry.methods.lookupName(this.name).call(function (err, res) {
+            if (err) {
+                obj.maybeUseCallback({'error': err});
+                return;
+            }
+            if (res.owner == "0x0000000000000000000000000000000000000000") {
+                obj.maybeUseCallback({'available': true});
+            } else {
+                obj.maybeUseCallback({'available': false, 'price': res.price, 'owner': res.owner});
+            }
+        });
+    }
+}
+
