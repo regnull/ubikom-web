@@ -3,7 +3,7 @@ let nameRegistryContractAbi = [{"anonymous":false,"inputs":[{"indexed":false,"in
 const useTestnet = false;
 const infuraUrl = "https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
 const infuraTestUrl = "https://sepolia.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23";
-const nameRegistryContractAddress = "0xed7a3009dc614469ac5222f5a6efc9f16d6190da";
+const nameRegistryContractAddress = "0xc44341402eff03307515043c920471ea67a2d9c3";
 const nameRegistryTestContractAddress = "0xcc8650c9cd8d99b62375c22f270a803e7abf0de9";
 const etherscanBaseTestUrl = "https://sepolia.etherscan.io";
 const etherscanBaseUrl = "https://etherscan.io";
@@ -219,7 +219,11 @@ async function loadWeb3() {
 }
 
 async function loadContract() {
-    return await new window.web3.eth.Contract(nameRegistryContractAbi, nameRegistryTestContractAddress);
+    let contractAddress = nameRegistryTestContractAddress;
+    if (!useTestnet) {
+        contractAddress = nameRegistryContractAddress;
+    }
+    return await new window.web3.eth.Contract(nameRegistryContractAbi, contractAddress);
 }
 
 async function getCurrentAccount() {
