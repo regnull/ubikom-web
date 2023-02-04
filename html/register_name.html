@@ -159,7 +159,7 @@
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
 
                     enableModalButton(() => {
-                        location.href = `register_endpoint.html?name=${name}`;
+                        location.href = `register_endpoint.html?name=${name}?next_url=registration_done.html`;
                     });
                 } else {
                     if (result.transactionHash) {
@@ -265,7 +265,7 @@
 
             password2Input.onkeyup = password2Updated;
             password2Input.onpaste = password2Updated;
-            
+
             nextButton.onclick = submit;
 
             updateNextButton();

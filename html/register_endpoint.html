@@ -48,6 +48,10 @@
             if (name) {
                 nameInput.value = name;
             }
+            let nextURL = queryParams.get('next_url')
+            if (!nextURL) {
+                nextURL = 'index.html';
+            }
 
             let modalButtonFunc = null;
 
@@ -99,8 +103,6 @@
             let proceedWithRegistrationButtonEnabled = false;
             function checkProceedButton() {
                 let endpoint = endpointInput.value;
-                console.log(endpoint.length > 5 && nameHandler.ready && !nameHandler.error && !nameHandler.available);
-                console.log(nameHandler.available);
                 if (endpoint.length > 5 && nameHandler.ready && !nameHandler.error && !nameHandler.available) {
                     proceedWithRegistrationButton.style.opacity = 1.0;
                     proceedWithRegistrationButtonEnabled = true;
@@ -154,7 +156,7 @@
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
 
                     enableModalButton(() => {
-                        location.href = 'registration_done.html';
+                        location.href = nextURL;
                     });
                 } else {
                     if (result.transactionHash) {
