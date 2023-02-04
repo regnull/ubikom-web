@@ -224,7 +224,7 @@
                 registerIdentity(nameInput.value, password1Input.value);
             }
             
-            password1Input.onkeyup = () => {
+            function password1Updated() {
                 updateNextButton();
 
                 let status = document.getElementById('password1Status');
@@ -240,9 +240,12 @@
                         status.style.color = '#3ADF00';
                     }
                 }
-            };
+            }
 
-            password2Input.onkeyup = () => {
+            password1Input.onkeyup = password1Updated;
+            password1Input.onpaste = password1Updated;
+
+            function password2Updated() {
                 updateNextButton();
                 
                 let status = document.getElementById('password2Status');
@@ -258,7 +261,11 @@
                         status.style.color = '#3ADF00';
                     }
                 }
-            };
+            }
+
+            password2Input.onkeyup = password2Updated;
+            password2Input.onpaste = password2Updated;
+            
             nextButton.onclick = submit;
 
             updateNextButton();
