@@ -230,3 +230,98 @@ async function getCurrentAccount() {
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     return accounts[0];
 }
+
+class TransactionModalHandler {
+    #modalElement;
+    #logElement;
+    #modalButton;
+    #modalFunc;
+
+    constructor(element, button, log) {
+        this.#modalElement = element;
+        this.#modalButton = button;
+        this.#logElement = log;
+        this.#modalFunc = null;
+
+        this.#modalButton.onclick = (event) => {
+            event.preventDefault();
+
+            if (this.#modalFunc) {
+                this.#modalFunc();
+            }
+        };
+        this.disableModalButton();
+    }
+
+    enableModalButton(f) {
+        this.#modalButton.style.opacity = 1.0;
+        this.#modalButton.style.cursor = 'pointer';
+        this.#modalFunc = f;
+    }
+
+    disableModalButton() {
+        this.#modalButton.style.opacity = 0.6;
+        this.#modalButton.style.cursor = 'default';
+        this.#modalFunc = null;
+    }
+
+    show() {
+        while (this.#logElement.firstChild) {
+            this.#logElement.removeChild(this.#logElement.firstChild);
+        }
+        this.#modalElement.style.display = 'block';
+        this.disableModalButton();
+    }
+
+    hide() {
+        this.#modalElement.style = 'none';
+    }
+
+    logTxMessage(msg) {
+        let newLogElem = document.createElement('div');
+        newLogElem.className = 'modal_entry';
+        newLogElem.innerHTML = msg;
+        this.#logElement.appendChild(newLogElem);
+    }
+}
+
+class NextButtonHandler {
+    #button
+    #checkButtonFunc
+    #activateFunc
+    #enabled
+
+    constructor(button,) {
+        this.#button = button;
+        let obj = this;
+        this.#button.onclick = (event) => {
+            event.preventDefault();
+            obj.activate();
+        }
+        this.#enabled = false;
+    }
+
+    set checkButtonFunc(f) {
+        this.#checkButtonFunc = f;
+    }
+    
+    set activateFunc(f) {
+        this.#activateFunc = f;
+    }
+
+    checkButton() {
+        if (this.#checkButtonFunc && this.#checkButtonFunc()) {
+            this.#enabled = true;
+            this.#button.style.opacity = 1.0;
+        } else {
+            this.#enabled = false;
+            this.#button.style.opacity = 0.6;
+        }
+    }
+
+    activate() {
+        if (this.#enabled && this.#activateFunc) {
+            this.#activateFunc();
+        }
+    }
+}

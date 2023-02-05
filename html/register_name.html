@@ -20,7 +20,8 @@
         </p>
         <p style="font-weight: bold;" id="network"></p>
         <form onSubmit={this.handleSubmit}>
-            <input id="name" type="text" autocomplete="username" /><span id="nameStatus" style="margin-left: 5px"></span>
+            <input id="name" type="text" autocomplete="username" />
+            <span id="nameStatus" style="margin-left: 5px"></span>
             <div style="display:block;">
                 <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password"/>
                 <span id="password1Status" style="margin-left: 5px" style="display: inline;"></span>
@@ -51,23 +52,22 @@
             let nameInput = document.getElementById('name');
             let password1Input = document.getElementById('password1');
             let password2Input = document.getElementById('password2');
+
             let status = document.getElementById('status');
-            let nextButton = document.getElementById('nextButton');
-            let nextEnabled = false;
-            let transactionModal = document.getElementById('transaction_modal');
-            let modalButtonFunc = null;
+            
+            let txModalHandler = new TransactionModalHandler(
+                document.getElementById('transaction_modal'),
+                document.getElementById('modal_control'),
+                document.getElementById('log')
+            );
 
-            let modalButton = document.getElementById('modal_control');
-            modalButton.onclick = (event) => {
-                event.preventDefault();
-
-                if (modalButtonFunc) {
-                    modalButtonFunc();
-                }
+            let nextButtonHandler = new NextButtonHandler(document.getElementById('nextButton'));
+            nextButtonHandler.activateFunc = () => {
+                console.log('activate func');
+                txModalHandler.show();
+                registerIdentity(nameInput.value, password1Input.value);
             };
-
-            disableModalButton();
-
+            
             // See if we already have a name.
             let queryParams = new URLSearchParams(window.location.search);
             let name = queryParams.get("name"); 
@@ -80,7 +80,7 @@
             const web3 = new Web3(getInfuraUrl());
             const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
             let nameHandler = new NameHandler(nameInput.value, nameRegistry, (o) => {
-                updateNextButton();
+                nextButtonHandler.checkButton();
                 let nameStatus = document.getElementById('nameStatus');
 
                 if (o.error) {
@@ -104,6 +104,12 @@
                 }
             });
 
+            nextButtonHandler.checkButtonFunc = () => {
+                return ! (password1Input.value.length < 6 || password2Input.value.length < 6 || 
+                    password1Input.value != password2Input.value || nameHandler.error || !nameHandler.ready ||
+                    !nameHandler.available);
+            };
+
             if (nameInput.value.length > 0) {
                 nameHandler.validateName();
             }
@@ -112,66 +118,35 @@
                 nameHandler.updateName(nameInput.value);
             };
 
-            function enableModalButton(f) {
-                modalButton.style.opacity = 1.0;
-                modalButton.style.cursor = 'pointer';
-                modalButtonFunc = f;
-            }
-
-            function disableModalButton() {
-                modalButton.style.opacity = 0.6;
-                modalButton.style.cursor = 'default';
-                modalButtonFunc = null;
-            }
-
-            function handleSubmit() {
-                console.log('submitted!');
-            }
-
-            function updateNextButton() {
-                if (password1Input.value.length < 6 || password2Input.value.length < 6 || 
-                    password1Input.value != password2Input.value || nameHandler.error || !nameHandler.ready ||
-                    !nameHandler.available ) {
-                    nextButton.style.opacity = 0.6;
-                    nextEnabled = false;
-                } else {
-                    id = sessionStorage.getItem('identifier');
-                    nextButton.style.opacity = 1.0;
-                    nextEnabled = true;
-                }
-            }
+            nextButtonHandler.checkButton();
 
             async function run(publicKey, name) {
                 await loadWeb3();
-                logTxMessage("MetaMask account is connected");
+                txModalHandler.logTxMessage("MetaMask account is connected");
                 window.contract = await loadContract();
-                logTxMessage("Contract is loaded");
+                txModalHandler.logTxMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logTxMessage("Using account " + account);
-                logTxMessage("Please confirm the transaction in MetaMask window, then wait for block confirmation...");
+                txModalHandler.logTxMessage("Using account " + account);
+                txModalHandler.logTxMessage("Please approve the transaction in MetaMask window, then wait for block confirmation...");
 
                 let result = await window.contract.methods.registerName(publicKey, name).send({ from: account, gasLimit: gasLimit });
                 if (result.status !== undefined && result.status) {
-                    logTxMessage("Congratulations! The name was successfully registered!");
+                    txModalHandler.logTxMessage("Congratulations! The name was successfully registered!");
 
-                    logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
-                    logTxMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    txModalHandler.logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    txModalHandler.logTxMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
                     sessionStorage.setItem('identifierRegistered', sessionStorage.getItem('identifier'));
 
-                    enableModalButton(() => {
-                        location.href = `register_endpoint.html?name=${name}?next_url=registration_done.html`;
+                    txModalHandler.enableModalButton(() => {
+                        location.href = `register_endpoint.html?name=${name}&next_url=registration_done.html`;
                     });
                 } else {
                     if (result.transactionHash) {
                         logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
                     }
-                    logTxMessage("On no! There was an error registering the name!");
-                    enableModalButton(() => {
-                        let logElement = document.getElementById('log');
-                        while (logElement.firstChild) {
-                            logElement.removeChild(logElement.firstChild);
-                        }
-                        transactionModal.style = 'none';
+                    txModalHandler.logTxMessage("On no! There was an error registering the name!");
+                    txModalHandler.enableModalButton(() => {
+                        txModalHandler.hide();
                     });
                 }
             }
@@ -193,39 +168,25 @@
                 } catch (e) {
                     let logged = false;
                     if (e?.message) {
-                        logTxMessage(e?.message);
+                        txModalHandler.logTxMessage(e?.message);
                         logged = true;
                     }
                     if (e?.receipt?.transactionHash) {
                         let txHash = e.receipt?.transactionHash;
-                        logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
+                        txModalHandler.logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
                         logged = true;
                     }
                     if (!logged) {
-                        logTxMessage(e);
+                        txModalHandler.logTxMessage(e);
                     }
-                    enableModalButton(() => {
-                        let logElement = document.getElementById('log');
-                        while (logElement.firstChild) {
-                            logElement.removeChild(logElement.firstChild);
-                        }
-                        disableModalButton();
-                        transactionModal.style = 'none';
+                    txModalHandler.enableModalButton(() => {
+                        txModalHandler.hide();
                     });
                 }
             }
 
-            function submit() {
-                event.preventDefault();
-                if (!nextEnabled) {
-                    return;
-                }
-                transactionModal.style.display = 'block';
-                registerIdentity(nameInput.value, password1Input.value);
-            }
-            
             function password1Updated() {
-                updateNextButton();
+                nextButtonHandler.checkButton();
 
                 let status = document.getElementById('password1Status');
                 if(password1Input.value.length < 6) {
@@ -243,10 +204,15 @@
             }
 
             password1Input.onkeyup = password1Updated;
-            password1Input.onpaste = password1Updated;
+            password1Input.onpaste = () => {
+                // To fire after paste happened.
+                setTimeout(() => {
+                    password1Updated();
+                }, 0);
+            };
 
             function password2Updated() {
-                updateNextButton();
+                nextButtonHandler.checkButton();
                 
                 let status = document.getElementById('password2Status');
                 if(password2Input.value.length < 6) {
@@ -264,11 +230,12 @@
             }
 
             password2Input.onkeyup = password2Updated;
-            password2Input.onpaste = password2Updated;
-
-            nextButton.onclick = submit;
-
-            updateNextButton();
+            password2Input.onpaste = () => {
+                // To fire after paste happened.
+                setTimeout(() => {
+                    password2Updated();
+                }, 0);
+            };
         </script>
     </body>
 </html>
