@@ -25,6 +25,7 @@
         <p style="font-weight: bold;" id="network"></p>
         <p>
             <input type="text" id="name" placeholder="name" value=''/>
+            <span id="nameStatus" style="margin-left: 5px"></span>
         </p>
         <p>
             <input type="text" id="price" placeholder="price, ETH" value=''/>
@@ -49,8 +50,6 @@
 
             let nameInput = document.getElementById('name');
             let priceInput = document.getElementById('price');
-
-            let modalButtonFunc = null;
 
             let txModalHandler = new TransactionModalHandler(
                 document.getElementById('transaction_modal'),
@@ -148,17 +147,17 @@
                 return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
             }, "Only digits and '.' are allowed");
 
-            function updateNextButton() {
-                let price = priceInput.value;
-                let name = nameInput.value;
-                if (done || (price > 0 && name.length >= 3)) {
-                    nextButton.style.opacity = 1.0;
-                    nextButtonEnabled = true;
-                } else {
-                    nextButton.style.opacity = 0.6;
-                    nextButtonEnabled = false;
-                }
-            }
+            // function updateNextButton() {
+            //     let price = priceInput.value;
+            //     let name = nameInput.value;
+            //     if (done || (price > 0 && name.length >= 3)) {
+            //         nextButton.style.opacity = 1.0;
+            //         nextButtonEnabled = true;
+            //     } else {
+            //         nextButton.style.opacity = 0.6;
+            //         nextButtonEnabled = false;
+            //     }
+            // }
 
             async function run(name, price) {
                 p = BigInt(price * 1000000000000000000);
