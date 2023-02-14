@@ -15,118 +15,209 @@
         <p style="font-weight: bold;" id="network"></p>
         <p>
             <input type="text" id="name" placeholder="name" value=''/>
+            <span id="name_status" style="margin-left: 5px"></span>
         </p>
         <p>
             <input type="text" id="price" readonly placeholder="price, ETH" value=''/>
         </p>
         <i><p id="status" style="margin: 0"></p></i>
         <br/>
-        <button id="proceed" style="margin-left: 0em;">Buy</button>
-        <div id="log"></div>
+        <button name="submit" id="next_button" style="display: block;">Proceed</button>
+        <i><p id="status" style="margin: 0"></p></i>
+
+        <!-- Modal transaction -->
+        <div id="transaction_modal" class="modal">
+            <div class="modal_content" id="log">
+            </div>
+            <div class="modal_controls">
+                <button id="modal_control" class="modal_control">Continue</button>
+            </div>
+        </div>
+        <!-- End of modal transaction -->
+
         <script src="scripts/common.js" type="text/javascript"></script>
         <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script>
-            document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+            const gasLimit = 100000;
+
             let nameInput = document.getElementById('name');
             let priceInput = document.getElementById('price');
-            let proceedButton = document.getElementById('proceed');
-            let proceedButtonEnabled = false;
-            let done = false;
 
-            let logElement = document.getElementById("log");
-            function logMessage(msg) {
-                var newLogElem = document.createElement('pre');
-                newLogElem.innerHTML = msg;
-                logElement.appendChild(newLogElem);
+            let txModalHandler = new TransactionModalHandler(
+                document.getElementById('transaction_modal'),
+                document.getElementById('modal_control'),
+                document.getElementById('log')
+            );
+
+            let nextButtonHandler = new NextButtonHandler(
+                document.getElementById('next_button')
+            );
+
+            nextButtonHandler.checkButtonFunc = () => {
+                let price = priceInput.value;
+                let name = nameInput.value;
+                return price > 0 && name.length >= 3;
+            };
+
+            async function buyName(name, price) {
+                if (typeof window.ethereum === 'undefined') {
+                    logTxMessage('<a href="http://metamask.io>MetaMask</a> is not installed!');
+                    return;
+                }
+
+                try {
+                    await  run(nameInput.value, priceInput.value);
+                } catch (e) {
+                    let logged = false;
+                    if (e?.message) {
+                        txModalHandler.logTxMessage(e?.message);
+                        logged = true;
+                    }
+                    if (e?.receipt?.transactionHash) {
+                        let txHash = e.receipt?.transactionHash;
+                        txModalHandler.logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(txHash)}' target='_blank'>${txHash}</a>`);
+                        logged = true;
+                    }
+                    if (!logged) {
+                        txModalHandler.logTxMessage(e);
+                    }
+                    txModalHandler.enableModalButton(() => {
+                        txModalHandler.hide();
+                    });
+                }
+            }
+
+            nextButtonHandler.activateFunc = () => {
+                txModalHandler.show();
+                buyName(nameInput.value, priceInput.value);
+            };
+
+            document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+
+            // Set name if it was passed in the query string.
+            let queryParams = new URLSearchParams(window.location.search);
+            let name = queryParams.get("name"); 
+            if (name) {
+                nameInput.value = name;
             }
 
             const web3 = new Web3(getInfuraUrl());
             const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+            let nameHandler = new NameHandler(nameInput.value, nameRegistry, (o) => {
+                nextButtonHandler.checkButton();
+                let nameStatus = document.getElementById('nameStatus');
 
-            let queryParams = new URLSearchParams(window.location.search);
-            let name = queryParams.get("name");
-            if (name) {
-                nameInput.value = name;
-                nameChanged();
-            }
-
-            function nameChanged() {
-                if (nameInput.value.length < 3) {
-                    setStatus('name is too short', StatusType.Error);
-                    checkProceedButton();
+                if (o.error) {
+                    nameStatus.innerHTML = o.error;
+                    nameStatus.style.color = '#FF0000';
                     return;
                 }
-                nameRegistry.methods.lookupName(nameInput.value.toLowerCase()).call(function (err, res) {
-                    console.log(res);
-                    if (err) {
-                        setStatus(err, StatusType.Error);
-                        checkProceedButton();
-                        return
-                    }
-                    if (res.owner == "0x0000000000000000000000000000000000000000") {
-                        setStatus("Not registered", StatusType.Info);
-                        checkProceedButton();
-                    } else {
-                        price = weiToEth(res.price);
-                        priceInput.value = price;
-                        clearStatus();
-                        checkProceedButton();
-                    }
-                });
-            }
 
-            nameInput.onkeyup = (event) => {
-                event.preventDefault();
-                nameChanged();
-            };
+                if (o.available) {
+                    nameStatus.innerHTML = "Not registered";
+                    nameStatus.style.color = '#FF0000';
+                } else {
+                    price = weiToEth(res.price);
+                    priceInput.value = price;
+                    nameStatus.innerHTML = 'OK!';
+                    nameStatus.style.color = '#3ADF00';
+                }
+            });
+
+
+
+            // let proceedButton = document.getElementById('proceed');
+            // let proceedButtonEnabled = false;
+            // let done = false;
+
+            // let logElement = document.getElementById("log");
+            // function logMessage(msg) {
+            //     var newLogElem = document.createElement('pre');
+            //     newLogElem.innerHTML = msg;
+            //     logElement.appendChild(newLogElem);
+            // }
+
+            // const web3 = new Web3(getInfuraUrl());
+            // const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+
+            // function nameChanged() {
+            //     if (nameInput.value.length < 3) {
+            //         setStatus('name is too short', StatusType.Error);
+            //         checkProceedButton();
+            //         return;
+            //     }
+            //     nameRegistry.methods.lookupName(nameInput.value.toLowerCase()).call(function (err, res) {
+            //         console.log(res);
+            //         if (err) {
+            //             setStatus(err, StatusType.Error);
+            //             checkProceedButton();
+            //             return
+            //         }
+            //         if (res.owner == "0x0000000000000000000000000000000000000000") {
+            //             setStatus("Not registered", StatusType.Info);
+            //             checkProceedButton();
+            //         } else {
+            //             price = weiToEth(res.price);
+            //             priceInput.value = price;
+            //             clearStatus();
+            //             checkProceedButton();
+            //         }
+            //     });
+            // }
+
+            // nameInput.onkeyup = (event) => {
+            //     event.preventDefault();
+            //     nameChanged();
+            // };
 
             priceInput.onkeyup = (event) => {
                 event.preventDefault();
-                checkProceedButton();
+                nextButtonHandler.checkButton();
             };
 
-            checkProceedButton();
+            nextButtonHandler.checkButton();
 
             setInputFilter(priceInput, function(value) {
                 return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
             }, "Only digits and '.' are allowed");
 
-            proceedButton.onclick = () => {
-                event.preventDefault();
+            // proceedButton.onclick = () => {
+            //     event.preventDefault();
 
-                if (!proceedButtonEnabled) {
-                    return;
-                }
+            //     if (!proceedButtonEnabled) {
+            //         return;
+            //     }
 
-                if (done) {
-                    location.href='index.html';
-                    return;
-                }
+            //     if (done) {
+            //         location.href='index.html';
+            //         return;
+            //     }
 
-                run(nameInput.value, priceInput.value);
-            }
+            //     run(nameInput.value, priceInput.value);
+            // }
 
-            function checkProceedButton() {
-                let price = priceInput.value;
-                let name = nameInput.value;
-                if (done || (price > 0 && name.length >= 3)) {
-                    proceedButton.style.opacity = 1.0;
-                    proceedButtonEnabled = true;
-                } else {
-                    proceedButton.style.opacity = 0.6;
-                    proceedButtonEnabled = false;
-                }
-            }
+            // function checkProceedButton() {
+            //     let price = priceInput.value;
+            //     let name = nameInput.value;
+            //     if (done || (price > 0 && name.length >= 3)) {
+            //         proceedButton.style.opacity = 1.0;
+            //         proceedButtonEnabled = true;
+            //     } else {
+            //         proceedButton.style.opacity = 0.6;
+            //         proceedButtonEnabled = false;
+            //     }
+            // }
 
             async function run(name, price) {
                 p = BigInt(price * 1000000000000000000);
                 console.log(p);
                 await loadWeb3();
-                logMessage("Metamask account is connected");
+                txModalHandler.logTxMessage("Metamask account is connected");
                 window.contract = await loadContract();
-                logMessage("Contract is loaded");
+                txModalHandler.logTxMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logMessage("Updating endpoint (this may take a minute, please wait)...");
+                txModalHandler.logTxMessage("Using account " + account);
+                txModalHandler.logTxMessage("Please approve the transaction in MetaMask window, then wait for block confirmation...");
 
                 // This is a temporary public key. The private key for this one has been destroyed.
                 // TODO: Generate a fresh public key here, just to be safe.
@@ -134,15 +225,21 @@
 
                 let result = await window.contract.methods.buyName(name, tempKey).send({ from: account, value: Number(p) });
                 if (result.status !== undefined && result.status) {
-                    logMessage("Price was successfully updated. ");
+                    txModalHandler.logTxMessage("Name was successfully purchased.");
 
-                    logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
-                    logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
-                    done = true;
-                    proceedButton.innerText = 'Finish';
+                    txModalHandler.logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    txModalHandler.logTxMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
+                    txModalHandler.enableModalButton(() => {
+                        location.href = 'index.html';
+                    });
                 } else {
-                    logMessage("On no! There was an error.");
-                    proceedButton.innerText = 'Retry';
+                    if (result.transactionHash) {
+                        logTxMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
+                    }
+                    txModalHandler.logTxMessage("On no! There was an error.");
+                    txModalHandler.enableModalButton(() => {
+                        txModalHandler.hide();
+                    });
                 }
             }
         </script>
