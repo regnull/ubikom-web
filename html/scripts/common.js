@@ -8,6 +8,7 @@ const nameRegistryTestContractAddress = "0xcc8650c9cd8d99b62375c22f270a803e7abf0
 const etherscanBaseTestUrl = "https://sepolia.etherscan.io";
 const etherscanBaseUrl = "https://etherscan.io";
 const dumpServerAddress = "alpha.ubikom.cc:8826";
+const ubikomManagementServer = "https://alpha.ubikom.cc:8088";
 
 function getInfuraUrl() {
     if (useTestnet) {
