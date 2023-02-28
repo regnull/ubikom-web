@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" 
+            type="image/png" 
+            href="favicon.png">
+    </head>
+    <body>
+        <h1>Check encryption key</h1>
+        <p>Please enter the name and password for your encryption key.</p>
+        </p>
+      
+        <p style="font-weight: bold;" id="network"></p>
+        <form onSubmit={this.handleSubmit}>
+            <input id="name" type="text" autocomplete="username" />
+            <div style="display:block;">
+                <input id="password" type='password' minlength="6" placeholder="password" autocomplete="current-password"/>
+            </div>
+            <button name="submit" id="nextButton" style="display: block;">Check</button>
+            <i><p id="status" style="margin: 0"></p></i>
+        </form>
+
+        <script src="scripts/wasm_exec.js" type="text/javascript"></script>
+        <script src ="scripts/common.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
+        <script>
+            let nameInput = document.getElementById('name');
+            let passwordInput = document.getElementById('password');
+
+            let status = document.getElementById('status');
+
+            const web3 = new Web3(getInfuraUrl());
+            const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+            
+            let nextButtonHandler = new NextButtonHandler(document.getElementById('nextButton'));
+            nextButtonHandler.activateFunc = async function() {
+                console.log('Activate!');
+                const go = new Go();
+                let goResult = await WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject);
+                go.run(goResult.instance);
+                nameRegistry.methods.lookupName(nameInput.value).call(function (err, res) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                if (res.owner == "0x0000000000000000000000000000000000000000") {
+                    console.log('name not registered');
+                } else {
+                    // Compare the key with the key derived from name/password.
+
+                    publicKey = publicKeyFromPassword(passwordInput.value, nameInput.value);
+                    console.log(publicKey);
+
+                    status.innerHTML = `${res.publicKey} vs ${publicKey}`
+                }
+            });
+            };
+            
+            // See if we already have a name.
+            let queryParams = new URLSearchParams(window.location.search);
+            let name = queryParams.get("name"); 
+            if (name) {
+                nameInput.value = name;
+            }
+
+            document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+
+            nextButtonHandler.checkButtonFunc = () => {
+                console.log(passwordInput.value.length);
+                console.log(nameInput.value.length);
+                let ret = ! (passwordInput.value.length < 6 ||
+                    nameInput.value.length < 3);
+                console.log(ret);
+                return ret;
+                // return ! (passwordInput.value.length < 6 ||
+                    // nameInput.value.length <= 3);
+            };
+
+            nameInput.onkeyup = () => {
+                nextButtonHandler.checkButton();
+            }
+
+            passwordInput.onkeyup = () => {
+                nextButtonHandler.checkButton();
+            }
+
+            nextButtonHandler.checkButton();
+
+        </script>
+    </body>
+</html>
