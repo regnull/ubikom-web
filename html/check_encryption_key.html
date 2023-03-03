@@ -29,6 +29,7 @@
         <script>
             let nameInput = document.getElementById('name');
             let passwordInput = document.getElementById('password');
+            let pending = false;
 
             let status = document.getElementById('status');
 
@@ -37,25 +38,33 @@
             
             let nextButtonHandler = new NextButtonHandler(document.getElementById('nextButton'));
             nextButtonHandler.activateFunc = async function() {
-                console.log('Activate!');
+                pending = true;
+                nextButtonHandler.checkButton();
                 const go = new Go();
                 let goResult = await WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject);
                 go.run(goResult.instance);
                 nameRegistry.methods.lookupName(nameInput.value).call(function (err, res) {
                 if (err) {
                     console.log(err);
+                    pending = false;
+                    nextButtonHandler.checkButton();
                     return;
                 }
                 if (res.owner == "0x0000000000000000000000000000000000000000") {
                     console.log('name not registered');
                 } else {
                     // Compare the key with the key derived from name/password.
-
                     publicKey = publicKeyFromPassword(passwordInput.value, nameInput.value);
                     console.log(publicKey);
 
-                    status.innerHTML = `${res.publicKey} vs ${publicKey}`
+                    if (res.publicKey == publicKey) {
+                        status.innerHTML = `Match! ${publicKey}`;
+                    } else {
+                        status.innerHTML = `${res.publicKey} vs ${publicKey}`;
+                    }
                 }
+                pending = false;
+                nextButtonHandler.checkButton();
             });
             };
             
@@ -69,14 +78,10 @@
             document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
 
             nextButtonHandler.checkButtonFunc = () => {
-                console.log(passwordInput.value.length);
-                console.log(nameInput.value.length);
-                let ret = ! (passwordInput.value.length < 6 ||
+                let ret = !(pending || passwordInput.value.length < 6 ||
                     nameInput.value.length < 3);
                 console.log(ret);
                 return ret;
-                // return ! (passwordInput.value.length < 6 ||
-                    // nameInput.value.length <= 3);
             };
 
             nameInput.onkeyup = () => {
