@@ -21,9 +21,10 @@
         </p>
         <p style="font-weight: bold;" id="network"></p>
         <form>
-            <input type="text" id="name" placeholder="name" value=''/>
+            <input type="text" id="name" placeholder="name" value='' style="display: block;"/>
+            <input id="old_password" type='password' minlength="6" placeholder="old password" autocomplete="current-password" style="display: block;"/>
             <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password" style="display: block;"/>
-            <input id="password2" type='password' minlength="6" placeholder="confirm password" autocomplete="new-password"/>
+            <input id="password2" type='password' minlength="6" placeholder="confirm password" autocomplete="new-password" style="display: block;"/>
             <i><p id="status" style="margin: 0"></p></i>
         </form>
         <br/>
@@ -35,6 +36,7 @@
         <script>
             document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
             let nameInput = document.getElementById('name');
+            let oldPasswordInput = document.getElementById('old_password');
             let password1Input = document.getElementById('password1');
             let password2Input = document.getElementById('password2');
             let status = document.getElementById('status');
@@ -59,6 +61,17 @@
                     status.innerHTML = "";
                 }
             };
+
+            oldPasswordInput.onkeyup = function(event) {
+                event.preventDefault();
+                checkSubmitButton();
+                if(password1Input.value.length < 6) {
+                    status.innerHTML = "Password is too short";
+                    status.style.color = '#FF0000';
+                } else {
+                    status.innerHTML = "";
+                }
+            }
 
             password1Input.onkeyup = function(event) {
                 event.preventDefault();
@@ -107,7 +120,7 @@
             }
 
             function checkSubmitButton() {
-                if (nameInput.value.length < 3 || password1Input.value.length < 6 || password2Input.value.length < 6 || 
+                if (nameInput.value.length < 3 || oldPasswordInput.value.length < 6 || password1Input.value.length < 6 || password2Input.value.length < 6 || 
                     password1Input.value != password2Input.value ) {
                     submitButton.style.opacity = 0.6;
                     submitButtonEnabled = false;
@@ -126,16 +139,47 @@
                 publicKey = publicKeyFromPassword(name, password);
                 console.log(publicKey);
 
+                logMessage("Re-encrypting the mailbox...");
+                const url = ubikomManagementServer + '/changePassword';
+                const response = await fetch(url, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameInput.value,
+                        password: oldPasswordInput.value,
+                        new_password: password1Input.value
+                    }) 
+                }).then((response) => {
+                    if (!response.ok) {
+                        status.style.color = '#FF0000';
+                        if (response.status == 404) {
+                            logMessage('Mailbox was not found (this can happen if the name or the password is incorrect)');
+                        } else if (response.status = 403) {
+                            logMessage('Cannot decrypt the mailbox');
+                        } else if (response.status = 500) {
+                            logMessage('Server error, please try later');
+                        } else {
+                            logMessage('Unknown error');
+                        }
+                        submitButton.innerText = 'Retry';
+                        submitButtonEnabled = true;
+                        submitButton.style.opacity = 1.0;
+                        return;
+                    } 
+                })
+
                 await loadWeb3();
                 logMessage("Metamask account is connected");
                 window.contract = await loadContract();
                 logMessage("Contract is loaded");
                 const account = await getCurrentAccount();
-                logMessage("Updating endpoint (this may take a minute, please wait)...");
+                logMessage("Updating the public key (this may take a minute, please wait)...");
 
                 let result = await window.contract.methods.updatePublicKey(publicKey, name).send({ from: account });
                 if (result.status !== undefined && result.status) {
-                    logMessage("Endpoint was successfully updated. ");
+                    logMessage("The public key was successfully updated. ");
 
                     logMessage(`Transaction <a href='${getEtherscanTransactionUrl(result.transactionHash)}' target='_blank'>${result.transactionHash}</a>`);
                     logMessage(`Block <a href='${getEtherscanBlockUrl(result.blockNumber)}' target='_blank'>${result.blockNumber}</a>`);
@@ -148,8 +192,9 @@
                     submitButton.innerText = 'Retry';
                     submitButtonEnabled = true;
                     submitButton.style.opacity = 1.0;
+                    return;
                 }
-            }
+            };
         </script>
     </body>
 </html>
