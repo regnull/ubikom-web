@@ -262,3 +262,21 @@ div.modal {
   display: block;
   margin-left: 3%;
 }
+
+.main-header ul {
+  padding: 0;
+  /* display: table; */
+  align-items: center;
+  display: flex;
+  height: inherit;
+}
+
+.main-header li {
+  display: block;
+  padding: 20px 0px 20px 20px; 
+}
+
+.main-header li.main-header__image {
+  padding: 0
+}
+
