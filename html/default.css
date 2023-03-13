@@ -263,20 +263,27 @@ div.modal {
   margin-left: 3%;
 }
 
-.main-header ul {
-  padding: 0;
-  /* display: table; */
-  align-items: center;
-  display: flex;
-  height: inherit;
+.main-header {
+  width: 100%;
 }
 
 .main-header li {
-  display: block;
-  padding: 20px 0px 20px 20px; 
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .main-header li.main-header__image {
   padding: 0
 }
 
+.main-header__logo {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.main-header > nav {
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+  width: calc(100% - 50px);
+}
