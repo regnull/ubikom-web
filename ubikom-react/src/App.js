@@ -1,4 +1,6 @@
 import "./App.css";
+import {useState, useEffect} from 'react';
+import Web3 from 'web3';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,6 +18,16 @@ import titleImage from "./static/images/title_image.jpg";
 import sonOfMan from "./static/images/son_of_man_round.png"
 
 function App() {
+  const [gp, setGp] = useState(0)
+  const web3 = new Web3('https://mainnet.infura.io/v3/8f540714acb24862a8c9a5c3d8568f23')
+  useEffect(() => {
+    let f = async () => {
+      const gp1 = await web3.eth.getGasPrice()
+      setGp(gp1)
+    }
+    f()
+  }, [web3.eth])
+  console.log(gp)
   return (
     <>
       <AppBar position="static">
@@ -34,9 +46,9 @@ function App() {
           <Box sx={{ flexGrow: 1 }} />
           <GitHubIcon onClick={() => window.open('https://github.com/regnull/ubikom')} sx={{ marginLeft: "10px", cursor: "pointer" }}/>
           <EmailIcon sx={{ marginLeft: "10px" }}/>
-          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
+      <p>{gp}</p>
       <Box align="center" minHeight='180px' sx={{backgroundImage: `url(${titleImage})`,
         color: 'white', display: "flex",
         flexDirection: "column",
