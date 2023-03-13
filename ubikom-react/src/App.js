@@ -15,12 +15,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import titleImage from "./static/images/title_image.jpg";
 import sonOfMan from "./static/images/son_of_man_round.png"
 
-import { useWeb3 } from '@openzeppelin/network/react';
-
-const infuraProjectId = '8f540714acb24862a8c9a5c3d8568f23';
-
 function App() {
-  const web3Context = useWeb3(`wss://mainnet.infura.io/ws/v3/${infuraProjectId}`);
   return (
     <>
       <AppBar position="static">
