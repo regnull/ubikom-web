@@ -15,31 +15,15 @@ import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip"
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import titleImage from "./static/images/title_image.jpg";
 import sonOfMan from "./static/images/son_of_man_round.png";
 import spacePic from './static/images/space.jpg';
+import { infuraURL } from "./globals";
+import BlockChip from "./components/BlockChip";
 
 function App() {
   const [gp, setGp] = useState(0);
   const [blockNumber, setBlockNumber] = useState(0)
-  const web3 = new Web3(
-    "https://mainnet.infura.io/v3/631b1de32b7e44c9a459d191ea690f41"
-  );
-  const updateGasPrice = async () => {
-    const gp1 = await web3.eth.getGasPrice();
-    const bn = await web3.eth.getBlockNumber();
-    setGp(gp1);
-    setBlockNumber(bn);
-  };
-
-  //console.log(web3);
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     updateGasPrice();
-  //   }, 10000);  
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  const web3 = new Web3(infuraURL);
 
   const gpGwei = (gp / 1000000000).toFixed(2)
 
@@ -59,7 +43,8 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          <Chip label={`Block ${blockNumber}`} variant="outlined" sx={{ marginLeft: "10px" }} />
+          <BlockChip marginLeft="10px" web3={web3} interval={30000} />
+          {/* <Chip label={`Block ${blockNumber}`} variant="outlined" sx={{ marginLeft: "10px" }} /> */}
           <Chip label={`Gas ${gpGwei} GWei`} variant="outlined" sx={{ marginLeft: "10px"  }} />
           <GitHubIcon
             onClick={() => window.open("https://github.com/regnull/ubikom")}
@@ -88,7 +73,7 @@ function App() {
         </Typography>
       </Box>
       <Box align="center" marginTop="50px">
-        <Box maxWidth="800px" marginLeft="20px" marginRight="20px">
+        <Box maxWidth="800px">
           <Typography variant="h4" marginBottom="20px">
             The Identity You Own
           </Typography>
@@ -104,7 +89,7 @@ function App() {
         </Box>
       </Box>
       <Box align="center" marginTop="50px">
-        <Box maxWidth="800px" marginLeft="20px" marginRight="20px">
+        <Box maxWidth="800px" >
           <Typography variant="h4" marginBottom="20px">
             Communicate Privately
           </Typography>
@@ -119,7 +104,7 @@ function App() {
         <Typography variant="h4">Reserve Your Name</Typography>
         <Stack spacing={2} direction="row" width="30%" marginTop="30px">
           <TextField id="outlined-basic" label="Name" variant="outlined" />
-          <Button variant="contained" marginLeft="20px">
+          <Button variant="contained" >
             Proceed
           </Button>
         </Stack>
