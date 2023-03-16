@@ -1,5 +1,4 @@
 import "./App.css";
-import { useState, useEffect } from "react";
 import Web3 from "web3";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -12,20 +11,19 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
-import Chip from "@mui/material/Chip"
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import sonOfMan from "./static/images/son_of_man_round.png";
 import spacePic from './static/images/space.jpg';
 import { infuraURL } from "./globals";
 import BlockChip from "./components/BlockChip";
+import GasPriceChip from "./components/GasPriceChip";
+import { getRegistryContract } from "./common/contract";
+import NameInput from "./components/NameInput";
 
 function App() {
-  const [gp, setGp] = useState(0);
-  const [blockNumber, setBlockNumber] = useState(0)
   const web3 = new Web3(infuraURL);
-
-  const gpGwei = (gp / 1000000000).toFixed(2)
+  const registryContract = getRegistryContract(web3);
 
   return (
     <>
@@ -44,8 +42,7 @@ function App() {
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
           <BlockChip marginLeft="10px" web3={web3} interval={30000} />
-          {/* <Chip label={`Block ${blockNumber}`} variant="outlined" sx={{ marginLeft: "10px" }} /> */}
-          <Chip label={`Gas ${gpGwei} GWei`} variant="outlined" sx={{ marginLeft: "10px"  }} />
+          <GasPriceChip marginLeft="10px" web3={web3} interval={30000} />
           <GitHubIcon
             onClick={() => window.open("https://github.com/regnull/ubikom")}
             sx={{ marginLeft: "10px", cursor: "pointer" }}
@@ -102,12 +99,13 @@ function App() {
       </Box>
       <Box align="center" marginTop="50px">
         <Typography variant="h4">Reserve Your Name</Typography>
-        <Stack spacing={2} direction="row" width="30%" marginTop="30px">
+        <NameInput spacing={2} width="30%" marginTop="30px" />
+        {/* <Stack spacing={2} direction="row" width="30%" marginTop="30px">
           <TextField id="outlined-basic" label="Name" variant="outlined" />
           <Button variant="contained" >
             Proceed
           </Button>
-        </Stack>
+        </Stack> */}
       </Box>
       <Box height="50px" />
       <Divider variant="middle"/>

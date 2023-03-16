@@ -18,6 +18,8 @@ export default function BlockChip({ marginLeft, interval, web3 }) {
     };
   }, []);
 
+  updateBlockNumber()
+
   return (
     <Chip
       label={`Block ${blockNumber}`}
