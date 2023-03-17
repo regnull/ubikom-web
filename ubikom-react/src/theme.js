@@ -35,7 +35,7 @@ const themeOptions = {
     },
   },
   typography: {
-    fontFamily: 'Merriweather Sans',
+    fontFamily: 'Merriweather Sans, Sans Serif'
   },
 };
 

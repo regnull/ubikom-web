@@ -99,12 +99,6 @@ function App() {
       <Box align="center" marginTop="50px">
         <Typography variant="h4">Reserve Your Name</Typography>
         <NameInput registryContract={registryContract} spacing={2} width="30%" marginTop="30px" />
-        {/* <Stack spacing={2} direction="row" width="30%" marginTop="30px">
-          <TextField id="outlined-basic" label="Name" variant="outlined" />
-          <Button variant="contained" >
-            Proceed
-          </Button>
-        </Stack> */}
       </Box>
       <Box height="50px" />
       <Divider variant="middle"/>
