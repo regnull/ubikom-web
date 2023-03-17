@@ -1,7 +1,6 @@
 import { createTheme } from "@mui/material/styles";
-import { ThemeOptions } from "@mui/material/styles";
 
-const themeOptions: ThemeOptions = {
+const themeOptions = {
   palette: {
     mode: "dark",
     primary: {

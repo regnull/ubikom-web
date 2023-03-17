@@ -176,5 +176,5 @@ export const registryContractAbi = [
 ];
 
 export function getRegistryContract(web3) {
-    new web3.eth.Contract(registryContractAbi, getContractAddress());
+    return new web3.eth.Contract(registryContractAbi, getContractAddress());
 }
