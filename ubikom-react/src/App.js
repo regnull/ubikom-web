@@ -57,7 +57,7 @@ function App() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          color: "#a7ffeb",
+          color: "#4DD0E1",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",

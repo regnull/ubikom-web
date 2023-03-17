@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import Grid from "@mui/material/Grid"
+import Grid from "@mui/material/Grid";
 
 const defaultButtonLabel = "Proceed";
 
@@ -71,25 +71,31 @@ export default function NameInput({
 
   return (
     <>
-      <Grid container>
-      <Grid item>
-        <TextField
-          id="outlined-basic"
-          label="Name"
-          variant="outlined"
-          value={name}
-          error={error}
-          helperText={helperText}
-          onChange={onNameChange}
-          sx = {{ verticalAlign: "middle" }}
-        />
+      <Grid container marginTop={marginTop}>
+        <Grid item xs={4} />
+        <Grid item xs={3}>
+          <TextField
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+            value={name}
+            error={error}
+            helperText={helperText}
+            fullWidth
+            onChange={onNameChange}
+          />
         </Grid>
-        <Grid item alignItems="stretch" style={{ display: "flex" }}>
-        <Button variant="contained" disabled={!nextEnabled} sx={{ marginLeft: "20px", verticalAlign: "middle" }}>
-          {buttonLabel}
-        </Button>
+        <Grid item alignItems="stretch" style={{ display: "flex" }} xs={2}>
+          <Button
+            variant="contained"
+            disabled={!nextEnabled}
+            sx={{ marginLeft: "20px", verticalAlign: "middle" }}
+          >
+            {buttonLabel}
+          </Button>
         </Grid>
-        </Grid>
+        <Grid item xs={3} />
+      </Grid>
       {/* </Stack> */}
     </>
   );
