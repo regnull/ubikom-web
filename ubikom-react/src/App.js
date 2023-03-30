@@ -4,11 +4,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import EmailIcon from "@mui/icons-material/Email";
@@ -24,6 +21,8 @@ import NameInput from "./components/NameInput";
 function App() {
   const web3 = new Web3(infuraURL);
   const registryContract = getRegistryContract(web3);
+  console.log(web3)
+  console.log(registryContract)
 
   return (
     <>
@@ -58,7 +57,7 @@ function App() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          color: "#a7ffeb",
+          color: "#4DD0E1",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -99,13 +98,7 @@ function App() {
       </Box>
       <Box align="center" marginTop="50px">
         <Typography variant="h4">Reserve Your Name</Typography>
-        <NameInput spacing={2} width="30%" marginTop="30px" />
-        {/* <Stack spacing={2} direction="row" width="30%" marginTop="30px">
-          <TextField id="outlined-basic" label="Name" variant="outlined" />
-          <Button variant="contained" >
-            Proceed
-          </Button>
-        </Stack> */}
+        <NameInput registryContract={registryContract} spacing={2} width="30%" marginTop="30px" />
       </Box>
       <Box height="50px" />
       <Divider variant="middle"/>
