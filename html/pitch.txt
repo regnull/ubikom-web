@@ -1,0 +1,19 @@
+Are you tired of constantly filling out forms with your personal information and trusting companies with your sensitive data? With self-sovereign identity, you can take control of your personal information and streamline your online interactions. And what better way to put this new technology to use than through email?
+
+With email based on self-sovereign identity, you can create and manage your own unique digital identity. This identity will be completely under your control, meaning you can choose which information to share and with whom. No longer will you have to worry about companies mishandling your data or sharing it without your permission.
+
+Using self-sovereign identity with email also allows for more secure communication. With traditional email, it can be difficult to verify the identity of the person sending the message. But with self-sovereign identity, you can have confidence that the sender is who they say they are, helping to prevent phishing and other types of email-based scams.
+
+Furthermore, self-sovereign identity can simplify the process of filling out forms online. Instead of having to type in your personal information over and over again, your digital identity can be used to automatically fill in the necessary fields. This can save time and reduce the risk of errors in your information.
+
+So why wait? Start taking control of your personal information with email based on self-sovereign identity. Enjoy more secure and streamlined online interactions, all while keeping your data in your own hands.
+
+
+
+One of the key benefits of email based on self-sovereign identity is that your identity is registered on the Ethereum blockchain. This means that your digital identity is secured by the same technology that powers the world's most popular decentralized applications.
+
+By registering your identity on the Ethereum blockchain, you can be confident that it is tamper-proof and cannot be altered by anyone else. This provides a level of security and trust that is difficult to achieve with traditional email systems.
+
+Additionally, using the Ethereum blockchain allows for seamless integration with other blockchain-based services and applications. This means that your digital identity can be used to access a wide range of decentralized services, all while maintaining your control over your personal information.
+
+Overall, email based on self-sovereign identity and the Ethereum blockchain offers a powerful combination of security, privacy, and convenience. So if you're ready to take control of your digital identity and streamline your online interactions, consider making the switch today.
