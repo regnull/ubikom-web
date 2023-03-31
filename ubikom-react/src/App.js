@@ -74,13 +74,15 @@ function App() {
             The Identity You Own
           </Typography>
           <Typography variant="body1" textAlign="left">
-            Your account on Google, Meta, and other companies can be closed down
-            at any time and for any reason. You don't own your identity with
-            those companies (and even with other privacy-focused companies).
-            Unless you control your identity, it's not yours, and you can only
-            control it by controlling your encryption keys. With Ubikom, your
-            identity is your own. You create it on Ethereum blockchain, and you
-            keep in self-custody at all times.
+            Email based on self-sovereign identity offers a powerful combination of security, privacy, 
+            and convenience for online interactions. With self-sovereign identity, you can take control 
+            of your personal information and manage your own unique digital identity. 
+            Your identity is registered on the Ethereum blockchain, 
+            providing a tamper-proof and secure solution that integrates seamlessly with other 
+            blockchain-based services and applications. This means that you can enjoy more secure and 
+            streamlined online interactions, while maintaining control over your personal information. 
+            Say goodbye to the hassle of filling out forms and trusting companies with your 
+            sensitive data, and say hello to the future of email with self-sovereign identity.
           </Typography>
         </Box>
       </Box>
