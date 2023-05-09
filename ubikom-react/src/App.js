@@ -74,8 +74,8 @@ function App() {
             The Identity You Own
           </Typography>
           <Typography variant="body1" textAlign="left">
-            Email based on self-sovereign identity offers a powerful combination of security, privacy, 
-            and convenience for online interactions. With self-sovereign identity, you can take control 
+            Email based on Self-Sovereign Identity (SSI) offers a powerful combination of security, privacy, 
+            and convenience for online interactions. With SSI, you can take control 
             of your personal information and manage your own unique digital identity. 
             Your identity is registered on the Ethereum blockchain, 
             providing a tamper-proof and secure solution that integrates seamlessly with other 
@@ -94,7 +94,7 @@ function App() {
           <Typography variant="body1" textAlign="left">
             Using your identity, you can register a public key which may be used
             to send you private messages. This key can be changed by any time -
-            as long as you are in possession of your master key.
+            it is controlled by your crypto wallet.
           </Typography>
         </Box>
       </Box>
