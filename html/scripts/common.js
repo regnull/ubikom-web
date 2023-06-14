@@ -178,14 +178,7 @@ class NameHandler {
             obj.maybeUseCallback({'error': 'invalid name'});
             return;
         }
-        nameRegistry.methods.lookupName(this.name).call(function (err, res) {
-            if (err) {
-                obj.#available = false;
-                obj.#ready = true;
-                obj.#error = true;
-                obj.maybeUseCallback({'error': err});
-                return;
-            }
+        nameRegistry.methods.lookupName(this.name).call().then(res => {
             if (res.owner == "0x0000000000000000000000000000000000000000") {
                 obj.#available = true;
                 obj.#ready = true;
@@ -197,7 +190,12 @@ class NameHandler {
                 obj.#error = false;
                 obj.maybeUseCallback({'available': false, 'price': res.price, 'owner': res.owner});
             }
-        });
+        }).catch(err => {
+            obj.#available = false;
+            obj.#ready = true;
+            obj.#error = true;
+            obj.maybeUseCallback({'error': err});
+        })
     }
 }
 

@@ -39,12 +39,8 @@
             if (!nextEnabled) {
                 return;
             }
-            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call(function (err, res) {
+            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call().then(res => {
                 enableNext(false);
-                if (err) {
-                    setStatus(err, '#FF0000');
-                    return
-                }
                 details.style.visibility = 'visible';
                 if (res.owner == "0x0000000000000000000000000000000000000000") {
                     document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
@@ -62,8 +58,11 @@
                     document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
                     document.getElementById('name_price').innerHTML = res.price != 0 ? price + ' ETH' : '';
                 }
+            }).catch(err => {
+                enableNext(false);
+                setStatus(err, '#FF0000');
             });
-
+            
             nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call(function (err, res) {
                 enableNext(false);
                 if (err) {

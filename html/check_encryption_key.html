@@ -43,29 +43,27 @@
                 const go = new Go();
                 let goResult = await WebAssembly.instantiateStreaming(fetch("scripts/easyeccjs.wasm"), go.importObject);
                 go.run(goResult.instance);
-                nameRegistry.methods.lookupName(nameInput.value).call(function (err, res) {
-                if (err) {
+                nameRegistry.methods.lookupName(nameInput.value).call().then(res => {
+                    if (res.owner == "0x0000000000000000000000000000000000000000") {
+                        console.log('name not registered');
+                    } else {
+                        // Compare the key with the key derived from name/password.
+                        publicKey = publicKeyFromPassword(passwordInput.value, nameInput.value);
+                        console.log(publicKey);
+
+                        if (res.publicKey == publicKey) {
+                            status.innerHTML = `Match! ${publicKey}`;
+                        } else {
+                            status.innerHTML = `${res.publicKey} vs ${publicKey}`;
+                        }
+                    }
+                    pending = false;
+                    nextButtonHandler.checkButton();
+                }).catch(err => {
                     console.log(err);
                     pending = false;
                     nextButtonHandler.checkButton();
-                    return;
-                }
-                if (res.owner == "0x0000000000000000000000000000000000000000") {
-                    console.log('name not registered');
-                } else {
-                    // Compare the key with the key derived from name/password.
-                    publicKey = publicKeyFromPassword(passwordInput.value, nameInput.value);
-                    console.log(publicKey);
-
-                    if (res.publicKey == publicKey) {
-                        status.innerHTML = `Match! ${publicKey}`;
-                    } else {
-                        status.innerHTML = `${res.publicKey} vs ${publicKey}`;
-                    }
-                }
-                pending = false;
-                nextButtonHandler.checkButton();
-            });
+                })
             };
             
             // See if we already have a name.
