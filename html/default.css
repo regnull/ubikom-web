@@ -1,24 +1,42 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
 
+:root {
+  --background-color: #DDDCD5ff; /* timberwolf */
+  --background-alt: #97A496ff; /* ash-gray */
+  --text-color: #171812ff; /* eerie-black */
+  --heading-color: #9E2D20ff; /* auburn */
+
+  --ash-gray: #97A496ff;
+  --timberwolf: #DDDCD5ff;
+  --ebony: #697268ff;
+  --auburn: #9E2D20ff;
+  --apple-green: #92A831ff;  
+  --avocado: #67893Aff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
     margin: 0 auto;
-    max-width: 50em;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
-    padding: 4em 1em;
-    color: #30393f;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
-  
 h2 {
+  color: var(--heading-color);
   margin-top: 1em;
   padding-top: 1em;
 }
 
-h1, h2, strong  {
-  color: #333;
+h1, strong  {
+  color: var(--heading-color);
+  text-align: center;
 }
 
 code {
@@ -69,14 +87,15 @@ pre {
 button {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 18px;
-  background-color: #0099ff;
-  border: none;
+  background-color: var(--avocado);
   color: white;
+  border: none;
   padding: 12px 12px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   border-radius: 8px;
+  
   /* margin-left: 0em; */
 }
 
@@ -86,8 +105,13 @@ input[type="text"] {
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  border: 2px solid #d9d9d9;
+  border: 2px solid var(--background-alt);
   border-radius: 4px;
+}
+
+/* Remove ugly blue border when the element is selected */
+input:focus {
+  outline-width: 0;
 }
 
 textarea {
@@ -121,6 +145,7 @@ input[type="button"] {
   border-radius: 4px;
 }
 
+
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -134,6 +159,23 @@ table.inbox {
   width: 1000px;
   border: none;
   table-layout: fixed;
+}
+
+.tools__table {
+  border: none;
+}
+
+.tools__table_row {
+  border: none;
+}
+
+.tools__table_cell {
+  border: none;
+}
+
+.description-text {
+  font-style: italic;
+  font-size: small;
 }
 
 th.inboxDate, th.inboxSubject, th.inboxFrom {
@@ -213,6 +255,12 @@ textarea.sendBody {
   padding: 12px;
 }
 
+div.content {
+  max-width: 50em; 
+  margin: auto;
+  padding: 4em 1em;
+}
+
 div.modal {
   display: none;
   position: fixed;
@@ -264,7 +312,11 @@ div.modal {
 }
 
 .main-header {
+  margin: 0;
+  padding-left: 32px;
+  padding-right: 32px;
   width: 100%;
+  background-color: var(--ash-gray);
 }
 
 .main-header li {
@@ -287,3 +339,31 @@ div.modal {
   vertical-align: middle;
   width: calc(100% - 50px);
 }
+
+.status-text {
+  color: var(--avocado);
+  font-style: italic;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 42px;
+  right: 20px;
+  background-color: #f1f1f1;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  z-index: 1;
+  text-align: left;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+
+.dropdown:hover .dropdown-content {display: block;}

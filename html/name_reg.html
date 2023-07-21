@@ -1,127 +1,151 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="default.css" >
-        <link rel="icon" 
-            type="image/png" 
-            href="favicon.png">
-    </head>
-    </style>
-    <body>
-    </p>
-    <h1>Check Name Registration</h1>
-    
-    <p style="font-weight: bold;" id="network"></p>
-    <form id="name-form">
-        <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
-        <button name="submit" id="nextButton">Check</button>
-        <i><p id="status" style="margin: 0"></p></i>
-    </form>
-    <p><i>Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</i></p>
-    <div id="details" style="visibility:hidden">
-        <table>
-            <tr><td><b>Name</b></td><td id="name_returned"></td></tr>
-            <tr><td><b>Status</b></td><td id="name_status"></td></tr>
-            <tr><td><b>Owner</b></td><td id="name_owner"></td></tr>
-            <tr><td><b>Public Key</b></td><td id="name_public_key"></td></tr>
-            <tr><td><b>Endpoint</b></td><td id="name_endpoint"></td></tr>            
-            <tr><td><b>For Sale?</b></td><td id="name_for_sale"></td></tr>
-            <tr><td><b>Price</b></td><td id="name_price"></td></tr>            
-        </table>
-    </div>
-    <script src ="scripts/common.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
-    <script>
-        function submit(event) {
-            event.preventDefault();
-            if (!nextEnabled) {
-                return;
-            }
-            nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call().then(res => {
-                enableNext(false);
-                details.style.visibility = 'visible';
-                if (res.owner == "0x0000000000000000000000000000000000000000") {
-                    document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
-                    document.getElementById('name_status').innerHTML = 'Available (not registered)';
-                    document.getElementById('name_owner').innerHTML = 'None';
-                    document.getElementById('name_public_key').innerHTML = '';
-                    document.getElementById('name_for_sale').innerHTML = '';
-                    document.getElementById('name_price').innerHTML = '';
-                } else {
-                    price = weiToEth(res.price);
-                    document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
-                    document.getElementById('name_status').innerHTML = 'Registered';
-                    document.getElementById('name_owner').innerHTML = `<a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>`;
-                    document.getElementById('name_public_key').innerHTML = res.publicKey;
-                    document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
-                    document.getElementById('name_price').innerHTML = res.price != 0 ? price + ' ETH' : '';
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="default.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+</style>
+
+<body>
+    <div class="content">
+        <h1>Check Name Registration</h1>
+
+        <p style="font-weight: bold;" id="network"></p>
+        <form id="name-form">
+            <input type="text" id="identifier" placeholder="identifier (i.e. bob)" />
+            <button name="submit" id="nextButton">Check</button>
+            <i>
+                <p id="status" style="margin: 0"></p>
+            </i>
+        </form>
+        <p class="description-text">Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</p>
+        <div id="details" style="visibility:hidden">
+            <table>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td id="name_returned"></td>
+                </tr>
+                <tr>
+                    <td><b>Status</b></td>
+                    <td id="name_status"></td>
+                </tr>
+                <tr>
+                    <td><b>Owner</b></td>
+                    <td id="name_owner"></td>
+                </tr>
+                <tr>
+                    <td><b>Public Key</b></td>
+                    <td id="name_public_key"></td>
+                </tr>
+                <tr>
+                    <td><b>Endpoint</b></td>
+                    <td id="name_endpoint"></td>
+                </tr>
+                <tr>
+                    <td><b>For Sale?</b></td>
+                    <td id="name_for_sale"></td>
+                </tr>
+                <tr>
+                    <td><b>Price</b></td>
+                    <td id="name_price"></td>
+                </tr>
+            </table>
+        </div>
+        <script src="scripts/common.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript"></script>
+        <script>
+            function submit(event) {
+                event.preventDefault();
+                if (!nextEnabled) {
+                    return;
                 }
-            }).catch(err => {
-                enableNext(false);
-                setStatus(err, '#FF0000');
-            });
-            
-            nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call(function (err, res) {
-                enableNext(false);
-                if (err) {
+                nameRegistry.methods.lookupName(idInput.value.toLowerCase()).call().then(res => {
+                    enableNext(false);
+                    details.style.visibility = 'visible';
+                    if (res.owner == "0x0000000000000000000000000000000000000000") {
+                        document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
+                        document.getElementById('name_status').innerHTML = 'Available (not registered)';
+                        document.getElementById('name_owner').innerHTML = 'None';
+                        document.getElementById('name_public_key').innerHTML = '';
+                        document.getElementById('name_for_sale').innerHTML = '';
+                        document.getElementById('name_price').innerHTML = '';
+                    } else {
+                        price = weiToEth(res.price);
+                        document.getElementById('name_returned').innerHTML = idInput.value.toLowerCase();
+                        document.getElementById('name_status').innerHTML = 'Registered';
+                        document.getElementById('name_owner').innerHTML = `<a href='${getEtherscanAddressUrl(res.owner)}' target='_blank'>${res.owner}</a>`;
+                        document.getElementById('name_public_key').innerHTML = res.publicKey;
+                        document.getElementById('name_for_sale').innerHTML = res.price == 0 ? 'No' : 'Yes';
+                        document.getElementById('name_price').innerHTML = res.price != 0 ? price + ' ETH' : '';
+                    }
+                }).catch(err => {
+                    enableNext(false);
                     setStatus(err, '#FF0000');
-                    return
-                }
-                document.getElementById('name_endpoint').innerHTML = res;
-            });
-        }
+                });
 
-        function setStatus(msg, color = '#FFFFFF') {
-            let status = document.getElementById("status");
-            status.innerHTML = msg;
-            status.style.color = color;
-        }
-
-        function clearStatus() {
-            document.getElementById("status").innerHTML = " ";
-        }
-
-        function enableNext(enable) {
-            if (enable) {
-                document.getElementById('nextButton').style.opacity = 1.0;
-                nextEnabled = true;
-                return;
+                nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call(function (err, res) {
+                    enableNext(false);
+                    if (err) {
+                        setStatus(err, '#FF0000');
+                        return
+                    }
+                    document.getElementById('name_endpoint').innerHTML = res;
+                });
             }
-            document.getElementById('nextButton').style.opacity = 0.6;
-            nextEnabled = false;
-        }
 
-        async function nameChanged() {
-            clearStatus();
-            details.style.visibility = 'hidden';
+            function setStatus(msg, color = '#FFFFFF') {
+                let status = document.getElementById("status");
+                status.innerHTML = msg;
+                status.style.color = color;
+            }
+
+            function clearStatus() {
+                document.getElementById("status").innerHTML = " ";
+            }
+
+            function enableNext(enable) {
+                if (enable) {
+                    document.getElementById('nextButton').style.opacity = 1.0;
+                    nextEnabled = true;
+                    return;
+                }
+                document.getElementById('nextButton').style.opacity = 0.6;
+                nextEnabled = false;
+            }
+
+            async function nameChanged() {
+                clearStatus();
+                details.style.visibility = 'hidden';
+
+                let idInput = document.getElementById("identifier");
+
+                if (idInput.value.length < 3) {
+                    setStatus("name is too short", '#FF0000');
+                    enableNext(false);
+                    return;
+                } else {
+                    setStatus('');
+                    enableNext(true);
+                }
+            }
+            document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
+
+            const web3 = new Web3(getInfuraUrl());
+            const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
+
+            let nextEnabled = false;
 
             let idInput = document.getElementById("identifier");
+            idInput.onkeyup = nameChanged;
+            enableNext(false);
+            document.getElementById('nextButton').onclick = submit;
 
-            if(idInput.value.length < 3) {
-                setStatus("name is too short", '#FF0000');
-                enableNext(false);
-                return;
-            } else {
-                setStatus('');
-                enableNext(true);
-            }
-        }
-        document.getElementById("network").innerHTML = `Using ${getNetworkName()}`;
-
-        const web3 = new Web3(getInfuraUrl());
-        const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
-
-        let nextEnabled = false;
-
-        let idInput = document.getElementById("identifier");
-        idInput.onkeyup = nameChanged;
-        enableNext(false);
-        document.getElementById('nextButton').onclick = submit;
-
-        let detailsElement = document.getElementById("details");
-        details.style.visibility = 'hidden';
-    </script>
-    </body>
+            let detailsElement = document.getElementById("details");
+            details.style.visibility = 'hidden';
+        </script>
+    </div>
+</body>
 </html>

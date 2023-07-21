@@ -7,6 +7,7 @@
         <link rel="icon" 
             type="image/png" 
             href="favicon.png">
+        <script src="https://kit.fontawesome.com/a4eb36f3a7.js" crossorigin="anonymous"></script>
     </head>
     </style>
     <body>
@@ -16,75 +17,86 @@
             </div>
             <nav>
                 <ul>
-                    <!-- <li class="main-header__image"><a href="index.html"><img src="son_of_man_round_small.png"/></a></li> -->
-                    <li><a href="/mail/login.html">Webmail</a></li>
-                    <li><a href="blogs.html">News</a></li>
+                    <a href="https://github.com/regnull/ubikom"><i class="fa-brands fa-github fa-xl"></i></a>
                 </ul>
             </nav>
         </header>
         <div class="content"> 
-            <hr>
-            <h1>Ubikom: Blockchain-Powered Digital Identity for Secure Communications</h1>
-            <p><a href="mailto:lgx@ubikom.cc">lgx@ubikom.cc</a>; <a href="mailto:sasha@ubikom.cc">sasha@ubikom.cc</a></p>
+            <h1>Blockchain-Powered Digital Identity for Secure Communications</h1>
 
-            <p style="font-weight: bold;">On March 18th, we will turn off all legacy authentication - Ethereum
-                identity will become the only one accepted.  <a href="blockchain_migration.html">Read more.</a></p>
+            <p> Email based on Self-Sovereign Identity (SSI) offers a powerful
+                combination of security, privacy, and convenience for online
+                interactions. With SSI, you can take control of your personal
+                information and manage your own unique digital identity. Your
+                identity is registered on the Ethereum blockchain, providing a
+                tamper-proof and secure solution that integrates seamlessly with
+                other blockchain-based services and applications. This means that
+                you can enjoy more secure and streamlined online interactions, while
+                maintaining control over your personal information. Say goodbye to
+                the hassle of filling out forms and trusting companies with your
+                sensitive data, and say hello to the future of email with
+                self-sovereign identity.</p>
 
-            <p>Ubikom is for you if you are worried about privacy of your emails, run a business that requires full
-                confidentiality of communication, concerned about government or corporate
-                Big Brother spying on you, or looking for a robust, convenient and customer-friendly solution for a
-                regulated agency or a health care organization.</p>
-            <p>
-                Digital avatar is a central concept of Ubikom. An avatar consists of a name freely chosen by the user and
-                the encryption keys tied to this name. Avatars are created, owned, and managed by users.
-                Ubikom is a decentralized infrastructure of digital avatars on a blockchain.  </p>
+            <h2>Choose Your Name</h2>
 
-            <p>Encryption and decentralization ensures superior data privacy,
-                resistance to censorship, secure communication, and convenient online authentication.</p>
-
-            <p> There are <a href="/beyond_email.html">numerous applications</a> of the avatar registry. Our
-                initial focus is on creating secure decentralized email. All Ubikom emails are end-to-end encrypted with
-                <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">the
-                    algorithms</a>
-                that safeguard Bitcoin. Even if your emails are intercepted,
-                cryptography makes it impossible to read their content. As all Ubikom emails are encrypted by default,
-                users don’t need to worry about confidentiality within Ubikom system.</p>
-
-            <p>Moreover, the decentralized registry is immune to censorship and incorruptible. The integrity of records is
-                protected by blockchain technology. No state or corporate actor can ban anyone from using Ubikom.</p>
-
-            <p>If you want to give Ubikom a try, you can start on this page by choosing a name for your avatar/ email identifier.
-            You can also find out more information below.</p>
-
-            <p style="font-weight: bold;" id="network"></p>
+            <p id="network" class="status-text"></p>
             <form id="name-form">
-                <input type="text" id="identifier" placeholder="identifier (i.e. bob)"/>
+                <input type="text" id="identifier" placeholder="identifier (i.e. bob)" autocomplete="off"/>
                 <button name="submit" id="nextButton">Next</button>
                 <i><p id="status" style="margin: 0"></p></i>
             </form>
-            <p><i>Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</i></p>
-            <h2>Helpful Tools</h2>
-            <p><a href="name_reg.html">Check name registration</a></p>
-            <p><a href="change_enckey.html">Change password (encryption key)</a></p>
-            <p><a href="register_endpoint.html">Update endpoint</a></p>
-            <p><a href="sell_name.html">Sell a name</a></p>
-            <p><a href="buy_name.html">Buy a name</a></p>
-            <p><a href="register_name_with_public_key.html">Register name and specify public key (advanced)</a></p>
-            <p><a href="check_mailbox.html">Check mailbox encryption (advanced)</a></p>
-            <p><a href="check_encryption_key.html">Check encryption key (advanced)</a></p>
-            <h2>Helpdesk</h2>
-            <p><a href="/clients.html">How to configure email clients</a> (Currently in beta)</p>
-
-            <p></p>
-            <h2>Support the Project</h2>
-            <p>Donate ETH to <div style="font-weight: bold;">0x7513bf6b503f69f8abAc1D404eE668Fb8D307Fa1</div>
+            <p class="description-text">Identifier must be a single word, only letters, numbers and symbols "_" and "-" are allowed.</p>
+            <h2>Set Up Email</h2>
+            <p>
+                If you already have a registered name, you can start using Ubikom email. 
+                Any email client supporting standard protocols (IMAP and SMTP) will work. 
             </p>
-            <p><img src="support_address.png"/> </p>
-            <h2>Find out more</h2>
-            <p><a href="/intro.html" target="_blank" rel="noopener noreferrer">Let's Reinvent Email</a></p>
-            <p><a href="/beyond_email.html" target="_blank" rel="noopener noreferrer">Beyond Email</a></p>
+            <p><a href="clients.html">How to configure email clients</a></p>
 
-            <p><a href="/tech-description.html" target="_blank" rel="noopener noreferrer">Technical Description</a></p>
+            <h2>Tools</h2>
+            <table class="tools__table">
+                <tr class="tools__table_row">
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-user-secret" style="margin-right: 8px;"></i><a href="name_reg.html">Check name registration</a>
+                    </td>
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-key" style="margin-right: 8px;"></i><a href="change_enckey.html">Change password (encryption key)</a>
+                    </td>
+                </tr>
+                <tr class="tools__table_row">
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-arrow-right-long" style="margin-right: 8px;"></i><a href="register_endpoint.html">Update endpoint</a>
+                    </td>
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-sack-dollar" style="margin-right: 8px;"></i><a href="sell_name.html">Sell a name</a>
+                    </td>
+                </tr>
+                <tr class="tools__table_row">
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i><a href="buy_name.html">Buy a name</a>
+                    </td>
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-glasses" style="margin-right: 8px;"></i><a href="register_name_with_public_key.html">Register name and specify public key (advanced)</a>
+                    </td>
+                <tr class="tools__table_row">
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-check" style="margin-right: 8px;"></i><a href="check_mailbox.html">Check mailbox encryption (advanced)</a>
+                    </td>
+                    <td class="tools__table_cell">
+                        <i class="fa-solid fa-gears" style="margin-right: 8px;"></i><a href="check_encryption_key.html">Check encryption key (advanced)</a>
+                    </td>
+                </tr>
+            </table>
+            <h2>Support the Project</h2>
+            <p>
+                Donate ETH to <a href="https://etherscan.io/address/0x7513bf6b503f69f8abAc1D404eE668Fb8D307Fa1" target="_blank">0x7513bf6b503f69f8abAc1D404eE668Fb8D307Fa1</a>
+            </p>
+            <p><img src="images/support-address.png"/> </p>
+            <h2>Find out more</h2>
+            <p><a href="intro.html" target="_blank" rel="noopener noreferrer">Let's Reinvent Email</a></p>
+            <p><a href="beyond_email.html" target="_blank" rel="noopener noreferrer">Beyond Email</a></p>
+
+            <p><a href="tech-description.html" target="_blank" rel="noopener noreferrer">Technical Description</a></p>
 
             <h2>Get on board, get in touch</h2>
             <p>GitHub repo: <a href="https://github.com/regnull/ubikom">github.com/regnull/ubikom</a> (developers are welcome to

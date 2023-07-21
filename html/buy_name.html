@@ -1,29 +1,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="default.css">
-        <link rel="icon" 
-            type="image/png" 
-            href="favicon.png">
-    </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="default.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+    <div class="content">
         <h1>Buy Name</h1>
         <p>You can buy a name that is listed for sale. You will need to choose a new password.
         </p>
         <p style="font-weight: bold;" id="network"></p>
         <p>
-            <input type="text" id="name" placeholder="name" value=''/>
+            <input type="text" id="name" placeholder="name" value='' />
             <span id="name_status" style="margin-left: 5px"></span>
         </p>
         <p>
-            <input type="text" id="price" readonly placeholder="price, ETH" value=''/>
+            <input type="text" id="price" readonly placeholder="price, ETH" value='' />
         </p>
-        <i><p id="status" style="margin: 0"></p></i>
-        <br/>
+        <i>
+            <p id="status" style="margin: 0"></p>
+        </i>
+        <br />
         <button name="submit" id="next_button" style="display: block;">Proceed</button>
-        <i><p id="status" style="margin: 0"></p></i>
+        <i>
+            <p id="status" style="margin: 0"></p>
+        </i>
 
         <!-- Modal transaction -->
         <div id="transaction_modal" class="modal">
@@ -66,7 +71,7 @@
                 }
 
                 try {
-                    await  run(nameInput.value, priceInput.value);
+                    await run(nameInput.value, priceInput.value);
                 } catch (e) {
                     let logged = false;
                     if (e?.message) {
@@ -96,7 +101,7 @@
 
             // Set name if it was passed in the query string.
             let queryParams = new URLSearchParams(window.location.search);
-            let name = queryParams.get("name"); 
+            let name = queryParams.get("name");
             if (name) {
                 nameInput.value = name;
             }
@@ -124,52 +129,6 @@
                 }
             });
 
-
-
-            // let proceedButton = document.getElementById('proceed');
-            // let proceedButtonEnabled = false;
-            // let done = false;
-
-            // let logElement = document.getElementById("log");
-            // function logMessage(msg) {
-            //     var newLogElem = document.createElement('pre');
-            //     newLogElem.innerHTML = msg;
-            //     logElement.appendChild(newLogElem);
-            // }
-
-            // const web3 = new Web3(getInfuraUrl());
-            // const nameRegistry = new web3.eth.Contract(nameRegistryContractAbi, getContractAddress());
-
-            // function nameChanged() {
-            //     if (nameInput.value.length < 3) {
-            //         setStatus('name is too short', StatusType.Error);
-            //         checkProceedButton();
-            //         return;
-            //     }
-            //     nameRegistry.methods.lookupName(nameInput.value.toLowerCase()).call(function (err, res) {
-            //         console.log(res);
-            //         if (err) {
-            //             setStatus(err, StatusType.Error);
-            //             checkProceedButton();
-            //             return
-            //         }
-            //         if (res.owner == "0x0000000000000000000000000000000000000000") {
-            //             setStatus("Not registered", StatusType.Info);
-            //             checkProceedButton();
-            //         } else {
-            //             price = weiToEth(res.price);
-            //             priceInput.value = price;
-            //             clearStatus();
-            //             checkProceedButton();
-            //         }
-            //     });
-            // }
-
-            // nameInput.onkeyup = (event) => {
-            //     event.preventDefault();
-            //     nameChanged();
-            // };
-
             priceInput.onkeyup = (event) => {
                 event.preventDefault();
                 nextButtonHandler.checkButton();
@@ -177,36 +136,9 @@
 
             nextButtonHandler.checkButton();
 
-            setInputFilter(priceInput, function(value) {
+            setInputFilter(priceInput, function (value) {
                 return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
             }, "Only digits and '.' are allowed");
-
-            // proceedButton.onclick = () => {
-            //     event.preventDefault();
-
-            //     if (!proceedButtonEnabled) {
-            //         return;
-            //     }
-
-            //     if (done) {
-            //         location.href='index.html';
-            //         return;
-            //     }
-
-            //     run(nameInput.value, priceInput.value);
-            // }
-
-            // function checkProceedButton() {
-            //     let price = priceInput.value;
-            //     let name = nameInput.value;
-            //     if (done || (price > 0 && name.length >= 3)) {
-            //         proceedButton.style.opacity = 1.0;
-            //         proceedButtonEnabled = true;
-            //     } else {
-            //         proceedButton.style.opacity = 0.6;
-            //         proceedButtonEnabled = false;
-            //     }
-            // }
 
             async function run(name, price) {
                 p = BigInt(price * 1000000000000000000);
@@ -243,5 +175,7 @@
                 }
             }
         </script>
-    </body>
+    </div>
+</body>
+
 </html>

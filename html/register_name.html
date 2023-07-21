@@ -9,6 +9,7 @@
             href="favicon.png">
     </head>
     <body>
+        <div class="content"> 
         <h1>Register Name</h1>
         <p>Please enter the name and password. The name will be registered on the blockchain and owned by you.</p>
         <p>The password is used to generate the encryption key for your messages. You must choose a strong password.</p>
@@ -20,7 +21,7 @@
         </p>
         <p style="font-weight: bold;" id="network"></p>
         <form onSubmit={this.handleSubmit}>
-            <input id="name" type="text" autocomplete="username" />
+            <input id="name" type="text" autocomplete="off" />
             <span id="nameStatus" style="margin-left: 5px"></span>
             <div style="display:block;">
                 <input id="password1" type='password' minlength="6" placeholder="password" autocomplete="new-password"/>
@@ -237,5 +238,6 @@
                 }, 0);
             };
         </script>
+        </div>
     </body>
 </html>

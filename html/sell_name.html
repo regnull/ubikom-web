@@ -9,6 +9,7 @@
             href="favicon.png">
     </head>
     <body>
+        <div class="content"> 
         <h1>Sell a Name</h1>
         </p>
         <p>You can list a name registered to you for sale. Once you do it, anyone who pays the 
@@ -24,7 +25,7 @@
         </p>
         <p style="font-weight: bold;" id="network"></p>
         <p>
-            <input type="text" id="name" placeholder="name" value=''/>
+            <input type="text" id="name" placeholder="name" value='' autocomplete="off"/>
             <span id="nameStatus" style="margin-left: 5px"></span>
         </p>
         <p>
@@ -147,18 +148,6 @@
                 return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
             }, "Only digits and '.' are allowed");
 
-            // function updateNextButton() {
-            //     let price = priceInput.value;
-            //     let name = nameInput.value;
-            //     if (done || (price > 0 && name.length >= 3)) {
-            //         nextButton.style.opacity = 1.0;
-            //         nextButtonEnabled = true;
-            //     } else {
-            //         nextButton.style.opacity = 0.6;
-            //         nextButtonEnabled = false;
-            //     }
-            // }
-
             async function run(name, price) {
                 p = BigInt(price * 1000000000000000000);
                 await loadWeb3();
@@ -189,5 +178,6 @@
                 }
             }
         </script>
+        </div>
     </body>
 </html>
