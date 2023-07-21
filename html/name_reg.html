@@ -86,13 +86,12 @@
                     setStatus(err, '#FF0000');
                 });
 
-                nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call(function (err, res) {
+                nameRegistry.methods.lookupConfig(idInput.value.toLowerCase(), "dms-endpoint").call().then(res => {
                     enableNext(false);
-                    if (err) {
-                        setStatus(err, '#FF0000');
-                        return
-                    }
                     document.getElementById('name_endpoint').innerHTML = res;
+                }).catch(err => {
+                    setStatus(err, '#FF0000');
+                        return
                 });
             }
 
