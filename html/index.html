@@ -148,13 +148,13 @@
             clearStatus();
 
             if (o.error) {
-                setStatus(o.error, '#FF0000');
+                setStatus(o.error, errorColor);
                 enableNext(false);
                 return;
             }
 
             if (o.available) {
-                setStatus("available!", '#3ADF00');
+                setStatus("available!", okColor);
                 enableNext(true);
             } else {
                 let price = weiToEth(o.price);
@@ -163,7 +163,7 @@
                     forSaleStr = `for sale for <a href="buy_name.html?name=${o.name}">${price} ETH</a>`;
                 }
                 setStatus(`owned by <a href='${getEtherscanAddressUrl(o.owner)}' target='_blank'>${o.owner}</a>, ` +
-                    forSaleStr, '#FF0000');
+                    forSaleStr, errorColor);
                 enableNext(false);
             }
         });

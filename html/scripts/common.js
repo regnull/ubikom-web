@@ -10,6 +10,9 @@ const etherscanBaseUrl = "https://etherscan.io";
 const dumpServerAddress = "alpha.ubikom.cc:8826";
 const ubikomManagementServer = "https://alpha.ubikom.cc:8088";
 
+const errorColor = '#8F3A37';
+const okColor = '#527A36';
+
 function getInfuraUrl() {
     if (useTestnet) {
         return infuraTestUrl;
